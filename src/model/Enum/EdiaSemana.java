@@ -1,21 +1,21 @@
 package model.Enum;
 
 public enum EdiaSemana {
-    LUNES("Lunes"),
-    MARTES("Martes"),
-    MIERCOLES("Miércoles"),
-    JUEVES("Jueves"),
-    VIERNES("Viernes"),
-    SABADO("Sábado"),
-    DOMINGO("Domingo");
+    LUNES(1),
+    MARTES(2),
+    MIERCOLES(3),
+    JUEVES(4),
+    VIERNES(5),
+    SABADO(6),
+    DOMINGO(7);
 
-    private String nombre;
+    private int id;
 
-    private EdiaSemana(String nombre) {
-        this.nombre = nombre;
+    EdiaSemana(int id) {
+        this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public int getId() {
+        return id;
     }
 }

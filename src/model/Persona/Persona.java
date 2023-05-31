@@ -7,7 +7,7 @@ import model.Otros.Apercibimiento;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Persona {
+public abstract class Persona {
     private String nombre;
     private String dni;
     private String telefono;
@@ -16,7 +16,6 @@ public class Persona {
     private EGrupoSanguineo grupo_sanguineo;
     private String contacto_emergencia;
     private String obra_social;
-    private boolean alta_medica;
     private LocalDate fecha_nacimiento;
 
     public Persona(String nombre, String dni, String telefono, ArrayList<Apercibimiento> listaApercibimientos, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento) {
@@ -28,7 +27,6 @@ public class Persona {
         this.grupo_sanguineo = grupo_sanguineo;
         this.contacto_emergencia = contacto_emergencia;
         this.obra_social = obra_social;
-        this.alta_medica = alta_medica;
         this.fecha_nacimiento = fecha_nacimiento;
     }
 
@@ -38,11 +36,10 @@ public class Persona {
         dni=" ";
         telefono=" ";
         listaApercibimientos=new ArrayList<Apercibimiento>();
-        estado=null;              //DUDA
-        grupo_sanguineo=null;
+        estado=Eestado.ACTIVO;
+        grupo_sanguineo=EGrupoSanguineo.NINGUNO;
         contacto_emergencia=" ";
         obra_social=" ";
-        alta_medica=true;
         fecha_nacimiento=null;
     }
 
@@ -76,10 +73,6 @@ public class Persona {
 
     public String getObra_social() {
         return obra_social;
-    }
-
-    public boolean isAlta_medica() {
-        return alta_medica;
     }
 
     public LocalDate getFecha_nacimiento() {
