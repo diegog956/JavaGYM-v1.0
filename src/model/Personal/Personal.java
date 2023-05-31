@@ -1,5 +1,12 @@
 package model.Personal;
 
+import model.ActivYrutina.Actividad;
+import model.Otros.Factura;
+import model.Persona.Cliente;
+
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class Personal {
@@ -56,4 +63,39 @@ public class Personal {
         }
         return rta;
     }
+
+
+    public double calcularCuota (HashSet<Actividad> setActividades) {
+        double cuota = 0;
+        int cantidad_actividades = 0;
+
+        Iterator<Actividad> it = setActividades.iterator();
+
+        while (it.hasNext()) {
+            cantidad_actividades++;
+            cuota += it.next().getPrecio_mensual();
+        }
+
+        if (cantidad_actividades == 1) {
+            cuota = cuota * 0.95;
+        } else if (cantidad_actividades == 2) {
+            cuota = cuota * 0.90;
+        } else if (cantidad_actividades >= 3) {
+            cuota = cuota * 0.8;
+        }
+        return cuota;
+    }
+
+    public Factura cobrarCuota(Cliente cliente){
+        LocalDate mes=null;
+        LocalDate anio=null;
+
+        double cuota = calcularCuota(cliente.getHashDeActividades());
+        String dato_cliente = cliente.getNombre() + "\n" + cliente.getDni() + "\n" + cliente.getTelefono();
+        Factura factura = new Factura(mes.getMonthValue(),anio.getYear(), dato_cliente, LocalDate.now(), cuota);
+        cliente.agregarFactura(factura);
+
+        return factura;
+    }
+
 }
