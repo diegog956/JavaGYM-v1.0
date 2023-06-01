@@ -68,14 +68,14 @@ public class Gimnasio {
         return p;
     }
 
-    public boolean agregarFactura(Factura factura){
+    public String agregarFactura(Factura factura){
         listaFacturas.add(factura);
-        return true;
+        return factura.toString;
     }
 
 
     @Override
-    public String toString() {
+    public String toString() { ///Querriamos tener este metodo?
         return "Gimnasio{" +
                 "responsable='" + responsable + '\'' +
                 ", direccion='" + direccion + '\'' +
