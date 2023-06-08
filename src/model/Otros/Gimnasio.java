@@ -1,9 +1,9 @@
 package model.Otros;
 
 import model.ActivYrutina.Actividad;
+import model.Gestionadores.GestionadorMapa;
 import model.Persona.Cliente;
-import model.Persona.Instructor;
-import model.Personal.Administrativo;
+import model.Personal.Instructor;
 import model.Personal.Encargado;
 import model.Personal.Usuario;
 
@@ -15,8 +15,8 @@ import java.util.TreeSet;
 public class Gimnasio {
     private String responsable;
     private String direccion;
-    private Conjunto<String,Cliente> mapaCliente;
-    private Conjunto<String, Instructor> mapaInstructor;
+    private GestionadorMapa<String,Cliente> mapaCliente;
+    private GestionadorMapa<String, Instructor> mapaInstructor;
     private ArrayList<Factura>listaFacturas;
 
     private TreeSet<Actividad>arbolActividades;
@@ -28,8 +28,8 @@ public class Gimnasio {
     public Gimnasio(String responsable, String direccion) {
         this.responsable = responsable;
         this.direccion = direccion;
-        mapaCliente = new Conjunto<>();
-        mapaInstructor = new Conjunto<>();
+        mapaCliente = new GestionadorMapa<>();
+        mapaInstructor = new GestionadorMapa<>();
         listaFacturas = new ArrayList<>();
         arbolActividades=new TreeSet<>();
     }
@@ -38,8 +38,8 @@ public class Gimnasio {
     {
         responsable=" ";
         direccion=" ";
-        mapaCliente=new Conjunto<>();
-        mapaInstructor=new Conjunto<>();
+        mapaCliente=new GestionadorMapa<>();
+        mapaInstructor=new GestionadorMapa<>();
         listaFacturas=new ArrayList<>();
         arbolActividades=new TreeSet<>();
     }

@@ -92,4 +92,5 @@ public class Cliente extends Persona {
     public int hashCode() {
         return Objects.hash(alta_medica, solicito_rutina, debe, hashSetRutinas, listaFacturas, hashDeActividades);
     }
+
 }

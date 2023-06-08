@@ -1,11 +1,11 @@
-package model.Otros;
+package model.Gestionadores;
 
 import java.util.HashMap;
 
-public class Conjunto <K extends String,V>{
+public class GestionadorMapa<K extends String,V>{
     private HashMap<K,V> mapaGeneral;
 
-    public Conjunto(){
+    public GestionadorMapa(){
         mapaGeneral = new HashMap<K,V>();
     }
 
