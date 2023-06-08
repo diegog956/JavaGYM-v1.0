@@ -17,4 +17,7 @@ public class Administrativo extends Usuario {
     {
         super();
     }
+
+
+
 }

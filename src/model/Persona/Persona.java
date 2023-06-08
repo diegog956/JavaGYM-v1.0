@@ -3,11 +3,12 @@ package model.Persona;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
+import model.interfaces.I_toJson;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public abstract class Persona {
+public class Persona implements I_toJson {
     private String nombre;
     private String dni;
     private String telefono;
@@ -16,6 +17,7 @@ public abstract class Persona {
     private EGrupoSanguineo grupo_sanguineo;
     private String contacto_emergencia;
     private String obra_social;
+    private boolean alta_medica;
     private LocalDate fecha_nacimiento;
 
     private String comentario;
@@ -29,6 +31,7 @@ public abstract class Persona {
         this.grupo_sanguineo = grupo_sanguineo;
         this.contacto_emergencia = contacto_emergencia;
         this.obra_social = obra_social;
+        this.alta_medica = alta_medica;
         this.fecha_nacimiento = fecha_nacimiento;
         this.comentario=comentario;
     }
@@ -39,10 +42,11 @@ public abstract class Persona {
         dni=" ";
         telefono=" ";
         listaApercibimientos=new ArrayList<Apercibimiento>();
-        estado=Eestado.ACTIVO;
-        grupo_sanguineo=EGrupoSanguineo.NINGUNO;
+        estado=null;              //DUDA
+        grupo_sanguineo=null;
         contacto_emergencia=" ";
         obra_social=" ";
+        alta_medica=true;
         fecha_nacimiento=null;
         comentario=" ";
     }
@@ -81,6 +85,10 @@ public abstract class Persona {
 
     public String getObra_social() {
         return obra_social;
+    }
+
+    public boolean isAlta_medica() {
+        return alta_medica;
     }
 
     public LocalDate getFecha_nacimiento() {
