@@ -1,5 +1,7 @@
 package model.Otros;
 
+import excepciones.ActividadRepetida;
+import excepciones.ClienteExistenteException;
 import model.ActivYrutina.Actividad;
 import model.Gestionadores.GestionadorLista;
 import model.Gestionadores.GestionadorMapa;
@@ -69,9 +71,29 @@ public class Gimnasio {
         return p;
     }
 
+    //AGREGAR
+
     public String agregarFactura(Factura factura){
         listaFacturas.Agregar(factura);
         return factura.toString();
+    }
+
+    public boolean agregarCliente(Cliente cliente) throws ClienteExistenteException {
+        if (mapaCliente.existeCliente(cliente.getDni()))
+        {
+            throw new ClienteExistenteException("ESTE CLIENTE ESTA EN EL SISTEMA", cliente.getDni());
+        }
+        mapaCliente.Agregar(cliente.getDni(), cliente);
+        return true;
+    }
+
+    public boolean agregarActividad(Actividad actividad) throws ActividadRepetida {
+        if (arbolActividades.contains(actividad))
+        {
+            throw new ActividadRepetida("ESTA ACTIVIDAD YA SE ENCUENTRA EN CRONOGRAMA", actividad.getNombre());
+        }
+        arbolActividades.add(actividad);
+        return true;
     }
 
 

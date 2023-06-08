@@ -5,7 +5,6 @@ import model.ActivYrutina.Rutina;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Gestionadores.GestionadorLista;
-import model.Otros.Apercibimiento;
 import model.Otros.Factura;
 
 import java.time.LocalDate;

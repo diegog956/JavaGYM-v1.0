@@ -1,10 +1,13 @@
 package model.Personal;
 
+import excepciones.ActividadRepetida;
+import excepciones.ClienteExistenteException;
 import model.ActivYrutina.Actividad;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
 import model.Otros.Factura;
+import model.Otros.Gimnasio;
 import model.Persona.Cliente;
 
 import java.time.LocalDate;
@@ -16,9 +19,6 @@ import java.util.Objects;
 public class Usuario extends Personal{
     private String usuario;
     private String contrasenia;
-
-
-
     public Usuario()
     {
         usuario=" ";
@@ -102,6 +102,16 @@ public class Usuario extends Personal{
         cliente.agregarFactura(factura);
 
         return factura;
+    }
+
+    public boolean agregarCliente(Gimnasio gimnasio,Cliente cliente) throws ClienteExistenteException {
+        boolean rta= gimnasio.agregarCliente(cliente);
+        return rta;
+    }
+
+    public boolean agregarActividad(Actividad actividad,Gimnasio gimnasio) throws ActividadRepetida {
+        boolean rta=gimnasio.agregarActividad(actividad);
+        return rta;
     }
 
 }
