@@ -2,6 +2,7 @@ package model.Persona;
 
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
+import model.Gestionadores.GestionadorLista;
 import model.Otros.Apercibimiento;
 
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ public abstract class Persona {
     private String nombre;
     private String dni;
     private String telefono;
-    private ArrayList<Apercibimiento> listaApercibimientos;
+    private GestionadorLista<Apercibimiento> listaApercibimientos;
     private Eestado estado;
     private EGrupoSanguineo grupo_sanguineo;
     private String contacto_emergencia;
@@ -20,11 +21,11 @@ public abstract class Persona {
 
     private String comentario;
 
-    public Persona(String nombre, String dni, String telefono, ArrayList<Apercibimiento> listaApercibimientos, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento,String comentario) {
+    public Persona(String nombre, String dni, String telefono, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
         this.telefono = telefono;
-        this.listaApercibimientos = listaApercibimientos;
+        listaApercibimientos=new GestionadorLista<>();
         this.estado = estado;
         this.grupo_sanguineo = grupo_sanguineo;
         this.contacto_emergencia = contacto_emergencia;
@@ -38,7 +39,7 @@ public abstract class Persona {
         nombre=" ";
         dni=" ";
         telefono=" ";
-        listaApercibimientos=new ArrayList<Apercibimiento>();
+        listaApercibimientos=new GestionadorLista<>();
         estado=Eestado.ACTIVO;
         grupo_sanguineo=EGrupoSanguineo.NINGUNO;
         contacto_emergencia=" ";
@@ -63,8 +64,9 @@ public abstract class Persona {
         return telefono;
     }
 
-    public ArrayList<Apercibimiento> getListaApercibimientos() {
-        return listaApercibimientos;
+    public String getListaApercibiemnto()
+    {
+        return listaApercibimientos.Listar();
     }
 
     public Eestado getEstado() {

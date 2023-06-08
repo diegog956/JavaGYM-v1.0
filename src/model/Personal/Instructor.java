@@ -24,7 +24,7 @@ private String imagenPerfil;
     public Instructor()
     {
         super();
-        actividades=new ArrayList<>();
+        actividades=new HashSet<>();
         imagenPerfil=" ";
     }
 
