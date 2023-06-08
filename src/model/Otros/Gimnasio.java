@@ -1,6 +1,7 @@
 package model.Otros;
 
 import model.ActivYrutina.Actividad;
+import model.Gestionadores.GestionadorLista;
 import model.Gestionadores.GestionadorMapa;
 import model.Persona.Cliente;
 import model.Personal.Instructor;
@@ -17,7 +18,7 @@ public class Gimnasio {
     private String direccion;
     private GestionadorMapa<String,Cliente> mapaCliente;
     private GestionadorMapa<String, Instructor> mapaInstructor;
-    private ArrayList<Factura>listaFacturas;
+    private GestionadorLista<Factura> listaFacturas;
 
     private TreeSet<Actividad>arbolActividades;
 
@@ -30,7 +31,7 @@ public class Gimnasio {
         this.direccion = direccion;
         mapaCliente = new GestionadorMapa<>();
         mapaInstructor = new GestionadorMapa<>();
-        listaFacturas = new ArrayList<>();
+        listaFacturas = new GestionadorLista<>();
         arbolActividades=new TreeSet<>();
     }
 
@@ -40,7 +41,7 @@ public class Gimnasio {
         direccion=" ";
         mapaCliente=new GestionadorMapa<>();
         mapaInstructor=new GestionadorMapa<>();
-        listaFacturas=new ArrayList<>();
+        listaFacturas=new GestionadorLista<>();
         arbolActividades=new TreeSet<>();
     }
 
@@ -69,7 +70,7 @@ public class Gimnasio {
     }
 
     public String agregarFactura(Factura factura){
-        listaFacturas.add(factura);
+        listaFacturas.Agregar(factura);
         return factura.toString();
     }
 

@@ -2,36 +2,34 @@ package model.Persona;
 
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
+import model.Gestionadores.GestionadorLista;
 import model.Otros.Apercibimiento;
-import model.interfaces.I_toJson;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Persona implements I_toJson {
+public abstract class Persona {
     private String nombre;
     private String dni;
     private String telefono;
-    private ArrayList<Apercibimiento> listaApercibimientos;
+    private GestionadorLista<Apercibimiento> listaApercibimientos;
     private Eestado estado;
     private EGrupoSanguineo grupo_sanguineo;
     private String contacto_emergencia;
     private String obra_social;
-    private boolean alta_medica;
     private LocalDate fecha_nacimiento;
 
     private String comentario;
 
-    public Persona(String nombre, String dni, String telefono, ArrayList<Apercibimiento> listaApercibimientos, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento,String comentario) {
+    public Persona(String nombre, String dni, String telefono, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
         this.telefono = telefono;
-        this.listaApercibimientos = listaApercibimientos;
+        listaApercibimientos=new GestionadorLista<>();
         this.estado = estado;
         this.grupo_sanguineo = grupo_sanguineo;
         this.contacto_emergencia = contacto_emergencia;
         this.obra_social = obra_social;
-        this.alta_medica = alta_medica;
         this.fecha_nacimiento = fecha_nacimiento;
         this.comentario=comentario;
     }
@@ -41,12 +39,11 @@ public class Persona implements I_toJson {
         nombre=" ";
         dni=" ";
         telefono=" ";
-        listaApercibimientos=new ArrayList<Apercibimiento>();
-        estado=null;              //DUDA
-        grupo_sanguineo=null;
+        listaApercibimientos=new GestionadorLista<>();
+        estado=Eestado.ACTIVO;
+        grupo_sanguineo=EGrupoSanguineo.NINGUNO;
         contacto_emergencia=" ";
         obra_social=" ";
-        alta_medica=true;
         fecha_nacimiento=null;
         comentario=" ";
     }
@@ -67,8 +64,9 @@ public class Persona implements I_toJson {
         return telefono;
     }
 
-    public ArrayList<Apercibimiento> getListaApercibimientos() {
-        return listaApercibimientos;
+    public String getListaApercibiemnto()
+    {
+        return listaApercibimientos.Listar();
     }
 
     public Eestado getEstado() {
@@ -85,10 +83,6 @@ public class Persona implements I_toJson {
 
     public String getObra_social() {
         return obra_social;
-    }
-
-    public boolean isAlta_medica() {
-        return alta_medica;
     }
 
     public LocalDate getFecha_nacimiento() {
