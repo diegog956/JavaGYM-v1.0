@@ -18,7 +18,9 @@ public abstract class Persona {
     private String obra_social;
     private LocalDate fecha_nacimiento;
 
-    public Persona(String nombre, String dni, String telefono, ArrayList<Apercibimiento> listaApercibimientos, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento) {
+    private String comentario;
+
+    public Persona(String nombre, String dni, String telefono, ArrayList<Apercibimiento> listaApercibimientos, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
         this.telefono = telefono;
@@ -28,6 +30,7 @@ public abstract class Persona {
         this.contacto_emergencia = contacto_emergencia;
         this.obra_social = obra_social;
         this.fecha_nacimiento = fecha_nacimiento;
+        this.comentario=comentario;
     }
 
     public Persona ()
@@ -41,6 +44,11 @@ public abstract class Persona {
         contacto_emergencia=" ";
         obra_social=" ";
         fecha_nacimiento=null;
+        comentario=" ";
+    }
+
+    public String getComentario() {
+        return comentario;
     }
 
     public String getNombre() {

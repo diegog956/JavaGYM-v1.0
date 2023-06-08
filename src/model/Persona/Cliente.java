@@ -6,7 +6,6 @@ import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
 import model.Otros.Factura;
-import model.Persona.Persona;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -30,14 +29,14 @@ public class Cliente extends Persona {
         hashDeActividades=new HashSet<>();
     }
 
-    public Cliente(String nombre, String dni, String telefono, ArrayList<Apercibimiento> listaApercibimientos, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, boolean alta_medica1, boolean solicito_rutina, boolean debe) {
-        super(nombre, dni, telefono, listaApercibimientos, estado, grupo_sanguineo, contacto_emergencia, obra_social, alta_medica, fecha_nacimiento);
+    public Cliente(String nombre, String dni, String telefono, ArrayList<Apercibimiento> listaApercibimientos, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean alta_medica1, boolean solicito_rutina, boolean debe) {
+        super(nombre, dni, telefono, listaApercibimientos, estado, grupo_sanguineo, contacto_emergencia, obra_social, alta_medica, fecha_nacimiento, comentario);
         this.alta_medica = alta_medica1;
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
-        hashSetRutinas=new HashSet<>();
-        listaFacturas=new ArrayList<>();
-        hashDeActividades=new HashSet<>();
+        hashSetRutinas = new HashSet<>();
+        listaFacturas = new ArrayList<>();
+        hashDeActividades = new HashSet<>();
     }
 
     public boolean agregarFactura(Factura factura){

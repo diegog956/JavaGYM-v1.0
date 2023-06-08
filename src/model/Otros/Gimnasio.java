@@ -3,9 +3,9 @@ package model.Otros;
 import model.ActivYrutina.Actividad;
 import model.Persona.Cliente;
 import model.Persona.Instructor;
-import model.Personal.Administrador;
+import model.Personal.Administrativo;
 import model.Personal.Encargado;
-import model.Personal.Personal;
+import model.Personal.Usuario;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -52,13 +52,13 @@ public class Gimnasio {
         return direccion;
     }
 
-    public Personal DamePersonal (String usuario, String contrasenia){
-        Administrador a=null;
+    public Usuario DamePersonal (String usuario, String contrasenia){
+        Usuario a=null;
         Encargado e=null;
-        Personal p= null;
+        Usuario p= null;
         if (usuario.equals(usuario_admin) && contrasenia.equals(contrasenia_admin))
         {
-            a = new Administrador(usuario,contrasenia);
+            a = new Usuario(usuario,contrasenia);
             p = a;
         }
         else if (usuario.equals(usuario_encargado) && contrasenia.equals(contrasenia_encargado)) {
@@ -70,7 +70,7 @@ public class Gimnasio {
 
     public String agregarFactura(Factura factura){
         listaFacturas.add(factura);
-        return factura.toString;
+        return factura.toString();
     }
 
 
