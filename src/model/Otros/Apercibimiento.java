@@ -1,9 +1,14 @@
 package model.Otros;
 
+import model.interfaces.I_toJson;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Apercibimiento {
+public class Apercibimiento implements Serializable,I_toJson {
     private String descripcion;
     private LocalDate fecha;
 
@@ -45,5 +50,21 @@ public class Apercibimiento {
     @Override
     public int hashCode() {
         return Objects.hash(descripcion, fecha);
+    }
+
+
+    @Override
+    public void fromJson(JSONObject jo) throws JSONException {
+
+    }
+
+    @Override
+    public JSONObject toJsonObj() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("descripcion", getDescripcion());
+        jsonObject.put("fecha", getFecha());
+
+        return  jsonObject;
     }
 }

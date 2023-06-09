@@ -1,4 +1,4 @@
-package model.Gestionadores;
+package model.Genericos;
 
 import java.util.HashMap;
 

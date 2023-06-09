@@ -1,7 +1,8 @@
 package model.Otros;
 
 import model.ActivYrutina.Actividad;
-import model.Gestionadores.GestionadorMapa;
+import model.Genericos.GestionadorMapa;
+import model.Genericos.GestionarLinkedHashSet;
 import model.Persona.Cliente;
 import model.Personal.Instructor;
 import model.Personal.Encargado;
@@ -17,10 +18,8 @@ public class Gimnasio {
     private String direccion;
     private GestionadorMapa<String,Cliente> mapaCliente;
     private GestionadorMapa<String, Instructor> mapaInstructor;
-    private ArrayList<Factura>listaFacturas;
-
+    private GestionarLinkedHashSet<Factura> listaFacturas;
     private TreeSet<Actividad>arbolActividades;
-
     private final String usuario_admin="admin2023";
     private final String usuario_encargado="encargado2023";
     private final String contrasenia_admin="admin123";
@@ -30,7 +29,7 @@ public class Gimnasio {
         this.direccion = direccion;
         mapaCliente = new GestionadorMapa<>();
         mapaInstructor = new GestionadorMapa<>();
-        listaFacturas = new ArrayList<>();
+        listaFacturas = new GestionarLinkedHashSet<>();
         arbolActividades=new TreeSet<>();
     }
 
@@ -40,7 +39,7 @@ public class Gimnasio {
         direccion=" ";
         mapaCliente=new GestionadorMapa<>();
         mapaInstructor=new GestionadorMapa<>();
-        listaFacturas=new ArrayList<>();
+        listaFacturas=new GestionarLinkedHashSet<>();
         arbolActividades=new TreeSet<>();
     }
 
@@ -69,7 +68,7 @@ public class Gimnasio {
     }
 
     public String agregarFactura(Factura factura){
-        listaFacturas.add(factura);
+        listaFacturas.Agregar(factura);
         return factura.toString();
     }
 
@@ -97,4 +96,5 @@ public class Gimnasio {
     public int hashCode() {
         return Objects.hash(responsable, direccion, mapaCliente, mapaInstructor, listaFacturas);
     }
+
 }

@@ -94,26 +94,24 @@ public class Usuario extends Personal implements Serializable {
             cuota += it.next().getPrecio_mensual();
         }
 
-        if (cantidad_actividades == 1) {
+        if (cantidad_actividades == 2) {
             cuota = cuota * 0.95;
-        } else if (cantidad_actividades == 2) {
+        } else if (cantidad_actividades == 3) {
             cuota = cuota * 0.90;
-        } else if (cantidad_actividades >= 3) {
+        } else if (cantidad_actividades >= 4) {
             cuota = cuota * 0.8;
         }
         return cuota;
     }
 
-    public Factura cobrarCuota(Cliente cliente){
-        LocalDate mes=null;
-        LocalDate anio=null;
+    /*public Factura cobrarCuota(Cliente cliente, String mes, String anio){
 
         double cuota = calcularCuota(cliente.getHashDeActividades());
         String dato_cliente = cliente.getNombre() + "\n" + cliente.getDni() + "\n" + cliente.getTelefono();
-        Factura factura = new Factura(mes.getMonthValue(),anio.getYear(), dato_cliente, LocalDate.now(), cuota);
+        Factura factura = new Factura(mes,anio, dato_cliente, LocalDate.now(), cuota);
         cliente.agregarFactura(factura);
 
         return factura;
-    }
+    }*/
 
 }

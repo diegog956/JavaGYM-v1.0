@@ -1,43 +1,53 @@
 package model.Otros;
 
+import model.interfaces.I_toJson;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Factura {
-    private int mes;
-
-    private int anio;
-    private String datos_cliente;
+public class Factura implements I_toJson {
+    private String mes;
+    private String anio;
+    private String dni_cliente;
+    private String nombre_cliente;
     private LocalDate fecha_de_emision;
     private double monto;
 
-    public Factura(int mes, int anio, String datos_cliente, LocalDate fecha_de_emision, double monto) {
+    public Factura(String mes, String anio, String dni_cliente, String nomobre_cliente, LocalDate fecha_de_emision, double monto) {
         this.anio=anio;
         this.mes=mes;
-        this.datos_cliente = datos_cliente;
+        this.dni_cliente = dni_cliente;
+        this.nombre_cliente = nomobre_cliente;
         this.fecha_de_emision = fecha_de_emision;
         this.monto = monto;
     }
 
     public Factura ()
     {
-        anio=0;
-        mes=0;
-        datos_cliente=" ";
+        anio="";
+        mes="";
+        nombre_cliente = "";
+        dni_cliente = "";
         fecha_de_emision=null; ///DUDA ACA.
         monto=0;
     }
 
-    public int getMes() {
+    public String getMes() {
         return mes;
     }
 
-    public int getAnio() {
+    public String getAnio() {
         return anio;
     }
 
-    public String getDatos_cliente() {
-        return datos_cliente;
+    public String getDni_cliente() {
+        return dni_cliente;
+    }
+
+    public String getNombre_cliente() {
+        return nombre_cliente;
     }
 
     public LocalDate getFecha_de_emision() {
@@ -52,9 +62,10 @@ public class Factura {
     @Override
     public String toString() {
         return "Factura{" +
-                "mes=" + mes +
-                ", anio=" + anio +
-                ", datos_cliente='" + datos_cliente + '\'' +
+                "mes='" + mes + '\'' +
+                ", anio='" + anio + '\'' +
+                ", dni_cliente='" + dni_cliente + '\'' +
+                ", nombre_cliente='" + nombre_cliente + '\'' +
                 ", fecha_de_emision=" + fecha_de_emision +
                 ", monto=" + monto +
                 '}';
@@ -62,15 +73,41 @@ public class Factura {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Factura factura = (Factura) o;
-        return mes == factura.mes && anio == factura.anio && Double.compare(factura.monto, monto) == 0 && Objects.equals(datos_cliente, factura.datos_cliente) && Objects.equals(fecha_de_emision, factura.fecha_de_emision);
+       boolean rta = false;
+        if(o!=null){
+           if(o instanceof Factura){
+               Factura aux = (Factura) o;
+               if(aux.getMes().equals(getMes()) && aux.getAnio().equals(getAnio()) && aux.getDni_cliente().equals(getDni_cliente())){
+                   rta = true;
+               }
+           }
+       }
+    return rta;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mes, anio, datos_cliente, fecha_de_emision, monto);
+        return 1;
+    }
+
+    @Override
+    public void fromJson(JSONObject jo) throws JSONException {
+
+    }
+
+    @Override
+    public JSONObject toJsonObj() throws JSONException {
+       JSONObject jsonObject = new JSONObject();
+
+       jsonObject.put("Mes", getMes());
+       jsonObject.put("Año", getAnio());
+       jsonObject.put("Nombre", getNombre_cliente());
+       jsonObject.put("Dni", getDni_cliente());
+       jsonObject.put("Fecha de emision", getFecha_de_emision());
+       jsonObject.put("Monto", getMonto());
+
+
+        return jsonObject;
     }
 }
 

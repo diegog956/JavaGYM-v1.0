@@ -4,20 +4,26 @@ import model.ActivYrutina.Actividad;
 import model.ActivYrutina.Rutina;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
-import model.Otros.Apercibimiento;
+import model.Genericos.GestionadorHashSet;
+import model.Genericos.GestionadorLista;
+import model.Genericos.GestionarLinkedHashSet;
 import model.Otros.Factura;
+import model.interfaces.I_toJson;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Cliente extends Persona implements Serializable {
+public class Cliente extends Persona implements I_toJson {
     private boolean alta_medica;
     private boolean solicito_rutina;
     private boolean debe;
-    private HashSet<Rutina> hashSetRutinas;
-    private ArrayList<Factura>listaFacturas;
-    private HashSet<Actividad>hashDeActividades; ///ID concatenado para q se ordenen por actividades
+    private Rutina rutina;
+    private GestionarLinkedHashSet<Factura> listaFacturas;
+
+    private GestionadorHashSet<Actividad> hashDeActividades; ///ID concatenado para q se ordenen por actividades
 
     public Cliente()
     {
@@ -25,23 +31,23 @@ public class Cliente extends Persona implements Serializable {
         alta_medica=true;
         solicito_rutina=true;
         debe=true;
-        hashSetRutinas=new HashSet<>();
-        listaFacturas=new ArrayList<>();
-        hashDeActividades=new HashSet<>();
+        rutina = null;
+        listaFacturas=new GestionarLinkedHashSet<>();
+        hashDeActividades=new GestionadorHashSet<>();
     }
 
-    public Cliente(String nombre, String dni, String telefono,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario,boolean solicito_rutina, boolean debe) {
-        super(nombre,dni,telefono,estado,grupo_sanguineo,contacto_emergencia,obra_social,fecha_nacimiento,comentario);
+    public Cliente(String nombre, String dni, String telefono, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
+        super(nombre, dni, telefono, estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+        this.alta_medica = alta_medica;
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
-        hashSetRutinas = new HashSet<>();
-        listaFacturas = new ArrayList<>();
-        hashDeActividades = new HashSet<>();
-
+        rutina = null;
+        this.listaFacturas = new GestionarLinkedHashSet<>();
+        this.hashDeActividades = new GestionadorHashSet<>();
     }
 
     public boolean agregarFactura(Factura factura){
-        listaFacturas.add(factura);
+        listaFacturas.Agregar(factura);
         return true;
     }
 
@@ -57,41 +63,40 @@ public class Cliente extends Persona implements Serializable {
         return debe;
     }
 
-    public HashSet<Rutina> getHashSetRutinas() {
-        return hashSetRutinas;
-    }
-
-    public ArrayList<Factura> getListaFacturas() {
-        return listaFacturas;
-    }
-
-    public HashSet<Actividad> getHashDeActividades() {
-        return hashDeActividades;
-    }
 
     @Override
     public String toString() {
-        return super.toString() + "Cliente{" +
+        return  "Cliente{" +
                 "alta_medica=" + alta_medica +
                 ", solicito_rutina=" + solicito_rutina +
                 ", debe=" + debe +
-                ", hashSetRutinas=" + hashSetRutinas +
-                ", listaFacturas=" + listaFacturas +
+                ", Rutinas=" + rutina.toString() +
+                ", listaFacturas=" + listaFacturas.toString() +
                 ", hashDeActividades=" + hashDeActividades +
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cliente cliente = (Cliente) o;
-        return alta_medica == cliente.alta_medica && solicito_rutina == cliente.solicito_rutina && debe == cliente.debe && Objects.equals(hashSetRutinas, cliente.hashSetRutinas) && Objects.equals(listaFacturas, cliente.listaFacturas) && Objects.equals(hashDeActividades, cliente.hashDeActividades);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(alta_medica, solicito_rutina, debe, hashSetRutinas, listaFacturas, hashDeActividades);
+    public JSONObject toJsonObj() throws JSONException {
+        JSONObject jsonObject = super.toJsonObj();
+
+        jsonObject.put("Solicita rutina", isSolicito_rutina());
+        jsonObject.put("Alta Medica", isAlta_medica());
+        jsonObject.put("Debe", isDebe());
+        if(rutina !=null) {
+            jsonObject.put("Rutina", rutina.toJsonObj());
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        for(int i=0; i<listaFacturas.contador();i++){
+            JSONObject aux = listaFacturas.devolverElemento(i).toJsonObj();
+        }
+        jsonObject.put("Facturas", jsonArray);
+
+
+
+
+        return jsonObject;
     }
 
 }
