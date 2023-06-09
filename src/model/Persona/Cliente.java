@@ -4,18 +4,19 @@ import model.ActivYrutina.Actividad;
 import model.ActivYrutina.Rutina;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
-import model.Gestionadores.GestionadorLista;
+import model.Otros.Apercibimiento;
 import model.Otros.Factura;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Cliente extends Persona {
+public class Cliente extends Persona implements Serializable {
     private boolean alta_medica;
     private boolean solicito_rutina;
     private boolean debe;
-    private  LinkedHashSet<Rutina> hashSetRutinas;
-    private GestionadorLista<Factura> listaFacturas;
+    private HashSet<Rutina> hashSetRutinas;
+    private ArrayList<Factura>listaFacturas;
     private HashSet<Actividad>hashDeActividades; ///ID concatenado para q se ordenen por actividades
 
     public Cliente()
@@ -24,23 +25,23 @@ public class Cliente extends Persona {
         alta_medica=true;
         solicito_rutina=true;
         debe=true;
-        hashSetRutinas=new LinkedHashSet<>();
-        listaFacturas=new GestionadorLista<>();
+        hashSetRutinas=new HashSet<>();
+        listaFacturas=new ArrayList<>();
         hashDeActividades=new HashSet<>();
     }
 
-    public Cliente(String nombre, String dni, String telefono, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean alta_medica1, boolean solicito_rutina, boolean debe) {
-        super(nombre, dni, telefono, estado, grupo_sanguineo, contacto_emergencia, obra_social, alta_medica, fecha_nacimiento, comentario);
-        this.alta_medica = alta_medica1;
+    public Cliente(String nombre, String dni, String telefono,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario,boolean solicito_rutina, boolean debe) {
+        super(nombre,dni,telefono,estado,grupo_sanguineo,contacto_emergencia,obra_social,fecha_nacimiento,comentario);
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
-        this.hashSetRutinas = new LinkedHashSet<>();
-        this.listaFacturas = new GestionadorLista<>();
-        this.hashDeActividades = new HashSet<>();
+        hashSetRutinas = new HashSet<>();
+        listaFacturas = new ArrayList<>();
+        hashDeActividades = new HashSet<>();
+
     }
 
     public boolean agregarFactura(Factura factura){
-        listaFacturas.Agregar(factura);
+        listaFacturas.add(factura);
         return true;
     }
 
@@ -60,7 +61,7 @@ public class Cliente extends Persona {
         return hashSetRutinas;
     }
 
-    public GestionadorLista<Factura> getListaFacturas() {
+    public ArrayList<Factura> getListaFacturas() {
         return listaFacturas;
     }
 
@@ -70,7 +71,7 @@ public class Cliente extends Persona {
 
     @Override
     public String toString() {
-        return "Cliente{" +
+        return super.toString() + "Cliente{" +
                 "alta_medica=" + alta_medica +
                 ", solicito_rutina=" + solicito_rutina +
                 ", debe=" + debe +

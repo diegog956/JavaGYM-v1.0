@@ -1,9 +1,6 @@
 package model.Otros;
 
-import excepciones.ActividadRepetida;
-import excepciones.ClienteExistenteException;
 import model.ActivYrutina.Actividad;
-import model.Gestionadores.GestionadorLista;
 import model.Gestionadores.GestionadorMapa;
 import model.Persona.Cliente;
 import model.Personal.Instructor;
@@ -20,7 +17,7 @@ public class Gimnasio {
     private String direccion;
     private GestionadorMapa<String,Cliente> mapaCliente;
     private GestionadorMapa<String, Instructor> mapaInstructor;
-    private GestionadorLista<Factura> listaFacturas;
+    private ArrayList<Factura>listaFacturas;
 
     private TreeSet<Actividad>arbolActividades;
 
@@ -33,7 +30,7 @@ public class Gimnasio {
         this.direccion = direccion;
         mapaCliente = new GestionadorMapa<>();
         mapaInstructor = new GestionadorMapa<>();
-        listaFacturas = new GestionadorLista<>();
+        listaFacturas = new ArrayList<>();
         arbolActividades=new TreeSet<>();
     }
 
@@ -43,7 +40,7 @@ public class Gimnasio {
         direccion=" ";
         mapaCliente=new GestionadorMapa<>();
         mapaInstructor=new GestionadorMapa<>();
-        listaFacturas=new GestionadorLista<>();
+        listaFacturas=new ArrayList<>();
         arbolActividades=new TreeSet<>();
     }
 
@@ -71,29 +68,9 @@ public class Gimnasio {
         return p;
     }
 
-    //AGREGAR
-
     public String agregarFactura(Factura factura){
-        listaFacturas.Agregar(factura);
+        listaFacturas.add(factura);
         return factura.toString();
-    }
-
-    public boolean agregarCliente(Cliente cliente) throws ClienteExistenteException {
-        if (mapaCliente.existeCliente(cliente.getDni()))
-        {
-            throw new ClienteExistenteException("ESTE CLIENTE ESTA EN EL SISTEMA", cliente.getDni());
-        }
-        mapaCliente.Agregar(cliente.getDni(), cliente);
-        return true;
-    }
-
-    public boolean agregarActividad(Actividad actividad) throws ActividadRepetida {
-        if (arbolActividades.contains(actividad))
-        {
-            throw new ActividadRepetida("ESTA ACTIVIDAD YA SE ENCUENTRA EN CRONOGRAMA", actividad.getNombre());
-        }
-        arbolActividades.add(actividad);
-        return true;
     }
 
 

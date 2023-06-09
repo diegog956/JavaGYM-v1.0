@@ -19,16 +19,6 @@ public class GestionadorMapa<K extends String,V>{
         return rta;
     }
 
-    public boolean existeCliente(K key)
-    {
-        boolean rta=false;
-        if (!mapaGeneral.containsKey(key))
-        {
-            rta=true;
-        }
-        return rta;
-    }
-
     public boolean Eliminar(K key,V elemento)
     {
         boolean rta=false;

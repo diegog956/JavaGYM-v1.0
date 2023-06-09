@@ -1,39 +1,48 @@
 package model.Personal;
 
-import excepciones.ActividadRepetida;
-import excepciones.ClienteExistenteException;
 import model.ActivYrutina.Actividad;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
 import model.Otros.Factura;
-import model.Otros.Gimnasio;
 import model.Persona.Cliente;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class Usuario extends Personal{
+public class Usuario extends Personal implements Serializable {
     private String usuario;
     private String contrasenia;
+
+
+
     public Usuario()
     {
-        usuario=" ";
-        contrasenia=" ";
+        /*usuario=" ";
+        contrasenia=" ";*/
+        this("","","",null,null,"","",false,null,"","","","");
     }
 
-    public Usuario(String nombre, String dni, String telefono, ArrayList<Apercibimiento> listaApercibimientos, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL, String usuario, String contrasenia) {
-        super(nombre, dni, telefono, listaApercibimientos, estado, grupo_sanguineo, contacto_emergencia, obra_social, alta_medica, fecha_nacimiento, comentario, CUIL);
+    public Usuario(String nombre, String dni, String telefono, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL, String usuario, String contrasenia) {
+        super(nombre,dni,telefono,estado,grupo_sanguineo,contacto_emergencia,obra_social,alta_medica,fecha_nacimiento,comentario,CUIL);
         this.usuario = usuario;
         this.contrasenia = contrasenia;
     }
 
     public Usuario(String user, String contra) {
-        usuario=user;
-        contrasenia=contra;
+        this("","","",null,null,"","",false,null,"","",user,contra);
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
     }
 
     public boolean verificarContraseniaYusuario(String user, String contra)
@@ -43,7 +52,10 @@ public class Usuario extends Personal{
 
     @Override
     public String toString() {
-        return super.toString();
+        return super.toString() +"Usuario{" +
+                "usuario='" + usuario + '\'' +
+                ", contrasenia='" + contrasenia + '\'' +
+                "} " ;
     }
 
     @Override
@@ -102,16 +114,6 @@ public class Usuario extends Personal{
         cliente.agregarFactura(factura);
 
         return factura;
-    }
-
-    public boolean agregarCliente(Gimnasio gimnasio,Cliente cliente) throws ClienteExistenteException {
-        boolean rta= gimnasio.agregarCliente(cliente);
-        return rta;
-    }
-
-    public boolean agregarActividad(Actividad actividad,Gimnasio gimnasio) throws ActividadRepetida {
-        boolean rta=gimnasio.agregarActividad(actividad);
-        return rta;
     }
 
 }
