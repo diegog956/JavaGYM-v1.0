@@ -13,8 +13,8 @@ public class Personal extends Persona implements Serializable
 {
     private String CUIL;
 
-    public Personal(String nombre, String dni, String telefono,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL) {
-        super(nombre,dni,telefono,estado,grupo_sanguineo,contacto_emergencia,obra_social,fecha_nacimiento,comentario);
+    public Personal(String nombre, String dni, String telefono, String domicilio,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL) {
+        super(nombre,dni,telefono,domicilio,estado,grupo_sanguineo,contacto_emergencia,obra_social,fecha_nacimiento,comentario);
         this.CUIL = CUIL;
     }
 

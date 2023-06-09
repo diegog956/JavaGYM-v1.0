@@ -16,11 +16,11 @@ public class Instructor extends Personal implements Serializable {
 private HashSet<Actividad> actividades;
 private String imagenPerfil;
 
-    /*public Instructor(String nombre, String dni, String telefono,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL, ArrayList<Actividad> actividades, String imagenPerfil) {
-        super(nombre, dni, telefono,estado, grupo_sanguineo, contacto_emergencia, obra_social, alta_medica, fecha_nacimiento, comentario, CUIL);
+    public Instructor(String nombre, String dni, String telefono,String domicilio,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL, ArrayList<Actividad> actividades, String imagenPerfil) {
+        super(nombre, dni, telefono,domicilio,estado, grupo_sanguineo, contacto_emergencia, obra_social, alta_medica, fecha_nacimiento, comentario, CUIL);
         actividades = actividades;
         this.imagenPerfil = imagenPerfil;
-    }*/
+    }
 
     public Instructor()
     {

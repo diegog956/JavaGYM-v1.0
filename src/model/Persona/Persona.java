@@ -24,12 +24,14 @@ public abstract class Persona implements Serializable, I_toJson {
     private String obra_social;
     private LocalDate fecha_nacimiento;
 
+    private String domicilio;
     private String comentario;
 
-    public Persona(String nombre, String dni, String telefono,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
+    public Persona(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
         this.telefono = telefono;
+        this.domicilio = domicilio;
         listaApercibimientos = new GestionadorLista<>();
         this.estado = estado;
         this.grupo_sanguineo = grupo_sanguineo;
@@ -44,6 +46,7 @@ public abstract class Persona implements Serializable, I_toJson {
         nombre=" ";
         dni=" ";
         telefono=" ";
+        domicilio = "";
         listaApercibimientos=new GestionadorLista<>();
         estado=Eestado.ACTIVO;
         grupo_sanguineo=EGrupoSanguineo.NINGUNO;
@@ -94,13 +97,16 @@ public abstract class Persona implements Serializable, I_toJson {
         return fecha_nacimiento;
     }
 
+    public String getDomicilio() {
+        return domicilio;
+    }
 
     @Override
     public String toString() {
         return "Persona{" +
                 "nombre='" + nombre + '\'' +
                 ", dni='" + dni + '\'' +
-                ", telefono='" + telefono + '\'' +
+                ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio +
                 ", listaApercibimientos=" + listaApercibimientos.Listar() +
                 ", estado=" + estado +
                 ", grupo_sanguineo=" + grupo_sanguineo +
@@ -127,7 +133,7 @@ public abstract class Persona implements Serializable, I_toJson {
 
     @Override
     public int hashCode() {
-        return Objects.hash(nombre, dni, telefono, listaApercibimientos, estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+        return 1;
     }
 
     /**Agregar parte desde y hacia json si corresponde*/
@@ -150,6 +156,7 @@ public abstract class Persona implements Serializable, I_toJson {
             jsonObject.put("Obra Social", getObra_social());
             jsonObject.put("Fecha de Nacimiento", getFecha_nacimiento());
             jsonObject.put("Comentario", getComentario());
+            jsonObject.put("Domicilio", getDomicilio());
 
            JSONArray jsonArray = new JSONArray();
            for(int i=0; i<listaApercibimientos.contador();i++){

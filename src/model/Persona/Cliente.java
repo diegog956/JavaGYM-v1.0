@@ -36,8 +36,8 @@ public class Cliente extends Persona implements I_toJson {
         hashDeActividades=new GestionadorHashSet<>();
     }
 
-    public Cliente(String nombre, String dni, String telefono, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
-        super(nombre, dni, telefono, estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+    public Cliente(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
+        super(nombre, dni, telefono, domicilio ,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
         this.alta_medica = alta_medica;
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
