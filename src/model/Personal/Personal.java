@@ -4,12 +4,15 @@ import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
 import model.Persona.Persona;
+import model.interfaces.I_toJson;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Personal extends Persona implements Serializable
+public class Personal extends Persona implements Serializable, I_toJson
 {
     private String CUIL;
 
@@ -25,10 +28,21 @@ public class Personal extends Persona implements Serializable
 
     }
 
+    public String getCUIL() {
+        return CUIL;
+    }
+
     @Override
     public String toString() {
         return "Personal{" +
                 "CUIL='" + CUIL + '\'' +
                 "} " + super.toString();
+    }
+
+    @Override
+    public JSONObject toJsonObj() throws JSONException {
+        JSONObject jsonObject = super.toJsonObj();
+        jsonObject.put("CUIL", getCUIL());
+        return jsonObject;
     }
 }

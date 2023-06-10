@@ -1,16 +1,13 @@
 package model.ActivYrutina;
 
 import model.Enum.EdiaSemana;
-import model.Enum.Eestado;
+import model.Enum.EtipoActividad;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class Actividad {
-    private int id;  //DEPENDE LA ACTIVIDAD QUE TENGAN UN NUMERO
-    private String nombre;
+public class Actividad implements Comparable {
+    private EtipoActividad nombre;
     private ArrayList<EdiaSemana>listaDias;
-
     private String horario;
     private String nombre_instructor;
     private int cupo;
@@ -19,10 +16,9 @@ public class Actividad {
     private String comentario;
     private double precio_mensual;
 
-    public Actividad(int id, String nombre, String horario, ArrayList<EdiaSemana> listaDias, String nombre_instructor, int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual) {
-        this.id = id;
+    public Actividad(EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor, int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual) {
         this.nombre = nombre;
-        this.listaDias = listaDias;
+        listaDias = new ArrayList<>(listaDias1);
         this.nombre_instructor = nombre_instructor;
         this.cupo = cupo;
         this.inscriptos = inscriptos;
@@ -34,8 +30,6 @@ public class Actividad {
 
     public Actividad ()
     {
-        id=0;
-        nombre=" ";
         listaDias=new ArrayList<EdiaSemana>();
         nombre_instructor=" ";
         cupo=0;
@@ -50,11 +44,9 @@ public class Actividad {
         return horario;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public String getNombre() {
+
+    public EtipoActividad getNombre() {
         return nombre;
     }
 
@@ -86,18 +78,37 @@ public class Actividad {
         return precio_mensual;
     }
 
+    /**Compara por nombre, luego por horario, luego por si coincide en al menos un dia.*/
+    /** Esto esta pensado en base a que el gym tiene un solo espacio para cada actividad.*/
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Actividad actividad = (Actividad) o;
-        return id == actividad.id && cupo == actividad.cupo && inscriptos == actividad.inscriptos && disponible == actividad.disponible && Double.compare(actividad.precio_mensual, precio_mensual) == 0 && Objects.equals(nombre, actividad.nombre) && Objects.equals(listaDias, actividad.listaDias) && Objects.equals(horario, actividad.horario) && Objects.equals(nombre_instructor, actividad.nombre_instructor) && Objects.equals(comentario, actividad.comentario);
+    boolean rta = false;
+        if(o != null){
+            if(o instanceof Actividad){
+                Actividad aux = (Actividad) o;
+                if(aux.getNombre().equals(getNombre())){
+                    if(aux.getHorario().equals(getHorario())){
+                        rta = compararDias(aux.getListaDias());
+                    }
+                }
+            }
+        }
+    return rta;
     }
 
+    /**Compara la lista de dias entrante con la lista de dias, esto aplicable en el caso que coincidan actividad y horario.*/
+    private boolean compararDias(ArrayList<EdiaSemana> lista){
+        boolean rta = false;
+        for(int i=0;i<lista.size();i++){
+            if(getListaDias().contains(lista.get(i))){
+                rta = true;
+            }
+        }
+        return rta;
+    }
     @Override
     public String toString() {
-        return "Actividad{" +
-                "id=" + id +
+        return "\nActividad{" +
                 ", nombre='" + nombre + '\'' +
                 ", listaDias=" + listaDias +
                 ", horario='" + horario + '\'' +
@@ -112,7 +123,16 @@ public class Actividad {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, listaDias, horario, nombre_instructor, cupo, inscriptos, disponible, comentario, precio_mensual);
+        return 1;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        int resta = getNombre().ordinal() - ((Actividad)o).getNombre().ordinal();
+        if(resta==0){
+            resta = getHorario().compareTo((((Actividad)o).getHorario()));
+        }
+        return resta;
     }
 }
 

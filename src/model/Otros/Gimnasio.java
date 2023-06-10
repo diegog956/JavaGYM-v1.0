@@ -2,13 +2,13 @@ package model.Otros;
 
 import model.ActivYrutina.Actividad;
 import model.Genericos.GestionadorMapa;
-import model.Genericos.GestionarLinkedHashSet;
+import model.Genericos.GestionadorLinkedHashSet;
 import model.Persona.Cliente;
 import model.Personal.Instructor;
 import model.Personal.Encargado;
 import model.Personal.Usuario;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeSet;
 
@@ -16,10 +16,12 @@ import java.util.TreeSet;
 public class Gimnasio {
     private String responsable;
     private String direccion;
+    /**Ver Bloc de notas. Se puede pensar en que el encargado contenga los datos del gimnasio, tales como mail, direccion, etc.*/
     private GestionadorMapa<String,Cliente> mapaCliente;
     private GestionadorMapa<String, Instructor> mapaInstructor;
-    private GestionarLinkedHashSet<Factura> listaFacturas;
-    private TreeSet<Actividad>arbolActividades;
+    private GestionadorLinkedHashSet<Factura> listaFacturas;
+    private TreeSet<Actividad>arbolActividades;/**GestionadorTreeSet creado. Ver su implementacion.*/
+
     private final String usuario_admin="admin2023";
     private final String usuario_encargado="encargado2023";
     private final String contrasenia_admin="admin123";
@@ -29,7 +31,7 @@ public class Gimnasio {
         this.direccion = direccion;
         mapaCliente = new GestionadorMapa<>();
         mapaInstructor = new GestionadorMapa<>();
-        listaFacturas = new GestionarLinkedHashSet<>();
+        listaFacturas = new GestionadorLinkedHashSet<>();
         arbolActividades=new TreeSet<>();
     }
 
@@ -39,7 +41,7 @@ public class Gimnasio {
         direccion=" ";
         mapaCliente=new GestionadorMapa<>();
         mapaInstructor=new GestionadorMapa<>();
-        listaFacturas=new GestionarLinkedHashSet<>();
+        listaFacturas=new GestionadorLinkedHashSet<>();
         arbolActividades=new TreeSet<>();
     }
 
@@ -97,4 +99,13 @@ public class Gimnasio {
         return Objects.hash(responsable, direccion, mapaCliente, mapaInstructor, listaFacturas);
     }
 
+    public int codificacionIdActividad(String nombre_actividad){
+        Iterator<Actividad> it = arbolActividades.iterator();
+        /**Se puede iterar y hacer un codigo con cierta complejidad para armar los codigos unicos 101, 203, etc
+         * Pero pensar en los nombres como enum. Ver bloc de notas diego*/
+        while(it.hasNext()){
+
+        }
+        return 1;
+    }
 }

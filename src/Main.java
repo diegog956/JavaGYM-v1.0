@@ -1,45 +1,61 @@
-import Utilidades.JsonUtiles;
-import model.Enum.EGrupoSanguineo;
-import model.Enum.EdiaSemana;
-import model.Enum.Eestado;
-import model.Persona.Cliente;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.time.LocalDate;
+import model.ActivYrutina.Actividad;
+import model.Enum.EdiaSemana;
+import model.Enum.EtipoActividad;
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Main {
     public static void main(String[] args) {
 
-        ArrayList<Cliente> clientes_harcodeados = new ArrayList<>();
+        TreeSet<Actividad> setActividades = new TreeSet<>();
 
-        Cliente cliente1 = new Cliente("Alberto A","111","111-111","BOCA", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO,"111-111","A Salud",true, LocalDate.of(2001,01,01),"",false,false);
-        Cliente cliente2 = new Cliente ("Benito B","222","222-222","BOCA",Eestado.ACTIVO,EGrupoSanguineo.A_POSITIVO,"222-222","B Salud",true,LocalDate.of(2002,02,02),"",false,false);
-        Cliente cliente3 = new Cliente("Carla C","333","333-333","BOCA",Eestado.ACTIVO,EGrupoSanguineo.A_POSITIVO,"333-333","C Salud",true,LocalDate.of(2003,03,03),"",true,false);
-        Cliente cliente4 = new Cliente ("David D","444","444-444","BOCA", Eestado.ACTIVO,EGrupoSanguineo.A_POSITIVO,"444-444","D Salud",true,LocalDate.of(2004,04,04),"Es epileptico",false,false);
-        Cliente cliente5 = new Cliente("Eugenia E","555","555-555","BOCA",Eestado.ACTIVO,EGrupoSanguineo.A_POSITIVO,"555-555","E Salud",false,LocalDate.of(2005,05,05),"",false,false);
+        ArrayList<EdiaSemana> listaDias = new ArrayList<>();
 
-        clientes_harcodeados.add(cliente1);
-        clientes_harcodeados.add(cliente2);
-        clientes_harcodeados.add(cliente3);
-        clientes_harcodeados.add(cliente4);
-        clientes_harcodeados.add(cliente5);
+        listaDias.add(EdiaSemana.LUNES);
+        listaDias.add(EdiaSemana.MARTES);
+        listaDias.add(EdiaSemana.VIERNES);
 
-        JSONArray jsonArray = new JSONArray();
-        try {
-            for (Cliente micliente : clientes_harcodeados) {
-                jsonArray.put(micliente.toJsonObj());
-            }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
+        Actividad actividad1 = new Actividad(EtipoActividad.BOXEO, "10:00 - 11:00", listaDias, "Instructor 1", 20, 0, true, "", 50.0);
+        setActividades.add(actividad1);
+        listaDias.clear();
+        listaDias.add(EdiaSemana.MIERCOLES);
+        Actividad actividad2 = new Actividad(EtipoActividad.DANZA, "10:00 - 11:00", listaDias, "Instructor 2", 15, 0, true, "", 60.0);
+        setActividades.add(actividad1);
+        listaDias.clear();
+        listaDias.add(EdiaSemana.VIERNES);
 
+                Actividad actividad4 = new Actividad(EtipoActividad.LIBRE, "19:30 - 20:30", listaDias, "Instructor 4", 25, 0, true, "¡Diviértete y mantente en forma con nuestros ritmos latinos!", 55.0);
 
-        System.out.println(jsonArray);
-        JsonUtiles.grabar(jsonArray, "Clientes");
+                setActividades.add(actividad1);
+                setActividades.add(actividad2);
+
+                setActividades.add(actividad4);
 
 
+        Actividad actividad7 = new Actividad(EtipoActividad.LIBRE, "17:00 - 18:00", listaDias, "Instructor 7", 20, 0, true, "", 55.0);
+
+
+        Actividad actividad9 = new Actividad(EtipoActividad.FUNCIONAL, "09:00 - 10:00", listaDias, "Instructor 9", 15, 0, true, "", 35.0);
+
+
+        Actividad actividad11 = new Actividad(EtipoActividad.LIBRE, "18:30 - 19:30", listaDias, "Instructor 11", 20, 0, true, "", 60.0);
+
+
+        Actividad actividad13 = new Actividad(EtipoActividad.FUNCIONAL, "12:00 - 13:00", listaDias, "Instructor 13", 15, 0, true, "", 40.0);
+
+        Actividad actividad15 = new Actividad(EtipoActividad.LIBRE, "15:30 - 16:30", listaDias, "Instructor 15", 25, 0, true, "", 50.0);
+
+        setActividades.add(actividad7);
+
+        setActividades.add(actividad9);
+
+        setActividades.add(actividad11);
+
+        setActividades.add(actividad13);
+
+        setActividades.add(actividad15);
+
+        System.out.println(setActividades);
     }
-}
+        }

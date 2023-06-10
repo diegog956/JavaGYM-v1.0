@@ -5,8 +5,7 @@ import model.ActivYrutina.Rutina;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Genericos.GestionadorHashSet;
-import model.Genericos.GestionadorLista;
-import model.Genericos.GestionarLinkedHashSet;
+import model.Genericos.GestionadorLinkedHashSet;
 import model.Otros.Factura;
 import model.interfaces.I_toJson;
 import org.json.JSONArray;
@@ -14,14 +13,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
-import java.util.*;
 
 public class Cliente extends Persona implements I_toJson {
     private boolean alta_medica;
     private boolean solicito_rutina;
     private boolean debe;
     private Rutina rutina;
-    private GestionarLinkedHashSet<Factura> listaFacturas;
+    private GestionadorLinkedHashSet<Factura> listaFacturas;
 
     private GestionadorHashSet<Actividad> hashDeActividades; ///ID concatenado para q se ordenen por actividades
 
@@ -32,7 +30,7 @@ public class Cliente extends Persona implements I_toJson {
         solicito_rutina=true;
         debe=true;
         rutina = null;
-        listaFacturas=new GestionarLinkedHashSet<>();
+        listaFacturas=new GestionadorLinkedHashSet<>();
         hashDeActividades=new GestionadorHashSet<>();
     }
 
@@ -42,7 +40,7 @@ public class Cliente extends Persona implements I_toJson {
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
         rutina = null;
-        this.listaFacturas = new GestionarLinkedHashSet<>();
+        this.listaFacturas = new GestionadorLinkedHashSet<>();
         this.hashDeActividades = new GestionadorHashSet<>();
     }
 

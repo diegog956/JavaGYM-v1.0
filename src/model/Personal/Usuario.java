@@ -37,11 +37,11 @@ public class Usuario extends Personal implements Serializable {
         this("","","","",null,null,"","",false,null,"","",user,contra);
     }
 
-    public String getUsuario() {
+    private String getUsuario() {
         return usuario;
     }
 
-    public String getContrasenia() {
+    private String getContrasenia() {
         return contrasenia;
     }
 
@@ -50,6 +50,8 @@ public class Usuario extends Personal implements Serializable {
         return (usuario.equals(user) && contrasenia.equals(contra));
     }
 
+
+    /**To string del usuario, donde muesetra usuario y contraseña???*/
     @Override
     public String toString() {
         return super.toString() +"Usuario{" +
@@ -60,21 +62,27 @@ public class Usuario extends Personal implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Usuario personal = (Usuario) o;
-        return Objects.equals(usuario, personal.usuario) && Objects.equals(contrasenia, personal.contrasenia);
+        boolean rta = false;
+        if(o!=null){
+            if(o instanceof Usuario){
+                Usuario aux = (Usuario) o;
+                if(aux.getUsuario().equals(getUsuario()) && aux.getContrasenia().equals(getContrasenia())){
+                    rta = true;
+                }
+            }
+        }
+        return rta;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(usuario, contrasenia);
+        return 1;
     }
 
     public boolean cambiarContrasenia(String viejaContrasenia, String nuevaContrasenia)
     {
         boolean rta=false;
-        if (viejaContrasenia.equals(contrasenia))
+        if (viejaContrasenia.equals(getContrasenia()))
         {
             contrasenia=nuevaContrasenia;
             rta=true;

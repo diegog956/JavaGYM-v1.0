@@ -1,15 +1,13 @@
 package model.Genericos;
 
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 
-public class GestionarLinkedHashSet <T>{
+public class GestionadorLinkedHashSet<T>{
 
     LinkedHashSet<T> hashset;
 
-    public GestionarLinkedHashSet() {
+    public GestionadorLinkedHashSet() {
         hashset = new LinkedHashSet<>();
     }
 

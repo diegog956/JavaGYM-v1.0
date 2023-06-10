@@ -32,7 +32,7 @@ private String imagenPerfil;
     @Override
     public String toString() {
         return "Instructor{" +
-                "actividades=" + actividades +
+                "actividades=" + actividades.toString() +
                 '}';
     }
 
