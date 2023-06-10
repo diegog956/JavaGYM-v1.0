@@ -40,6 +40,11 @@ public class Personal extends Persona implements Serializable, I_toJson
     }
 
     @Override
+    public void fromJson(JSONObject jo) throws JSONException {
+
+    }
+
+    @Override
     public JSONObject toJsonObj() throws JSONException {
         JSONObject jsonObject = super.toJsonObj();
         jsonObject.put("CUIL", getCUIL());

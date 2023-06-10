@@ -1,49 +1,70 @@
 package model.Otros;
 
-import model.ActivYrutina.Actividad;
-import model.Genericos.GestionadorMapa;
+import AccesoDatos.ArchivoColeccionUtiles;
+import AccesoDatos.ArchivoMapaUtiles;
 import model.Genericos.GestionadorLinkedHashSet;
 import model.Persona.Cliente;
 import model.Personal.Instructor;
 import model.Personal.Encargado;
 import model.Personal.Usuario;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.TreeSet;
+import java.util.*;
 
 
 public class Gimnasio {
     private String responsable;
     private String direccion;
     /**Ver Bloc de notas. Se puede pensar en que el encargado contenga los datos del gimnasio, tales como mail, direccion, etc.*/
-    private GestionadorMapa<String,Cliente> mapaCliente;
-    private GestionadorMapa<String, Instructor> mapaInstructor;
+    private HashMap<String,Cliente> mapaCliente;
+    private HashMap mapaInstructor;
     private GestionadorLinkedHashSet<Factura> listaFacturas;
-    private TreeSet<Actividad>arbolActividades;/**GestionadorTreeSet creado. Ver su implementacion.*/
+    private TreeSet arbolActividades;/**GestionadorTreeSet creado. Ver su implementacion.*/
 
     private final String usuario_admin="admin2023";
     private final String usuario_encargado="encargado2023";
     private final String contrasenia_admin="admin123";
     private final String contrasenia_encargado="encargado123";
     public Gimnasio(String responsable, String direccion) {
+        ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
+        ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
+
         this.responsable = responsable;
         this.direccion = direccion;
-        mapaCliente = new GestionadorMapa<>();
-        mapaInstructor = new GestionadorMapa<>();
+        mapaCliente = new HashMap<>();
+        mapaInstructor = new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
         listaFacturas = new GestionadorLinkedHashSet<>();
-        arbolActividades=new TreeSet<>();
+        arbolActividades=new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
     }
 
     public Gimnasio()
     {
+        ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
+        ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
+
         responsable=" ";
         direccion=" ";
-        mapaCliente=new GestionadorMapa<>();
-        mapaInstructor=new GestionadorMapa<>();
+        mapaCliente = new HashMap<>();
+        mapaCliente = (HashMap<String, Cliente>) archivoMapaUtiles.leerMapa("Archivo clientes.dat");
+        mapaInstructor=new HashMap<>();
+        mapaInstructor = (HashMap<String, Instructor>) archivoMapaUtiles.leerMapa("instructores.dat");
+        System.out.println("Hi");
         listaFacturas=new GestionadorLinkedHashSet<>();
-        arbolActividades=new TreeSet<>();
+        //listaFacturas = (GestionadorLinkedHashSet<Factura>) archivoColeccionUtiles.leerColeccion("facturas.dat");
+        arbolActividades=new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
+    }
+
+    public HashMap<String, Cliente> getMapaCliente() {
+        return mapaCliente;
+    }
+
+    public HashMap<String, Instructor> getMapaInstructor() {
+        return mapaInstructor;
+    }
+
+    public GestionadorLinkedHashSet<Factura> getListaFacturas() {
+        return listaFacturas;
     }
 
     public String getResponsable() {
@@ -99,4 +120,37 @@ public class Gimnasio {
     public int hashCode() {
         return 1;
     }
+
+
+    public String ListarClientes(){
+        String rta = "Clientes Presentes en Sistema (mapaCliente):\n";
+        //Iterator it = mapaCliente.GetRecorredor();
+        Iterator it = mapaCliente.entrySet().iterator();//diegoprueba
+        while(it.hasNext()){
+            Map.Entry<String,Cliente>entradaDelMapa = (Map.Entry<String,Cliente>)it.next();
+            Cliente cliente = entradaDelMapa.getValue();
+            rta += cliente.toString() + "\n";
+        }
+        return rta += "\n Fin mapaCliente";
+    }
+
+    public String CompartirDatosClientes(){
+        //metodo que desde clase Gimnasio, proporciona a Interfaz los datos de sus clientes,en formato JSON
+        String json="";
+        // Iterator it = mapaCliente.GetRecorredor();
+        Iterator it = mapaCliente.entrySet().iterator();
+        JSONArray jsonArray_clientes = new JSONArray();
+        while(it.hasNext()){
+            Map.Entry<String,Cliente> entradaDelMapa = (Map.Entry<String,Cliente>)it.next();
+            Cliente cliente = entradaDelMapa.getValue();
+            try{
+                jsonArray_clientes.put(cliente.toJsonObj());
+            }catch(JSONException e){
+                json = e.getMessage();
+            }
+        }
+        return jsonArray_clientes.toString();
+    }
+
 }
+

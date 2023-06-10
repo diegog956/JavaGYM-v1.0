@@ -31,8 +31,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         solicito_rutina=true;
         debe=true;
         rutina = null;
-        listaFacturas=new GestionadorLinkedHashSet<>();
-        hashDeActividades=new GestionadorHashSet<>();
+        /*listaFacturas=new GestionadorLinkedHashSet<>();
+        hashDeActividades=new GestionadorHashSet<>();*/
     }
 
     public Cliente(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
@@ -65,16 +65,21 @@ public class Cliente extends Persona implements I_toJson, Serializable {
 
     @Override
     public String toString() {
-        return  "Cliente{" +
+        return  super.toString() + "Cliente{" +
                 "alta_medica=" + alta_medica +
                 ", solicito_rutina=" + solicito_rutina +
-                ", debe=" + debe +
-                ", Rutinas=" + rutina.toString() +
-                ", listaFacturas=" + listaFacturas.toString() +
-                ", hashDeActividades=" + hashDeActividades +
+                ", debe=" + debe +/*
+                ", Rutinas=" + rutina.toString() +*/
+                /*", listaFacturas=" + listaFacturas.toString() +*/
+                /*", hashDeActividades=" + hashDeActividades +*/
                 '}';
     }
 
+
+    @Override
+    public void fromJson(JSONObject jo) throws JSONException {
+
+    }
 
     public JSONObject toJsonObj() throws JSONException {
         JSONObject jsonObject = super.toJsonObj();

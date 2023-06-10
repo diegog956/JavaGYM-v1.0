@@ -100,6 +100,50 @@ public abstract class Persona implements Serializable, I_toJson {
         return domicilio;
     }
 
+    private void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    private void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    private void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    private void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    private void setListaApercibimientos(GestionadorLista<Apercibimiento> listaApercibimientos) {
+        this.listaApercibimientos = listaApercibimientos;
+    }
+
+    private void setEstado(Eestado estado) {
+        this.estado = estado;
+    }
+
+    private void setGrupo_sanguineo(EGrupoSanguineo grupo_sanguineo) {
+        this.grupo_sanguineo = grupo_sanguineo;
+    }
+
+    private void setContacto_emergencia(String contacto_emergencia) {
+        this.contacto_emergencia = contacto_emergencia;
+    }
+
+    private void setObra_social(String obra_social) {
+        this.obra_social = obra_social;
+    }
+
+    private void setFecha_nacimiento(LocalDate fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
+
+    private void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
     @Override
     public String toString() {
         return "Persona{" +
@@ -137,10 +181,13 @@ public abstract class Persona implements Serializable, I_toJson {
 
     /**Agregar parte desde y hacia json si corresponde*/
 
-    @Override
+   /* @Override
     public void fromJson(JSONObject jo) throws JSONException {
-        /**CREAR LEIDA DE JSON*/
-    }
+        Persona persona = null;
+        persona.setNombre(jo.getString("nombre"));
+
+
+    }*/
 
     @Override
     public JSONObject toJsonObj() throws JSONException {

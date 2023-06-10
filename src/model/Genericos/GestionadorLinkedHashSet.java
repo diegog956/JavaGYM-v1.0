@@ -3,7 +3,7 @@ package model.Genericos;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-public class GestionadorLinkedHashSet<T>{
+public class GestionadorLinkedHashSet<T> extends LinkedHashSet{
 
     LinkedHashSet<T> hashset;
 

@@ -1,4 +1,4 @@
-package Utilidades;
+package AccesoDatos;
 
 import java.io.FileWriter;
 import java.io.IOException;

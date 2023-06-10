@@ -1,47 +1,46 @@
-package Utilidades;
+package AccesoDatos;
 
 import java.io.*;
-import java.util.Map;
+import java.util.Collection;
 
-public class ArchivoMapaUtiles <T extends Map> {
+public class ArchivoColeccionUtiles<T extends Collection> {
 
-    public void guardarMapa(T coleccion, String nombre_archivo){
-    FileOutputStream fos = null;
+    public void guardarColeccion(T coleccion, String nombre_archivo){
+        FileOutputStream fos = null;
         try {
-        fos = new FileOutputStream(nombre_archivo);
-        ObjectOutputStream oos = null;
-        try {
-            oos = new ObjectOutputStream(fos);
+            fos = new FileOutputStream(nombre_archivo);
+            ObjectOutputStream oos = null;
+            try {
+                oos = new ObjectOutputStream(fos);
 
-            oos.writeObject(coleccion);
+                oos.writeObject(coleccion);
 
-        } catch (IOException e) {
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    oos.flush();
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+
             e.printStackTrace();
+
         } finally {
             try {
-                oos.flush();
-                oos.close();
+                fos.flush();
+                fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-    } catch (
-    FileNotFoundException e) {
-
-        e.printStackTrace();
-
-    } finally {
-        try {
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
-}
 
-    public T leerMapa(String nombre_archivo) {
+    public T leerColeccion(String nombre_archivo) {
         T coleccion = null;
         FileInputStream fis = null;
         try {
@@ -75,4 +74,5 @@ public class ArchivoMapaUtiles <T extends Map> {
         }
         return coleccion;
     }
+
 }
