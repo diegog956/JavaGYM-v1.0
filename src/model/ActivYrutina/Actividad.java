@@ -45,8 +45,6 @@ public class Actividad implements Serializable,Comparable {
         return horario;
     }
 
-
-
     public EtipoActividad getNombre() {
         return nombre;
     }

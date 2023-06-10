@@ -8,6 +8,7 @@ import model.Personal.Instructor;
 import model.Personal.Encargado;
 import model.Personal.Usuario;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.TreeSet;

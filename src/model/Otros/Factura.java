@@ -4,10 +4,11 @@ import model.interfaces.I_toJson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Factura implements I_toJson {
+public class Factura implements I_toJson, Serializable {
     private String mes;
     private String anio;
     private String dni_cliente;

@@ -17,7 +17,6 @@ public class Main {
     public static void main(String[] args) {
 
         TreeSet<Actividad> setActividades = new TreeSet<>();
-
         ArrayList<EdiaSemana> listaDias = new ArrayList<>();
 
         listaDias.add(EdiaSemana.LUNES);
@@ -66,13 +65,13 @@ public class Main {
 
         //System.out.println(setActividades);
 
-        /*ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
+        ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         archivoColeccionUtiles.guardarColeccion(setActividades, "actividades.dat");
 
         TreeSet<Actividad> nuevoset = new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
-        System.out.println(nuevoset);*/
+        System.out.println(nuevoset);
 
-        ArrayList<Actividad> listaAct = new ArrayList<>(setActividades);
+        /*ArrayList<Actividad> listaAct = new ArrayList<>(setActividades);
 
         Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", true, LocalDate.of(1990, 5, 10), "Comentario 1", "12345678901",listaAct, "imagen1.jpg");
 
@@ -96,7 +95,7 @@ public class Main {
         archivoMapaUtiles.guardarMapa(mapaInstructores, "instructores.dat");
 
         HashMap<String, Instructor> mapanuevo = new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
-        System.out.println(mapanuevo);
+        System.out.println(mapanuevo);*/
 
 
 
