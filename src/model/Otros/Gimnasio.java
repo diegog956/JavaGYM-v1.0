@@ -96,16 +96,6 @@ public class Gimnasio {
 
     @Override
     public int hashCode() {
-        return Objects.hash(responsable, direccion, mapaCliente, mapaInstructor, listaFacturas);
-    }
-
-    public int codificacionIdActividad(String nombre_actividad){
-        Iterator<Actividad> it = arbolActividades.iterator();
-        /**Se puede iterar y hacer un codigo con cierta complejidad para armar los codigos unicos 101, 203, etc
-         * Pero pensar en los nombres como enum. Ver bloc de notas diego*/
-        while(it.hasNext()){
-
-        }
         return 1;
     }
 }

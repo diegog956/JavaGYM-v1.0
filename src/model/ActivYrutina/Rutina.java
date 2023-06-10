@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Rutina implements Serializable, I_toJson {
-    private String instructor;
+    private String instructor; /**Quizas, pensar en asignarle un OBJECTO instructor.*/
     private String mes;
     private String descripcion;
 
@@ -39,7 +39,6 @@ public class Rutina implements Serializable, I_toJson {
     public String getDescripcion() {
         return descripcion;
     }
-
 
 
     @Override

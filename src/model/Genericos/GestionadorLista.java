@@ -1,8 +1,9 @@
 package model.Genericos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GestionadorLista <T>{
+public class GestionadorLista <T> implements Serializable {
 
     ArrayList<T>listaElementos;
     public GestionadorLista() {

@@ -1,8 +1,16 @@
 
+import Utilidades.ArchivoColeccionUtiles;
+import Utilidades.ArchivoMapaUtiles;
 import model.ActivYrutina.Actividad;
+import model.Enum.EGrupoSanguineo;
 import model.Enum.EdiaSemana;
+import model.Enum.Eestado;
 import model.Enum.EtipoActividad;
+import model.Personal.Instructor;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeSet;
 
 public class Main {
@@ -56,6 +64,41 @@ public class Main {
 
         setActividades.add(actividad15);
 
-        System.out.println(setActividades);
+        //System.out.println(setActividades);
+
+        /*ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
+        archivoColeccionUtiles.guardarColeccion(setActividades, "actividades.dat");
+
+        TreeSet<Actividad> nuevoset = new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
+        System.out.println(nuevoset);*/
+
+        ArrayList<Actividad> listaAct = new ArrayList<>(setActividades);
+
+        Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", true, LocalDate.of(1990, 5, 10), "Comentario 1", "12345678901",listaAct, "imagen1.jpg");
+
+        // Ejemplo 2
+        Instructor instructor2 = new Instructor("María López", "987654321", "555-5678", "Avenida XYZ", Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", false, LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
+
+        // Ejemplo 3
+        Instructor instructor3 = new Instructor("Pedro González", "456789123", "555-9999", "Plaza ABC", Eestado.ACTIVO, EGrupoSanguineo.B_POSITIVO, "555-1111", "Obra Social C", true, LocalDate.of(1988, 12, 5), "Comentario 3", "45678912345", new ArrayList<Actividad>(), "imagen3.jpg");
+
+        // Ejemplo 4
+        Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456", "555-4444", "Calle 456", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", true, LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", new ArrayList<Actividad>(), "imagen4.jpg");
+
+
+        HashMap<String, Instructor> mapaInstructores = new HashMap<>();
+        mapaInstructores.put(instructor1.getDni(),instructor1);
+        mapaInstructores.put(instructor2.getDni(),instructor2);
+        mapaInstructores.put(instructor3.getDni(),instructor3);
+        mapaInstructores.put(instructor4.getDni(),instructor4);
+
+        ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
+        archivoMapaUtiles.guardarMapa(mapaInstructores, "instructores.dat");
+
+        HashMap<String, Instructor> mapanuevo = new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
+        System.out.println(mapanuevo);
+
+
+
     }
         }

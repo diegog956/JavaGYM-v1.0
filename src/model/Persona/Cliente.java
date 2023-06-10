@@ -12,9 +12,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Cliente extends Persona implements I_toJson {
+public class Cliente extends Persona implements I_toJson, Serializable {
     private boolean alta_medica;
     private boolean solicito_rutina;
     private boolean debe;
@@ -90,9 +91,6 @@ public class Cliente extends Persona implements I_toJson {
             JSONObject aux = listaFacturas.devolverElemento(i).toJsonObj();
         }
         jsonObject.put("Facturas", jsonArray);
-
-
-
 
         return jsonObject;
     }

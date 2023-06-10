@@ -3,9 +3,10 @@ package model.ActivYrutina;
 import model.Enum.EdiaSemana;
 import model.Enum.EtipoActividad;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Actividad implements Comparable {
+public class Actividad implements Serializable,Comparable {
     private EtipoActividad nombre;
     private ArrayList<EdiaSemana>listaDias;
     private String horario;

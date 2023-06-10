@@ -17,14 +17,13 @@ public abstract class Persona implements Serializable, I_toJson {
     private String nombre;
     private String dni;
     private String telefono;
+    private String domicilio;
     private GestionadorLista<Apercibimiento> listaApercibimientos;
     private Eestado estado;
     private EGrupoSanguineo grupo_sanguineo;
     private String contacto_emergencia;
     private String obra_social;
     private LocalDate fecha_nacimiento;
-
-    private String domicilio;
     private String comentario;
 
     public Persona(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
@@ -73,7 +72,7 @@ public abstract class Persona implements Serializable, I_toJson {
     }
 
     /**Verificar muestra de los apercibimientos. Formato.*/
-    public String mostarApercibimieto(){
+    public String mostarApercibimietos(){
         return listaApercibimientos.Listar();
     }
 
