@@ -161,8 +161,7 @@ public abstract class Persona implements Serializable, I_toJson {
     public boolean equals(Object o) {
        boolean rta= false;
         if(o!=null){
-        if(o instanceof Persona){
-            Persona aux = (Persona) o;
+        if(o instanceof Persona aux){
             if(aux.getDni().equals(getDni())){
                 rta = true;
                 }

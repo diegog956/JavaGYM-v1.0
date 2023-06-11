@@ -2,11 +2,15 @@ package model.ActivYrutina;
 
 import model.Enum.EdiaSemana;
 import model.Enum.EtipoActividad;
+import model.interfaces.I_toJson;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Actividad implements Serializable,Comparable {
+public class Actividad implements Serializable,Comparable, I_toJson {
     private EtipoActividad nombre;
     private ArrayList<EdiaSemana>listaDias;
     private String horario;
@@ -132,6 +136,32 @@ public class Actividad implements Serializable,Comparable {
             resta = getHorario().compareTo((((Actividad)o).getHorario()));
         }
         return resta;
+    }
+
+    @Override
+    public void fromJson(JSONObject jo) throws JSONException {
+
+    }
+
+    @Override
+    public JSONObject toJsonObj() throws JSONException {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("Nombre",getNombre() );
+            jsonObject.put("Nombre_instructor",getNombre_instructor());
+            jsonObject.put("Cupo",getCupo());
+            jsonObject.put("Inscriptos",getInscriptos());
+            jsonObject.put("Disponible",isDisponible());
+            jsonObject.put("Comentario",getComentario());
+            jsonObject.put("Precio Mensual",getPrecio_mensual());
+            jsonObject.put("Horario", getHorario());
+
+            JSONArray jsonArray = new JSONArray();
+            for(int i=0;i<listaDias.size();i++){
+                jsonArray.put(i, getListaDias().get(i));
+            }
+            jsonObject.put("Dias", jsonArray);
+            return jsonObject;
     }
 }
 

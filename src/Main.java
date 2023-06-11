@@ -1,24 +1,25 @@
 
-import model.Otros.Gimnasio;
+import AccesoDatos.ArchivoColeccionUtiles;
+import AccesoDatos.ArchivoMapaUtiles;
+import model.ActivYrutina.*;
+import model.Otros.*;
+import model.Personal.*;
+import model.Enum.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeSet;
+
 
 public class Main {
     public static void main(String[] args) {
 
         Gimnasio gimnasio = new Gimnasio();
 
-        //System.out.println(gimnasio.getListaFacturas());
-        //System.out.println(gimnasio.getMapaInstructor());
 
 
-
-
-       System.out.println(gimnasio.getMapaCliente());
-        /*
-        System.out.println(gimnasio.ListarClientes());
-
-        System.out.println(gimnasio.CompartirDatosClientes());*/
-
-        /*TreeSet<Actividad> setActividades = new TreeSet<>();
+        TreeSet<Actividad> setActividades = new TreeSet<>();
         ArrayList<EdiaSemana> listaDias = new ArrayList<>();
 
         listaDias.add(EdiaSemana.LUNES);
@@ -65,13 +66,12 @@ public class Main {
 
         setActividades.add(actividad15);
 
-        //System.out.println(setActividades);
 
-        *//*ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
+        ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         archivoColeccionUtiles.guardarColeccion(setActividades, "actividades.dat");
 
         TreeSet<Actividad> nuevoset = new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
-        System.out.println(nuevoset);*//*
+
 
         ArrayList<Actividad> listaAct = new ArrayList<>(setActividades);
 
@@ -97,7 +97,7 @@ public class Main {
         archivoMapaUtiles.guardarMapa(mapaInstructores, "instructores.dat");
 
         HashMap<String, Instructor> mapanuevo = new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
-        System.out.println(mapanuevo);*/
+        System.out.println(mapanuevo);
 
 
 

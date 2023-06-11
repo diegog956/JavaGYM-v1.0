@@ -90,7 +90,7 @@ public class Usuario extends Personal implements Serializable {
         return rta;
     }
 
-
+    /** Ver el boton "aplicar descuento". Se puede solicitar el descuento y facturar desde alli. */
     public double calcularCuota (HashSet<Actividad> setActividades) {
         double cuota = 0;
         int cantidad_actividades = 0;
@@ -102,13 +102,6 @@ public class Usuario extends Personal implements Serializable {
             cuota += it.next().getPrecio_mensual();
         }
 
-        if (cantidad_actividades == 2) {
-            cuota = cuota * 0.95;
-        } else if (cantidad_actividades == 3) {
-            cuota = cuota * 0.90;
-        } else if (cantidad_actividades >= 4) {
-            cuota = cuota * 0.8;
-        }
         return cuota;
     }
 
