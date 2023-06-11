@@ -107,7 +107,6 @@ public class Factura implements I_toJson, Serializable {
        jsonObject.put("Fecha de emision", getFecha_de_emision());
        jsonObject.put("Monto", getMonto());
 
-
         return jsonObject;
     }
 }

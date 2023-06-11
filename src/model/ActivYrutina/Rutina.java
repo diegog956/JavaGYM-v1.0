@@ -22,9 +22,9 @@ public class Rutina implements Serializable, I_toJson {
 
     public Rutina()
     {
-        instructor=" ";
-        mes = " ";
-        descripcion=" ";
+        instructor=" - ";
+        mes = " - ";
+        descripcion=" - ";
 
     }
 

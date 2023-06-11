@@ -1,28 +1,27 @@
 package model.Persona;
-
 import model.ActivYrutina.Actividad;
 import model.ActivYrutina.Rutina;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
-import model.Genericos.GestionadorHashSet;
-import model.Genericos.GestionadorLinkedHashSet;
 import model.Otros.Factura;
 import model.interfaces.I_toJson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 public class Cliente extends Persona implements I_toJson, Serializable {
     private boolean alta_medica;
     private boolean solicito_rutina;
     private boolean debe;
     private Rutina rutina;
-    private GestionadorLinkedHashSet<Factura> listaFacturas;
+    private LinkedHashSet<Factura> listaFacturas;
 
-    private GestionadorHashSet<Actividad> hashDeActividades; ///ID concatenado para q se ordenen por actividades
+    private TreeSet<Actividad> actividades_cliente;
 
     public Cliente()
     {
@@ -31,8 +30,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         solicito_rutina=true;
         debe=true;
         rutina = null;
-        /*listaFacturas=new GestionadorLinkedHashSet<>();
-        hashDeActividades=new GestionadorHashSet<>();*/
+        listaFacturas=new LinkedHashSet<>();
+        actividades_cliente=new TreeSet<>();
     }
 
     public Cliente(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
@@ -41,12 +40,12 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
         rutina = null;
-        this.listaFacturas = new GestionadorLinkedHashSet<>();
-        this.hashDeActividades = new GestionadorHashSet<>();
+        listaFacturas=new LinkedHashSet<>();
+        actividades_cliente=new TreeSet<>();
     }
 
     public boolean agregarFactura(Factura factura){
-        listaFacturas.Agregar(factura);
+        listaFacturas.add(factura);
         return true;
     }
 
@@ -65,13 +64,16 @@ public class Cliente extends Persona implements I_toJson, Serializable {
 
     @Override
     public String toString() {
+        if(rutina==null){
+            rutina = new Rutina();
+        }
         return  super.toString() + "Cliente{" +
                 "alta_medica=" + alta_medica +
                 ", solicito_rutina=" + solicito_rutina +
-                ", debe=" + debe +/*
-                ", Rutinas=" + rutina.toString() +*/
-                /*", listaFacturas=" + listaFacturas.toString() +*/
-                /*", hashDeActividades=" + hashDeActividades +*/
+                ", debe=" + debe +
+                ", Rutinas=" + rutina.toString() +
+                ", listaFacturas=" + listaFacturas.toString() +
+                ", hashDeActividades=" + actividades_cliente.toString() +
                 '}';
     }
 
@@ -92,8 +94,10 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         }
 
         JSONArray jsonArray = new JSONArray();
-        for(int i=0; i<listaFacturas.contador();i++){
-            JSONObject aux = listaFacturas.devolverElemento(i).toJsonObj();
+
+        Iterator<Factura> it = listaFacturas.iterator();
+        while(it.hasNext()){
+            JSONObject aux = it.next().toJsonObj();
         }
         jsonObject.put("Facturas", jsonArray);
 

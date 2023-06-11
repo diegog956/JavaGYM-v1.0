@@ -1,24 +1,21 @@
 package model.Persona;
-
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
-import model.Genericos.GestionadorLista;
 import model.Otros.Apercibimiento;
 import model.interfaces.I_toJson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.ArrayList;
 
 public abstract class Persona implements Serializable, I_toJson {
     private String nombre;
     private String dni;
     private String telefono;
     private String domicilio;
-    private GestionadorLista<Apercibimiento> listaApercibimientos;
+    private ArrayList<Apercibimiento> listaApercibimientos;
     private Eestado estado;
     private EGrupoSanguineo grupo_sanguineo;
     private String contacto_emergencia;
@@ -31,7 +28,7 @@ public abstract class Persona implements Serializable, I_toJson {
         this.dni = dni;
         this.telefono = telefono;
         this.domicilio = domicilio;
-        listaApercibimientos = new GestionadorLista<>();
+        listaApercibimientos = new ArrayList<>();
         this.estado = estado;
         this.grupo_sanguineo = grupo_sanguineo;
         this.contacto_emergencia = contacto_emergencia;
@@ -46,7 +43,7 @@ public abstract class Persona implements Serializable, I_toJson {
         dni=" ";
         telefono=" ";
         domicilio = "";
-        listaApercibimientos=new GestionadorLista<>();
+        listaApercibimientos=new ArrayList<>();
         estado=Eestado.ACTIVO;
         grupo_sanguineo=EGrupoSanguineo.NINGUNO;
         contacto_emergencia=" ";
@@ -73,7 +70,7 @@ public abstract class Persona implements Serializable, I_toJson {
 
     /**Verificar muestra de los apercibimientos. Formato.*/
     public String mostarApercibimietos(){
-        return listaApercibimientos.Listar();
+        return listaApercibimientos.toString();
     }
 
     public Eestado getEstado() {
@@ -116,7 +113,7 @@ public abstract class Persona implements Serializable, I_toJson {
         this.domicilio = domicilio;
     }
 
-    private void setListaApercibimientos(GestionadorLista<Apercibimiento> listaApercibimientos) {
+    private void setListaApercibimientos(ArrayList<Apercibimiento> listaApercibimientos) {
         this.listaApercibimientos = listaApercibimientos;
     }
 
@@ -150,7 +147,7 @@ public abstract class Persona implements Serializable, I_toJson {
                 "nombre='" + nombre + '\'' +
                 ", dni='" + dni + '\'' +
                 ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio +
-                ", listaApercibimientos=" + listaApercibimientos.Listar() +
+                ", listaApercibimientos=" + listaApercibimientos.toString() +
                 ", estado=" + estado +
                 ", grupo_sanguineo=" + grupo_sanguineo +
                 ", contacto_emergencia='" + contacto_emergencia + '\'' +
@@ -185,8 +182,6 @@ public abstract class Persona implements Serializable, I_toJson {
     public void fromJson(JSONObject jo) throws JSONException {
         Persona persona = null;
         persona.setNombre(jo.getString("nombre"));
-
-
     }*/
 
     @Override
@@ -205,14 +200,12 @@ public abstract class Persona implements Serializable, I_toJson {
             jsonObject.put("Domicilio", getDomicilio());
 
            JSONArray jsonArray = new JSONArray();
-           for(int i=0; i<listaApercibimientos.contador();i++){
-                JSONObject aux = listaApercibimientos.devolverElemento(i).toJsonObj();
+
+           for(int i=0; i<listaApercibimientos.size();i++){
+                JSONObject aux = listaApercibimientos.get(i).toJsonObj();
                 jsonArray.put(i, aux);
            }
-
            jsonObject.put("Apercibimientos", jsonArray);
-
-
         return jsonObject;
     }
 }

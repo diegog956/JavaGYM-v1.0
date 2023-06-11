@@ -2,7 +2,6 @@ package model.Otros;
 
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
-import model.Genericos.GestionadorLinkedHashSet;
 import model.Persona.Cliente;
 import model.Personal.Instructor;
 import model.Personal.Encargado;
@@ -19,7 +18,7 @@ public class Gimnasio {
     /**Ver Bloc de notas. Se puede pensar en que el encargado contenga los datos del gimnasio, tales como mail, direccion, etc.*/
     private HashMap<String,Cliente> mapaCliente;
     private HashMap mapaInstructor;
-    private GestionadorLinkedHashSet<Factura> listaFacturas;
+    private LinkedHashSet<Factura> listaFacturas;
     private TreeSet arbolActividades;/**GestionadorTreeSet creado. Ver su implementacion.*/
 
     private final String usuario_admin="admin2023";
@@ -34,7 +33,7 @@ public class Gimnasio {
         this.direccion = direccion;
         mapaCliente = new HashMap<>();
         mapaInstructor = new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
-        listaFacturas = new GestionadorLinkedHashSet<>();
+        listaFacturas = new LinkedHashSet<>();
         arbolActividades=new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
     }
 
@@ -45,13 +44,12 @@ public class Gimnasio {
 
         responsable=" ";
         direccion=" ";
-        mapaCliente = new HashMap<>();
-        mapaCliente = (HashMap<String, Cliente>) archivoMapaUtiles.leerMapa("Archivo clientes.dat");
-        mapaInstructor=new HashMap<>();
-        mapaInstructor = (HashMap<String, Instructor>) archivoMapaUtiles.leerMapa("instructores.dat");
-        System.out.println("Hi");
-        listaFacturas=new GestionadorLinkedHashSet<>();
-        //listaFacturas = (GestionadorLinkedHashSet<Factura>) archivoColeccionUtiles.leerColeccion("facturas.dat");
+        mapaCliente = new HashMap<>(archivoMapaUtiles.leerMapa("Archivo clientes.dat"));
+        //mapaCliente = (HashMap<String, Cliente>) archivoMapaUtiles.leerMapa("Archivo clientes.dat");
+        mapaInstructor=new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
+        //mapaInstructor = (HashMap<String, Instructor>) archivoMapaUtiles.leerMapa("instructores.dat");
+        listaFacturas=new LinkedHashSet<>(archivoColeccionUtiles.leerColeccion("facturas.dat"));
+        //listaFacturas = (LinkedHashSet<Factura>) archivoColeccionUtiles.leerColeccion("facturas.dat");
         arbolActividades=new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
     }
 
@@ -63,7 +61,7 @@ public class Gimnasio {
         return mapaInstructor;
     }
 
-    public GestionadorLinkedHashSet<Factura> getListaFacturas() {
+    public LinkedHashSet<Factura> getListaFacturas() {
         return listaFacturas;
     }
 
@@ -92,7 +90,7 @@ public class Gimnasio {
     }
 
     public String agregarFactura(Factura factura){
-        listaFacturas.Agregar(factura);
+        listaFacturas.add(factura);
         return factura.toString();
     }
 
