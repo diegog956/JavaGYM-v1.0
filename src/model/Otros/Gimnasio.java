@@ -17,7 +17,9 @@ import java.util.*;
 
 public class Gimnasio {
 
-
+    private Encargado encargado;
+    private String mail;
+    private String CUIL;
     private String responsable;
     private String direccion;
     /**Ver Bloc de notas. Se puede pensar en que el encargado contenga los datos del gimnasio, tales como mail, direccion, etc.*/
@@ -31,18 +33,24 @@ public class Gimnasio {
     private final String contrasenia_admin="admin123";
     private final String contrasenia_encargado="encargado123";
     public Gimnasio(String responsable, String direccion) {
+
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
 
-        this.responsable = responsable;
-        this.direccion = direccion;
-        mapaCliente = new HashMap<>(archivoMapaUtiles.leerMapa("Archivo clientes.dat"));
-        //mapaCliente = (HashMap<String, Cliente>) archivoMapaUtiles.leerMapa("Archivo clientes.dat");
-        mapaInstructor=new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
-        //mapaInstructor = (HashMap<String, Instructor>) archivoMapaUtiles.leerMapa("instructores.dat");
-        listaFacturas=new LinkedHashSet<>(archivoColeccionUtiles.leerColeccion("facturas.dat"));
-        //listaFacturas = (LinkedHashSet<Factura>) archivoColeccionUtiles.leerColeccion("facturas.dat");
-        arbolActividades=new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
+        encargado = new Encargado("JavaGym", "21541044", "474-5698", "Avenida de los trabajadores 1005", "Veni capo", "24-21541044-3");
+       responsable = encargado.getNombre();
+       direccion = encargado.getDomicilio();
+       CUIL = encargado.getCUIL();
+        //mail = encargado.get
+
+        mapaCliente = new HashMap<>();
+        mapaCliente = (HashMap<String, Cliente>) archivoMapaUtiles.leerMapa("clientes.dat");
+        mapaInstructor=new HashMap<>();
+        mapaInstructor = (HashMap<String, Instructor>) archivoMapaUtiles.leerMapa("instructores.dat");
+        listaFacturas=new LinkedHashSet<>();
+        listaFacturas = (LinkedHashSet<Factura>) archivoColeccionUtiles.leerColeccion("facturas.dat");
+        arbolActividades=new TreeSet<>();
+        arbolActividades = (TreeSet<Actividad>) archivoColeccionUtiles.leerColeccion("actividades.dat");
     }
 
     public Gimnasio()
@@ -52,13 +60,30 @@ public class Gimnasio {
 
         responsable=" ";
         direccion=" ";
-        mapaCliente = new HashMap<>(archivoMapaUtiles.leerMapa("Archivo clientes.dat"));
-        //mapaCliente = (HashMap<String, Cliente>) archivoMapaUtiles.leerMapa("Archivo clientes.dat");
-        mapaInstructor=new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
-        //mapaInstructor = (HashMap<String, Instructor>) archivoMapaUtiles.leerMapa("instructores.dat");
-        listaFacturas=new LinkedHashSet<>(archivoColeccionUtiles.leerColeccion("facturas.dat"));
-        //listaFacturas = (LinkedHashSet<Factura>) archivoColeccionUtiles.leerColeccion("facturas.dat");
-        arbolActividades=new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
+
+
+
+
+        if(archivoMapaUtiles.leerMapa("clientes.dat") == null){
+            mapaCliente =  new HashMap<>();
+        }else{
+        mapaCliente = new HashMap<>(archivoMapaUtiles.leerMapa("clientes.dat"));}
+
+        if(archivoMapaUtiles.leerMapa("instructores.dat") == null){
+            mapaInstructor = new HashMap<>();
+        }else {
+            mapaInstructor = new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));}
+
+        if(archivoColeccionUtiles.leerColeccion("facturas.dat") == null){
+            listaFacturas = new LinkedHashSet<>();
+        }else{
+            listaFacturas = new LinkedHashSet<>(archivoColeccionUtiles.leerColeccion("facturas.dat"));
+        }
+        if(archivoColeccionUtiles.leerColeccion("actividades.dat") == null){
+            arbolActividades = new TreeSet<>();
+         }
+        else{
+        arbolActividades = new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));}
     }
 
 
@@ -104,19 +129,6 @@ public class Gimnasio {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Gimnasio gimnasio = (Gimnasio) o;
-        return Objects.equals(responsable, gimnasio.responsable) && Objects.equals(direccion, gimnasio.direccion) && Objects.equals(mapaCliente, gimnasio.mapaCliente) && Objects.equals(mapaInstructor, gimnasio.mapaInstructor) && Objects.equals(listaFacturas, gimnasio.listaFacturas);
-    }
-
-    @Override
-    public int hashCode() {
-        return 1;
-    }
-
 
     public String ListarClientes(){
         String rta = "Clientes Presentes en Sistema (mapaCliente):\n";
@@ -127,6 +139,7 @@ public class Gimnasio {
             Cliente cliente = entradaDelMapa.getValue();
             rta += cliente.toString() + "\n";
         }
+
         return rta += "\n Fin mapaCliente";
     }
     /**Preguntar que se quiere lograr con esto:*/
@@ -148,7 +161,19 @@ public class Gimnasio {
         return jsonArray_clientes.toString();
     }
 
-    public void GuardarEnArchivo(){
+
+    public String listarActividades(){
+        return arbolActividades.toString();
+    }
+
+    public String ListarFacturas(){
+
+        /**Preguntar como se planteara esto a nivel proyecto.*/
+
+        return "a";
+    }
+
+    public void guardarEnArchivo(){
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
 
@@ -206,13 +231,33 @@ public class Gimnasio {
 
     }
 
-    public void agregar(Object elemento){
-        /**Pensar que es lo correcto:
-         *
-         * 1) Un solo metodo que agregue un Object y crear los 4 instance of
-         * 2) 4 metodos usando polimorfismo.
-         * */
+    public void agregar(Cliente cliente){
+        mapaCliente.put(cliente.getDni(), cliente);
+    }
+    public void agregar(Actividad actividad) {
+            arbolActividades.add(actividad);
+    }
+    public void agregar(Instructor instructor){
+        mapaInstructor.put(instructor.getDni(), instructor);
+    }
+    public void agregar(Factura factura){
+        listaFacturas.add(factura);
+    }
 
+    public void remover(Cliente cliente){
+
+
+    }
+
+    public void listarTodo(){
+        System.out.println("Clientes\n\n\n");
+        System.out.println(mapaCliente);
+        System.out.println("INSTRUCTORES\n\n\n");
+        System.out.println(mapaInstructor);
+        System.out.println("Facturas\n\n\n");
+        System.out.println(listaFacturas);
+        System.out.println("ACTIVIDADES\n\n\n");
+        System.out.println(arbolActividades);
     }
 
 }

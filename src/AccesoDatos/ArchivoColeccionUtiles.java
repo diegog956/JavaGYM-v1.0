@@ -51,11 +51,15 @@ public class ArchivoColeccionUtiles<T extends Collection> {
 
                 coleccion = (T) ois.readObject();
 
-            } catch (IOException | ClassNotFoundException e) {
+            }catch (EOFException e){
+
+            } catch(IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             } finally {
                 try {
-                    ois.close();
+                    if (ois != null) {
+                        ois.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

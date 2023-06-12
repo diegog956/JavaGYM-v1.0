@@ -52,12 +52,15 @@ public class ArchivoMapaUtiles <T extends Map> implements Serializable {
 
                 mapa = (T) ois.readObject();
 
+            } catch (EOFException e) {
+
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-            } finally {
+            } finally{
                 try {
-                    assert ois != null;
-                    ois.close();
+                    if (ois != null) {
+                        ois.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

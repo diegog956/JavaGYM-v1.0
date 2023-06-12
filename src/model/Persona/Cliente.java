@@ -74,7 +74,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
                 ", Rutinas=" + rutina.toString() +
                 ", listaFacturas=" + listaFacturas.toString() +
                 ", hashDeActividades=" + actividades_cliente.toString() +
-                '}';
+                "\n";
     }
 
 
@@ -102,6 +102,13 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         jsonObject.put("Facturas", jsonArray);
 
         return jsonObject;
+    }
+
+    public void agregarActividad(Actividad actividad){
+        actividades_cliente.add(actividad);
+    }
+    public void agregarActividad(TreeSet<Actividad> actividades){
+        actividades_cliente.addAll(actividades);
     }
 
 }

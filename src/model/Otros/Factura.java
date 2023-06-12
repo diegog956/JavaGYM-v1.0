@@ -17,6 +17,7 @@ public class Factura implements I_toJson, Serializable {
     private double monto;
 
     public Factura(String mes, String anio, String dni_cliente, String nomobre_cliente, LocalDate fecha_de_emision, double monto) {
+
         this.anio=anio;
         this.mes=mes;
         this.dni_cliente = dni_cliente;
@@ -69,7 +70,7 @@ public class Factura implements I_toJson, Serializable {
                 ", nombre_cliente='" + nombre_cliente + '\'' +
                 ", fecha_de_emision=" + fecha_de_emision +
                 ", monto=" + monto +
-                '}';
+                "\n";
     }
 
     @Override

@@ -3,6 +3,7 @@ import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
 import model.ActivYrutina.*;
 import model.Otros.*;
+import model.Persona.Cliente;
 import model.Personal.*;
 import model.Enum.*;
 
@@ -17,9 +18,7 @@ public class Main {
 
         Gimnasio gimnasio = new Gimnasio();
 
-
-
-        TreeSet<Actividad> setActividades = new TreeSet<>();
+        /**------------------------------------ ACTIVIDADES --------------------------------------------*/
         ArrayList<EdiaSemana> listaDias = new ArrayList<>();
 
         listaDias.add(EdiaSemana.LUNES);
@@ -27,20 +26,20 @@ public class Main {
         listaDias.add(EdiaSemana.VIERNES);
 
         Actividad actividad1 = new Actividad(EtipoActividad.BOXEO, "10:00 - 11:00", listaDias, "Instructor 1", 20, 0, true, "", 50.0);
-        setActividades.add(actividad1);
+        gimnasio.agregar(actividad1);
         listaDias.clear();
         listaDias.add(EdiaSemana.MIERCOLES);
         Actividad actividad2 = new Actividad(EtipoActividad.DANZA, "10:00 - 11:00", listaDias, "Instructor 2", 15, 0, true, "", 60.0);
-        setActividades.add(actividad1);
+        gimnasio.agregar(actividad1);
         listaDias.clear();
         listaDias.add(EdiaSemana.VIERNES);
 
                 Actividad actividad4 = new Actividad(EtipoActividad.LIBRE, "19:30 - 20:30", listaDias, "Instructor 4", 25, 0, true, "¡Diviértete y mantente en forma con nuestros ritmos latinos!", 55.0);
 
-                setActividades.add(actividad1);
-                setActividades.add(actividad2);
+        gimnasio.agregar(actividad1);
+        gimnasio.agregar(actividad2);
 
-                setActividades.add(actividad4);
+        gimnasio.agregar(actividad4);
 
 
         Actividad actividad7 = new Actividad(EtipoActividad.LIBRE, "17:00 - 18:00", listaDias, "Instructor 7", 20, 0, true, "", 55.0);
@@ -56,26 +55,20 @@ public class Main {
 
         Actividad actividad15 = new Actividad(EtipoActividad.LIBRE, "15:30 - 16:30", listaDias, "Instructor 15", 25, 0, true, "", 50.0);
 
-        setActividades.add(actividad7);
+        gimnasio.agregar(actividad7);
 
-        setActividades.add(actividad9);
+        gimnasio.agregar(actividad9);
 
-        setActividades.add(actividad11);
+        gimnasio.agregar(actividad11);
 
-        setActividades.add(actividad13);
+        gimnasio.agregar(actividad13);
 
-        setActividades.add(actividad15);
+        gimnasio.agregar(actividad15);
 
-
-        ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
-        archivoColeccionUtiles.guardarColeccion(setActividades, "actividades.dat");
-
-        TreeSet<Actividad> nuevoset = new TreeSet<>(archivoColeccionUtiles.leerColeccion("actividades.dat"));
+        /**------------------------------------ INSTRUCTORES --------------------------------------------*/
 
 
-        ArrayList<Actividad> listaAct = new ArrayList<>(setActividades);
-
-        Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", true, LocalDate.of(1990, 5, 10), "Comentario 1", "12345678901",listaAct, "imagen1.jpg");
+        Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", true, LocalDate.of(1990, 5, 10), "Comentario 1", "12345678901",new ArrayList<Actividad>(), "imagen1.jpg");
 
         // Ejemplo 2
         Instructor instructor2 = new Instructor("María López", "987654321", "555-5678", "Avenida XYZ", Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", false, LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
@@ -87,18 +80,42 @@ public class Main {
         Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456", "555-4444", "Calle 456", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", true, LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", new ArrayList<Actividad>(), "imagen4.jpg");
 
 
-        HashMap<String, Instructor> mapaInstructores = new HashMap<>();
-        mapaInstructores.put(instructor1.getDni(),instructor1);
-        mapaInstructores.put(instructor2.getDni(),instructor2);
-        mapaInstructores.put(instructor3.getDni(),instructor3);
-        mapaInstructores.put(instructor4.getDni(),instructor4);
+        gimnasio.agregar(instructor1);
+        gimnasio.agregar(instructor2);
+        gimnasio.agregar(instructor3);
+        gimnasio.agregar(instructor4);
 
-        ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
-        archivoMapaUtiles.guardarMapa(mapaInstructores, "instructores.dat");
+        /**------------------------------------ FACTURAS --------------------------------------------*/
 
-        HashMap<String, Instructor> mapanuevo = new HashMap<>(archivoMapaUtiles.leerMapa("instructores.dat"));
-        System.out.println(mapanuevo);
+        Factura factura1 = new Factura("Enero", "2023", "123456789", "Juan Pérez", LocalDate.now(), 1000.0);
+        Factura factura2 = new Factura("Febrero", "2023", "987654321", "María González", LocalDate.now(), 1500.0);
+        Factura factura3 = new Factura("Marzo", "2023", "456789123", "Pedro López", LocalDate.now(), 2000.0);
+        Factura factura4 = new Factura("Abril", "2023", "789123456", "Ana Rodríguez", LocalDate.now(), 1200.0);
 
+        gimnasio.agregar(factura1);
+        gimnasio.agregar(factura2);
+        gimnasio.agregar(factura3);
+        gimnasio.agregar(factura4);
+        /**------------------------------------ CLIENTES --------------------------------------------*/
+
+        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", "1234567890", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", true, LocalDate.of(1990, 5, 15), "Comentario 1", true, false);
+        Cliente cliente2 = new Cliente("María González", "987654321", "0987654321", "Avenida 456", Eestado.INACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", false, LocalDate.of(1985, 10, 20), "Comentario 2", false, true);
+        Cliente cliente3 = new Cliente("Pedro López", "456789123", "1112223333", "Plaza 789", Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", true, LocalDate.of(1995, 3, 8), "Comentario 3", true, false);
+        Cliente cliente4 = new Cliente("Ana Rodríguez", "789123456", "4445556666", "Callejón 987", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", true, LocalDate.of(2000, 12, 25), "Comentario 4", false, false);
+
+        gimnasio.agregar(cliente1);
+        gimnasio.agregar(cliente2);
+        gimnasio.agregar(cliente3);
+        gimnasio.agregar(cliente4);
+
+        /**------------------------------------ A ARCHIVO --------------------------------------------*/
+
+        gimnasio.guardarEnArchivo();
+
+        /**------------------------------------ DESDE ARCHIVO --------------------------------------------*/
+
+        Gimnasio nuevo_gim = new Gimnasio();
+        nuevo_gim.listarTodo();
 
 
     }

@@ -15,6 +15,8 @@ public abstract class Persona implements Serializable, I_toJson {
     private String dni;
     private String telefono;
     private String domicilio;
+
+    /**Pensar en la incorporacion de correo electronico como atributo de las personas.*/
     private ArrayList<Apercibimiento> listaApercibimientos;
     private Eestado estado;
     private EGrupoSanguineo grupo_sanguineo;
