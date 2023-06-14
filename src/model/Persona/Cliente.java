@@ -61,6 +61,17 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return debe;
     }
 
+    public String getDebe(){
+        //metodo que devuelve si debe o no el cliente, en un formato de texto legible para cualquier usuario
+        //Utilidad : mostrar datos en un formato amigable, y que no se visualice true/false
+        String rta = "No";
+        if(isDebe()){
+            rta = "Si";
+        }
+        return rta;
+    }
+
+
 
     @Override
     public String toString() {

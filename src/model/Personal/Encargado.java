@@ -8,16 +8,10 @@ import java.time.LocalDate;
 
 public class Encargado extends Usuario implements Serializable
 {
-    public Encargado(String usuario, String contrasenia) {
-        super(usuario, contrasenia);
-    }
 
-    public Encargado(){
-        this("","");
-    }
 
     public Encargado(String nombre, String dni, String telefono, String domicilio, String comentario, String CUIL) {
-        super(nombre, dni, telefono, domicilio, null, null, "", "", true, null, comentario, CUIL, "encargado2023","encargado123");
+        super(nombre, dni, telefono, domicilio,null,"","",null,"","", "encargado2023","encargado2023");
     }
 
     /**Pensar el rol del encargado a nivel metodos.*/

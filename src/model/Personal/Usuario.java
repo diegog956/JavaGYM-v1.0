@@ -20,28 +20,25 @@ public class Usuario extends Personal implements Serializable {
 
 
 
-    public Usuario()
-    {
-        /*usuario=" ";
-        contrasenia=" ";*/
-        this("","","","",null,null,"","",false,null,"","","","");
-    }
 
-    public Usuario(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL, String usuario, String contrasenia) {
-        super(nombre,dni,telefono,domicilio,estado,grupo_sanguineo,contacto_emergencia,obra_social,alta_medica,fecha_nacimiento,comentario,CUIL);
+
+    public Usuario(String nombre, String dni, String telefono, String domicilio,EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento, String comentario, String CUIL, String usuario, String contrasenia) {
+        super(nombre,dni,telefono,domicilio,null,grupo_sanguineo,contacto_emergencia,obra_social,false,fecha_nacimiento,comentario,CUIL);
         this.usuario = usuario;
         this.contrasenia = contrasenia;
     }
 
-    public Usuario(String user, String contra) {
-        this("","","","",null,null,"","",false,null,"","",user,contra);
+    public Usuario()
+    {
+        this("","","","",null,"","",null,"","","","");
     }
 
-    private String getUsuario() {
+
+    public String getUsuario() {
         return usuario;
     }
 
-    private String getContrasenia() {
+    public String getContrasenia() {
         return contrasenia;
     }
 
@@ -114,5 +111,7 @@ public class Usuario extends Personal implements Serializable {
 
         return factura;
     }*/
+
+
 
 }

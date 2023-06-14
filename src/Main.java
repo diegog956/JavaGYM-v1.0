@@ -1,6 +1,7 @@
 
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
+import excepciones.UsuarioExistenteException;
 import model.ActivYrutina.*;
 import model.Otros.*;
 import model.Persona.Cliente;
@@ -17,6 +18,23 @@ public class Main {
     public static void main(String[] args) {
 
         Gimnasio gimnasio = new Gimnasio();
+
+        /**------------------------------------ usuarios (Sergio Martes 13-06) --------------------------------------------*/
+        Administrativo administrativo1 = new Administrativo("Mauricio Macri","111111","111111","Calle 1 111",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2201,01,01),"","111111","mauriciomacri","mauriciomacri");
+        Administrativo administrativo2 = new Administrativo("Alberto Fernandez","222222","222222","Calle 2 222",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2002,02,02),"","","albertofernandez","albertofernandez");
+
+        try {
+            gimnasio.agregar(administrativo1);
+            gimnasio.agregar(administrativo2);
+        } catch (UsuarioExistenteException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
+
+
+
 
         /**------------------------------------ ACTIVIDADES --------------------------------------------*/
         ArrayList<EdiaSemana> listaDias = new ArrayList<>();
