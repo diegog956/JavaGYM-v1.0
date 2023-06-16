@@ -38,13 +38,13 @@ public class Usuario extends Personal implements Serializable {
         return usuario;
     }
 
-    public String getContrasenia() {
+    private String getContrasenia() {
         return contrasenia;
     }
 
-    public boolean verificarContraseniaYusuario(String user, String contra)
+    public boolean ValidarCredenciales(String usuario, String contrasenia)
     {
-        return (usuario.equals(user) && contrasenia.equals(contra));
+        return (usuario.equals(getUsuario()) && contrasenia.equals(getContrasenia()));
     }
 
 

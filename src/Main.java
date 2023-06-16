@@ -1,6 +1,7 @@
 
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
+import excepciones.CredencialesInvalidasException;
 import excepciones.UsuarioExistenteException;
 import model.ActivYrutina.*;
 import model.Otros.*;
@@ -20,6 +21,7 @@ public class Main {
         Gimnasio gimnasio = new Gimnasio();
 
         /**------------------------------------ usuarios (Sergio Martes 13-06) --------------------------------------------*/
+        /*
         Administrativo administrativo1 = new Administrativo("Mauricio Macri","111111","111111","Calle 1 111",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2201,01,01),"","111111","mauriciomacri","mauriciomacri");
         Administrativo administrativo2 = new Administrativo("Alberto Fernandez","222222","222222","Calle 2 222",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2002,02,02),"","","albertofernandez","albertofernandez");
 
@@ -28,7 +30,7 @@ public class Main {
             gimnasio.agregar(administrativo2);
         } catch (UsuarioExistenteException e) {
             System.out.println(e.getMessage());
-        }
+        }*/
 
 
 
@@ -116,10 +118,10 @@ public class Main {
         gimnasio.agregar(factura4);
         /**------------------------------------ CLIENTES --------------------------------------------*/
 
-        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", "1234567890", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", true, LocalDate.of(1990, 5, 15), "Comentario 1", true, false);
-        Cliente cliente2 = new Cliente("María González", "987654321", "0987654321", "Avenida 456", Eestado.INACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", false, LocalDate.of(1985, 10, 20), "Comentario 2", false, true);
-        Cliente cliente3 = new Cliente("Pedro López", "456789123", "1112223333", "Plaza 789", Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", true, LocalDate.of(1995, 3, 8), "Comentario 3", true, false);
-        Cliente cliente4 = new Cliente("Ana Rodríguez", "789123456", "4445556666", "Callejón 987", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", true, LocalDate.of(2000, 12, 25), "Comentario 4", false, false);
+        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", "1234567890", "Calle 123",LocalDate.of(2023,3,5), Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", true, LocalDate.of(1990, 5, 15), "Comentario 1", true, false);
+        Cliente cliente2 = new Cliente("María González", "987654321", "0987654321", "Avenida 456",LocalDate.of(2023,10,9), Eestado.INACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", false, LocalDate.of(1985, 10, 20), "Comentario 2", false, true);
+        Cliente cliente3 = new Cliente("Pedro López", "456789123", "1112223333", "Plaza 789", LocalDate.of(2023,4,3),Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", true, LocalDate.of(1995, 3, 8), "Comentario 3", true, false);
+        Cliente cliente4 = new Cliente("Ana Rodríguez", "789123456", "4445556666", "Callejón 987", LocalDate.of(2023,12,22),Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", true, LocalDate.of(2000, 12, 25), "Comentario 4", false, false);
 
         gimnasio.agregar(cliente1);
         gimnasio.agregar(cliente2);
@@ -134,6 +136,7 @@ public class Main {
 
         Gimnasio nuevo_gim = new Gimnasio();
         nuevo_gim.listarTodo();
+
 
 
     }

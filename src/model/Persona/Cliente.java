@@ -19,9 +19,13 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     private boolean solicito_rutina;
     private boolean debe;
     private Rutina rutina;
+
+    private LocalDate fecha_de_inscripcion;
     private LinkedHashSet<Factura> listaFacturas;
 
     private TreeSet<Actividad> actividades_cliente;
+
+
 
     public Cliente()
     {
@@ -29,19 +33,41 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         alta_medica=true;
         solicito_rutina=true;
         debe=true;
+        fecha_de_inscripcion = null;
         rutina = null;
         listaFacturas=new LinkedHashSet<>();
         actividades_cliente=new TreeSet<>();
     }
 
-    public Cliente(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
+    public Cliente(String nombre, String dni, String telefono, String domicilio,LocalDate fecha_de_inscripcion, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
         super(nombre, dni, telefono, domicilio ,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
         this.alta_medica = alta_medica;
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
         rutina = null;
+        this.fecha_de_inscripcion = fecha_de_inscripcion;
         listaFacturas=new LinkedHashSet<>();
         actividades_cliente=new TreeSet<>();
+    }
+
+    //el constructor de aca abajo recibe la lista de actividades por parametro, lo cual sera necesario al momento de realizar inscripcion (no borrar)
+    public Cliente(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento, String comentario, boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, LocalDate fecha_de_inscripcion, TreeSet<Actividad> actividades_cliente) {
+        super(nombre, dni, telefono, domicilio, estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+        this.alta_medica = alta_medica;
+        this.solicito_rutina = solicito_rutina;
+        this.debe = debe;
+        this.rutina = rutina;
+        this.fecha_de_inscripcion = fecha_de_inscripcion;
+        this.actividades_cliente = actividades_cliente;
+    }
+
+    public Cliente(boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, LocalDate fecha_de_inscripcion, TreeSet<Actividad> actividades_cliente) {
+        this.alta_medica = alta_medica;
+        this.solicito_rutina = solicito_rutina;
+        this.debe = debe;
+        this.rutina = rutina;
+        this.fecha_de_inscripcion = fecha_de_inscripcion;
+        this.actividades_cliente = actividades_cliente;
     }
 
     public boolean agregarFactura(Factura factura){
@@ -82,6 +108,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
                 "alta_medica=" + alta_medica +
                 ", solicito_rutina=" + solicito_rutina +
                 ", debe=" + debe +
+                ", fecha de inscripcion=" + fecha_de_inscripcion +
                 ", Rutinas=" + rutina.toString() +
                 ", listaFacturas=" + listaFacturas.toString() +
                 ", hashDeActividades=" + actividades_cliente.toString() +

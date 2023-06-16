@@ -2,6 +2,7 @@ package model.Otros;
 
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
+import excepciones.CredencialesInvalidasException;
 import excepciones.UsuarioExistenteException;
 import model.ActivYrutina.Actividad;
 import model.Persona.Cliente;
@@ -288,22 +289,25 @@ public class Gimnasio {
 
     //Sergio - Miercoles 14 de Junio
 
-    public Usuario IngresarAlSistema(String usuario_ingresado, String contrasenia_ingresada) {
+    public Usuario IngresarAlSistema(String usuario_ingresado, String contrasenia_ingresada) throws CredencialesInvalidasException {
         //metodo del que se sirve la interfaz para reconocer quien es el usuario que esta ingresando
         //este usuario puede ser uno de los administrativos, o bien el encargado (unico)
 
         Usuario usuario_encontrado = null; //este sera el usuario retornado (puede ser null si no existe coincidencia con nadie
         Usuario usuario = null; //variable utilizada para busqueda si coincide nombre de usuario, lo cual no implica necesariametne que tmb coincida contrasenia
-        if(usuario_ingresado.equals(encargado.getUsuario()) && contrasenia_ingresada.equals(encargado.getContrasenia())){
+        if(encargado.ValidarCredenciales(usuario_ingresado,contrasenia_ingresada)){
             usuario_encontrado = encargado;
         }
         else{
             if (mapaUsuarios.containsKey(usuario_ingresado)){ //si esta dentro del mapa el nombre de usuario, verifico contrasenia
                 usuario = mapaUsuarios.get(usuario_ingresado);
-                if(usuario.getContrasenia().equals(contrasenia_ingresada)){
+                if(usuario.ValidarCredenciales(usuario_ingresado,contrasenia_ingresada)){
                     usuario_encontrado = usuario;
                 }
             }
+        }
+        if(usuario_encontrado==null){
+            throw new CredencialesInvalidasException();
         }
         return usuario_encontrado;
     }
