@@ -8,6 +8,7 @@ import model.Otros.*;
 import model.Persona.Cliente;
 import model.Personal.*;
 import model.Enum.*;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +25,7 @@ public class Main {
         Gimnasio gimnasio = new Gimnasio();
 
         /**------------------------------------ usuarios (Sergio Martes 13-06) --------------------------------------------*/
-        /*
+
         Administrativo administrativo1 = new Administrativo("Mauricio Macri","111111","111111","Calle 1 111",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2201,01,01),"","111111","mauriciomacri","mauriciomacri");
         Administrativo administrativo2 = new Administrativo("Alberto Fernandez","222222","222222","Calle 2 222",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2002,02,02),"","","albertofernandez","albertofernandez");
 
@@ -33,12 +34,7 @@ public class Main {
             gimnasio.agregar(administrativo2);
         } catch (UsuarioExistenteException e) {
             System.out.println(e.getMessage());
-        }*/
-
-
-
-
-
+        }
 
 
         /**------------------------------------ ACTIVIDADES --------------------------------------------*/
@@ -57,7 +53,7 @@ public class Main {
         listaDias.clear();
         listaDias.add(EdiaSemana.VIERNES);
 
-                Actividad actividad4 = new Actividad(EtipoActividad.LIBRE, "19:30 - 20:30", listaDias, "Instructor 4", 25, 0, true, "¡Diviértete y mantente en forma con nuestros ritmos latinos!", 55.0);
+        Actividad actividad4 = new Actividad(EtipoActividad.LIBRE, "19:30 - 20:30", listaDias, "Instructor 4", 25, 0, true, "¡Diviértete y mantente en forma con nuestros ritmos latinos!", 55.0);
 
         gimnasio.agregar(actividad1);
         gimnasio.agregar(actividad2);
@@ -91,7 +87,7 @@ public class Main {
         /**------------------------------------ INSTRUCTORES --------------------------------------------*/
 
 
-        Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", true, LocalDate.of(1990, 5, 10), "Comentario 1", "12345678901",new ArrayList<Actividad>(), "imagen1.jpg");
+        Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", true, LocalDate.of(1990, 5, 10), "Comentario 1", "12345678901", new ArrayList<Actividad>(), "imagen1.jpg");
 
         // Ejemplo 2
         Instructor instructor2 = new Instructor("María López", "987654321", "555-5678", "Avenida XYZ", Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", false, LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
@@ -121,10 +117,10 @@ public class Main {
         gimnasio.agregar(factura4);
         /**------------------------------------ CLIENTES --------------------------------------------*/
 
-        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", "1234567890", "Calle 123",LocalDate.of(2023,3,5), Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", true, LocalDate.of(1990, 5, 15), "Comentario 1", true, false);
-        Cliente cliente2 = new Cliente("María González", "987654321", "0987654321", "Avenida 456",LocalDate.of(2023,10,9), Eestado.INACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", false, LocalDate.of(1985, 10, 20), "Comentario 2", false, true);
-        Cliente cliente3 = new Cliente("Pedro López", "456789123", "1112223333", "Plaza 789", LocalDate.of(2023,4,3),Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", true, LocalDate.of(1995, 3, 8), "Comentario 3", true, false);
-        Cliente cliente4 = new Cliente("Ana Rodríguez", "789123456", "4445556666", "Callejón 987", LocalDate.of(2023,12,22),Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", true, LocalDate.of(2000, 12, 25), "Comentario 4", false, false);
+        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", "1234567890", "Calle 123", LocalDate.of(2023, 3, 5), Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", true, LocalDate.of(1990, 5, 15), "Comentario 1", true, false);
+        Cliente cliente2 = new Cliente("María González", "987654321", "0987654321", "Avenida 456", LocalDate.of(2023, 10, 9), Eestado.INACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", false, LocalDate.of(1985, 10, 20), "Comentario 2", false, true);
+        Cliente cliente3 = new Cliente("Pedro López", "456789123", "1112223333", "Plaza 789", LocalDate.of(2023, 4, 3), Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", true, LocalDate.of(1995, 3, 8), "Comentario 3", true, false);
+        Cliente cliente4 = new Cliente("Ana Rodríguez", "789123456", "4445556666", "Callejón 987", LocalDate.of(2023, 12, 22), Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", true, LocalDate.of(2000, 12, 25), "Comentario 4", false, false);
 
         gimnasio.agregar(cliente1);
         gimnasio.agregar(cliente2);
@@ -159,9 +155,84 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println(mapaCliente);
-        /*System.out.println(mapaInstructor);
-        System.out.println(listaFacturas);*/
+        System.out.println(mapaInstructor);
+        System.out.println(listaFacturas);
         System.out.println(arbolActividades);
 
-    }
+
+
+
+
+
+        //Sergio 17-06 (perdon por spamear tanto el main) lo que sigue son pruebas de json
+
+
+        Gimnasio javagym = new Gimnasio();
+        try {
+            System.out.println(javagym.IngresarAlSistema("encargado2023","encargado2023"));
+        } catch (CredencialesInvalidasException e) {
+            System.out.println(e.getMessage());
         }
+        javagym.listarTodo();
+
+
+
+
+        //Generando Lista Java apd JSON:
+        ArrayList <Cliente> clientes = new ArrayList<>();
+
+
+        try {
+            JSONArray jsonArray_clientes = new JSONArray(javagym.CompartirDatosClientes());
+            for(int i=0; i<jsonArray_clientes.length();i++){
+                Cliente cliente = new Cliente();
+                cliente = cliente.fromJson(jsonArray_clientes.getJSONObject(i));
+                clientes.add(cliente);
+            }
+
+
+
+
+
+           /* for(int i=0; i<jsonArray_clientes.length();i++){
+                JSONObject jsonObject_cliente = jsonArray_clientes.getJSONObject(i);
+                Cliente cliente = new Cliente();
+                cliente = cliente.fromJson(jsonObject_cliente);
+                clientes.add(cliente);
+            }*/
+            System.out.println("Clientes tomados del json: \n " + clientes );
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Json clientes
+        System.out.println("JSON CLIENTES : \n");
+        System.out.println(javagym.CompartirDatosClientes());
+
+        //Json actividades
+        System.out.println("JSON ACTIVIDADES : \n");
+        System.out.println(javagym.CompartirDatosActividades());
+
+
+        //PROBANDO DE JSON ACTIVIDADES A LISTA DE ACTIVIDADES
+        ArrayList<Actividad> actividades = new ArrayList<>();
+        System.out.println("Actividades tomadas desde el json:\n");
+
+        try{
+            JSONArray jsonArray_actividades = new JSONArray(javagym.CompartirDatosActividades());
+            for(int i=0; i<jsonArray_actividades.length();i++){
+                Actividad actividad = new Actividad();
+                actividad = actividad.fromJson(jsonArray_actividades.getJSONObject(i));
+                actividades.add(actividad);
+            }
+            System.out.println(actividades);
+        }catch(JSONException e){
+            System.out.println(e.getMessage());
+        }
+
+
+
+
+
+
+    }}

@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -153,7 +154,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         jsonObject.put("Solicita rutina", isSolicito_rutina());
         jsonObject.put("Alta Medica", isAlta_medica());
         jsonObject.put("Debe", isDebe());
-        jsonObject.put("Fecha de Inscripcion", getFecha_de_inscripcion());
+        jsonObject.put("Fecha de Inscripcion", getFecha_de_inscripcion().toString());
         if(rutina !=null) {
             jsonObject.put("Rutina", rutina.toJsonObj());
         }
@@ -175,7 +176,13 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         cliente.setDebe(jo.getBoolean("Debe"));
         cliente.setAlta_medica(jo.getBoolean("Alta Medica"));
         cliente.setSolicito_rutina(jo.getBoolean("Solicita rutina"));
-        cliente.setFecha_de_inscripcion((LocalDate) jo.get("Fecha de Inscripcion"));
+       // cliente.setFecha_de_inscripcion((LocalDate) jo.get("Fecha de Inscripcion"));
+
+        String fecha_string = jo.getString("Fecha de Inscripcion");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fecha = LocalDate.parse(fecha_string, formatter);
+
+        cliente.setFecha_de_inscripcion(fecha);
 
         if(jo.has("Rutina")) {
             Rutina rutina = new Rutina();

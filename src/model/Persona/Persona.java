@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public abstract class Persona implements Serializable, I_toJson {
@@ -61,11 +62,19 @@ public abstract class Persona implements Serializable, I_toJson {
         dni = jo.getString("DNI");
         telefono = jo.getString("Telefono");
         domicilio = jo.getString("Domicilio");
-        estado = (Eestado) jo.get("Estado");
-        grupo_sanguineo = (EGrupoSanguineo) jo.get("Grupo Sanguineo");
+       // estado = (Eestado) jo.get("Estado");
+        estado = Eestado.valueOf(jo.getString("Estado")) ;
+        //grupo_sanguineo = (EGrupoSanguineo)
+        grupo_sanguineo = EGrupoSanguineo.valueOf(jo.getString("Grupo Sanguineo"));
         contacto_emergencia = jo.getString("Contacto de Emergencia");
         obra_social = jo.getString("Obra Social");
-        fecha_nacimiento = (LocalDate) jo.get("Fecha de Nacimiento");
+        //fecha_nacimiento = (LocalDate) jo.get("Fecha de Nacimiento");
+
+        String fecha_string = jo.getString("Fecha de Nacimiento");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fecha = LocalDate.parse(fecha_string, formatter);
+
+        fecha_nacimiento = fecha;
         comentario = jo.getString("Comentario");
         listaApercibimientos = new ArrayList<>();
         JSONArray ja = null;
@@ -163,11 +172,11 @@ public abstract class Persona implements Serializable, I_toJson {
             jsonObject.put("Nombre", getNombre());
             jsonObject.put("DNI", getDni());
             jsonObject.put("Telefono", getTelefono());
-            jsonObject.put("Estado", getEstado());
-            jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo());
+            jsonObject.put("Estado", getEstado().name()); //name agregado a prosopito
+            jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo().name());//name agregado a prosopito
             jsonObject.put("Contacto de Emergencia", getContacto_emergencia());
             jsonObject.put("Obra Social", getObra_social());
-            jsonObject.put("Fecha de Nacimiento", getFecha_nacimiento());
+            jsonObject.put("Fecha de Nacimiento", getFecha_nacimiento().toString());
             jsonObject.put("Comentario", getComentario());
             jsonObject.put("Domicilio", getDomicilio());
 

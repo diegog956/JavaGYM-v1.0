@@ -148,24 +148,46 @@ public class Gimnasio {
     }
 
     /**
-     * Preguntar que se quiere lograr con esto:
+     * Permite obtener la coleccion de clientes en Formato JSON
+     * @return La coleccion de clientes en formato JSON
      */
     public String CompartirDatosClientes() {
-        //metodo que desde clase Gimnasio, proporciona a Interfaz los datos de sus clientes,en formato JSON
         String json = "";
-        // Iterator it = mapaCliente.GetRecorredor();
         Iterator it = mapaCliente.entrySet().iterator();
         JSONArray jsonArray_clientes = new JSONArray();
-        while (it.hasNext()) {
-            Map.Entry<String, Cliente> entradaDelMapa = (Map.Entry<String, Cliente>) it.next();
-            Cliente cliente = entradaDelMapa.getValue();
-            try {
+        try{
+            while (it.hasNext()) {
+                Map.Entry<String, Cliente> entradaDelMapa = (Map.Entry<String, Cliente>) it.next();
+                Cliente cliente = entradaDelMapa.getValue();
                 jsonArray_clientes.put(cliente.toJsonObj());
-            } catch (JSONException e) {
-                json = e.getMessage();
             }
+            json = jsonArray_clientes.toString();
+        }catch(JSONException e){
+            json = e.toString();
         }
-        return jsonArray_clientes.toString();
+
+        return json;
+    }
+    /**
+     * Permite obtener la coleccion de actividades en Formato JSON
+     * @return La coleccion de actividades en formato JSON
+     */
+    public String CompartirDatosActividades(){
+        String texto_json = "";
+        Iterator<Actividad> it = arbolActividades.iterator();
+        JSONArray jsonArrayActividades = new JSONArray();
+        int i = 0;
+        try{
+            while (it.hasNext()) {
+                Actividad actividad = (Actividad) it.next();
+                jsonArrayActividades.put(i, actividad.toJsonObj());
+                i++;
+            }
+            texto_json = jsonArrayActividades.toString();
+        }catch(JSONException e){
+            texto_json = e.getMessage();
+        }
+            return texto_json;
     }
 
 
@@ -314,6 +336,7 @@ public class Gimnasio {
         return usuario_encontrado;
     }
 
+
     public String getTipoDeUsuario(Usuario usuario){
         //metodo que devuelve el tipo de usuario (adm o encargado) segun el usuario recibido
         //Utilidad: es llamado por UI para saber el tipo de Usuario
@@ -362,6 +385,8 @@ public class Gimnasio {
         }
 
     }
+
+
 
 }
 

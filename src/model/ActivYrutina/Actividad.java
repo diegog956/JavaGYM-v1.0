@@ -171,7 +171,8 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     public Actividad fromJson(JSONObject jo) throws JSONException {
        Actividad actividad = new Actividad();
 
-       actividad.setNombre((EtipoActividad) jo.get("Nombre"));
+       //actividad.setNombre((EtipoActividad) jo.get("Nombre")); modificado en la linea de abajo
+        actividad.setNombre(EtipoActividad.valueOf(jo.getString("Nombre")));
        actividad.setNombre_instructor(jo.getString("Nombre Instructor"));
        actividad.setCupo(jo.getInt("Cupo"));
        actividad.setInscriptos(jo.getInt("Inscriptos"));
@@ -182,9 +183,14 @@ public class Actividad implements Serializable,Comparable, I_toJson {
 
        JSONArray jsonArray = jo.getJSONArray("Dias");
 
-       for(int i=0; i<jsonArray.length(); i++){
+       /*for(int i=0; i<jsonArray.length(); i++){
            actividad.listaDias.add((EdiaSemana)(jsonArray.get(i)));
-       }
+       }*/
+        for(int i=0; i<jsonArray.length(); i++){
+            EdiaSemana enum_dia_semana = EdiaSemana.valueOf(jsonArray.getString(i));
+            actividad.listaDias.add(enum_dia_semana);
+        }
+
 
         return actividad;
     }
