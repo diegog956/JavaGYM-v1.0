@@ -72,7 +72,7 @@ public class Gimnasio {
         //mail = encargado.get
 
 
-        if (archivoMapaUtiles.leerMapa("clientes.dat").isEmpty()) {
+        if (archivoMapaUtiles.leerMapa("clientes.dat") == null) {
             mapaCliente = new HashMap<>();
         } else {
             mapaCliente = new HashMap<>(archivoMapaUtiles.leerMapa("clientes.dat"));
