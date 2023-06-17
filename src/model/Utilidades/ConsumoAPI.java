@@ -10,7 +10,7 @@ public class ConsumoAPI
     {
         try
         {
-            URL url = new URL("https://rickandmortyapi.com/api/character/?name=rick&status=alive");
+            URL url = new URL("");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
