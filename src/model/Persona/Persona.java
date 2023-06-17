@@ -37,6 +37,7 @@ public abstract class Persona implements Serializable, I_toJson {
         this.obra_social = obra_social;
         this.fecha_nacimiento = fecha_nacimiento;
         this.comentario=comentario;
+
     }
 
     public Persona ()
@@ -54,6 +55,27 @@ public abstract class Persona implements Serializable, I_toJson {
         comentario=" ";
     }
 
+    /**Constructor para fromJson*/
+    public Persona(JSONObject jo) throws JSONException {
+        nombre = jo.getString("Nombre");
+        dni = jo.getString("DNI");
+        telefono = jo.getString("Telefono");
+        domicilio = jo.getString("Domicilio");
+        estado = (Eestado) jo.get("Estado");
+        grupo_sanguineo = (EGrupoSanguineo) jo.get("Grupo Sanguineo");
+        contacto_emergencia = jo.getString("Contacto de Emergencia");
+        obra_social = jo.getString("Obra Social");
+        fecha_nacimiento = (LocalDate) jo.get("Fecha de Nacimiento");
+        comentario = jo.getString("Comentario");
+        listaApercibimientos = new ArrayList<>();
+        JSONArray ja = null;
+        ja = jo.getJSONArray("Apercibimientos");
+        for(int i=0; i< ja.length();i++){
+            Apercibimiento apercibimiento = null;
+            apercibimiento = apercibimiento.fromJson(ja.getJSONObject(i));
+            listaApercibimientos.add(apercibimiento);
+        }
+    }
     public String getComentario() {
         return comentario;
     }
@@ -99,49 +121,6 @@ public abstract class Persona implements Serializable, I_toJson {
         return domicilio;
     }
 
-    private void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    private void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    private void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    private void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    private void setListaApercibimientos(ArrayList<Apercibimiento> listaApercibimientos) {
-        this.listaApercibimientos = listaApercibimientos;
-    }
-
-    private void setEstado(Eestado estado) {
-        this.estado = estado;
-    }
-
-    private void setGrupo_sanguineo(EGrupoSanguineo grupo_sanguineo) {
-        this.grupo_sanguineo = grupo_sanguineo;
-    }
-
-    private void setContacto_emergencia(String contacto_emergencia) {
-        this.contacto_emergencia = contacto_emergencia;
-    }
-
-    private void setObra_social(String obra_social) {
-        this.obra_social = obra_social;
-    }
-
-    private void setFecha_nacimiento(LocalDate fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
-    }
-
-    private void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
 
     @Override
     public String toString() {
@@ -177,24 +156,16 @@ public abstract class Persona implements Serializable, I_toJson {
         return 1;
     }
 
-    /**Agregar parte desde y hacia json si corresponde*/
-
-   /* @Override
-    public void fromJson(JSONObject jo) throws JSONException {
-        Persona persona = null;
-        persona.setNombre(jo.getString("nombre"));
-    }*/
-
     @Override
     public JSONObject toJsonObj() throws JSONException {
         JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("nombre", getNombre());
+            jsonObject.put("Nombre", getNombre());
             jsonObject.put("DNI", getDni());
-            jsonObject.put("telefono", getTelefono());
+            jsonObject.put("Telefono", getTelefono());
             jsonObject.put("Estado", getEstado());
             jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo());
-            jsonObject.put("Contacto de emergencia", getContacto_emergencia());
+            jsonObject.put("Contacto de Emergencia", getContacto_emergencia());
             jsonObject.put("Obra Social", getObra_social());
             jsonObject.put("Fecha de Nacimiento", getFecha_nacimiento());
             jsonObject.put("Comentario", getComentario());

@@ -76,8 +76,7 @@ public class Usuario extends Personal implements Serializable {
         return 1;
     }
 
-    public boolean cambiarContrasenia(String viejaContrasenia, String nuevaContrasenia)
-    {
+    public boolean cambiarContrasenia(String viejaContrasenia, String nuevaContrasenia) {
         boolean rta=false;
         if (viejaContrasenia.equals(getContrasenia()))
         {
@@ -101,6 +100,7 @@ public class Usuario extends Personal implements Serializable {
 
         return cuota;
     }
+
 
     /*public Factura cobrarCuota(Cliente cliente, String mes, String anio){
 

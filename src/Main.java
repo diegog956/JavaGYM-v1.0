@@ -8,10 +8,13 @@ import model.Otros.*;
 import model.Persona.Cliente;
 import model.Personal.*;
 import model.Enum.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
 
@@ -134,10 +137,31 @@ public class Main {
 
         /**------------------------------------ DESDE ARCHIVO --------------------------------------------*/
 
-        Gimnasio nuevo_gim = new Gimnasio();
-        nuevo_gim.listarTodo();
+        /*Gimnasio nuevo_gim = new Gimnasio();
+        nuevo_gim.listarTodo();*/
 
+        /**Hacia y desde JSON ----------------------------------------------------------------------------*/
+        JSONObject jsonObject = new JSONObject();
+        try {
+                jsonObject = gimnasio.actualizarJson();
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
 
+        HashMap<String, Cliente> mapaCliente = new HashMap<>();
+        HashMap<String, Instructor> mapaInstructor= new HashMap<>();
+        LinkedHashSet<Factura> listaFacturas= new LinkedHashSet<>();
+        TreeSet<Actividad> arbolActividades= new TreeSet<>();
+
+        try{
+            gimnasio.desgrabarJson(jsonObject, mapaCliente, mapaInstructor, listaFacturas, arbolActividades);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        System.out.println(mapaCliente);
+        /*System.out.println(mapaInstructor);
+        System.out.println(listaFacturas);*/
+        System.out.println(arbolActividades);
 
     }
         }

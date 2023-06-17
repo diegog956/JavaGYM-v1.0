@@ -35,7 +35,7 @@ public class Gimnasio {
 
     private HashMap<String, Usuario> mapaUsuarios;
 
-    public Gimnasio(String responsable, String direccion) {
+    public Gimnasio(String responsable, String direccion) {/**Cuidado con este constructor.*/
 
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
@@ -72,7 +72,7 @@ public class Gimnasio {
         //mail = encargado.get
 
 
-        if (archivoMapaUtiles.leerMapa("clientes.dat") == null) {
+        if (archivoMapaUtiles.leerMapa("clientes.dat").isEmpty()) {
             mapaCliente = new HashMap<>();
         } else {
             mapaCliente = new HashMap<>(archivoMapaUtiles.leerMapa("clientes.dat"));
@@ -202,7 +202,7 @@ public class Gimnasio {
         JSONArray jsonArrayActividades = new JSONArray();
         int i = 0;
         while (it.hasNext()) {
-            jsonArrayActividades.put(i, it.next());
+            jsonArrayActividades.put(i, it.next().toJsonObj());
             i++;
         }
         jsonObject.put("Actividades", jsonArrayActividades);
@@ -212,7 +212,7 @@ public class Gimnasio {
         JSONArray jsonArrayFacturas = new JSONArray();
         i = 0;
         while (it2.hasNext()) {
-            jsonArrayFacturas.put(i, it2.next());
+            jsonArrayFacturas.put(i, it2.next().toJsonObj());
             i++;
         }
         jsonObject.put("Facturas", jsonArrayFacturas);
@@ -222,7 +222,7 @@ public class Gimnasio {
         JSONArray jsonArrayClientes = new JSONArray();
         i = 0;
         while (it3.hasNext()) {
-            jsonArrayClientes.put(i, it3.next());
+            jsonArrayClientes.put(i, it3.next().getValue().toJsonObj());
             i++;
         }
         jsonObject.put("Clientes", jsonArrayClientes);
@@ -235,6 +235,8 @@ public class Gimnasio {
             i++;
         }
         jsonObject.put("Instructores", jsonArrayInstructor);
+
+        /**EL MAPA DE USUARIO VA EN EL JSON?*/
 
         return jsonObject;
 
@@ -323,6 +325,42 @@ public class Gimnasio {
             rta = "Encargado";
         }
         return rta;
+    }
+
+    //Mateo - Viernes 31 de Febrero
+
+    public void desgrabarJson(JSONObject jsonObject, HashMap<String, Cliente> mapaCliente, HashMap<String, Instructor> mapaInstructor,LinkedHashSet<Factura> listaFacturas, TreeSet<Actividad> arbolActividades) throws JSONException {
+
+        JSONArray jsonArray;
+        jsonArray = jsonObject.getJSONArray("Clientes");
+        for(int i=0; i<jsonArray.length();i++){
+            Cliente cliente = new Cliente();
+            cliente = cliente.fromJson(jsonArray.getJSONObject(i));
+            mapaCliente.put(cliente.getDni(), cliente);
+        }
+
+        /*JSONArray jsonArray2 = new JSONArray(jsonObject.getJSONArray("Instructores"));
+        for(int i=0; i<jsonArray2.length();i++){
+           Instructor instructor = new Instructor();
+            instructor = instructor.fromJson(jsonArray2.getJSONObject(i));
+            mapaInstructor.put(instructor.getDni(), instructor);
+        }
+
+        JSONArray jsonArray3 = new JSONArray(jsonObject.getJSONArray("Facturas"));
+        for(int i=0; i<jsonArray3.length();i++){
+            Factura factura = new Factura();
+            factura = factura.fromJson(jsonArray3.getJSONObject(i));
+            listaFacturas.add(factura);
+        }
+*/
+        JSONArray jsonArray4;
+        jsonArray4 = jsonObject.getJSONArray("Actividades");
+        for(int i=0; i<jsonArray4.length();i++){
+            Actividad actividad = new Actividad();
+            actividad = actividad.fromJson(jsonArray4.getJSONObject(i));
+            arbolActividades.add(actividad);
+        }
+
     }
 
 }

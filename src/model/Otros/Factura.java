@@ -35,7 +35,7 @@ public class Factura implements I_toJson, Serializable {
         fecha_de_emision=null; ///DUDA ACA.
         monto=0;
     }
-
+/**Bloque get ------------------------------------------------------------------------------------------*/
     public String getMes() {
         return mes;
     }
@@ -59,6 +59,33 @@ public class Factura implements I_toJson, Serializable {
     public double getMonto() {
         return monto;
     }
+
+    /**Bloque set privados ---------------------------------------------------------------------------------*/
+
+    private void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    private void setAnio(String anio) {
+        this.anio = anio;
+    }
+
+    private void setDni_cliente(String dni_cliente) {
+        this.dni_cliente = dni_cliente;
+    }
+
+    private void setNombre_cliente(String nombre_cliente) {
+        this.nombre_cliente = nombre_cliente;
+    }
+
+    private void setFecha_de_emision(LocalDate fecha_de_emision) {
+        this.fecha_de_emision = fecha_de_emision;
+    }
+
+    private void setMonto(double monto) {
+        this.monto = monto;
+    }
+    /**----------------------------------------------------------------------------------------------------*/
 
 
     @Override
@@ -93,8 +120,17 @@ public class Factura implements I_toJson, Serializable {
     }
 
     @Override
-    public void fromJson(JSONObject jo) throws JSONException {
+    public Factura fromJson(JSONObject jo) throws JSONException {
+        Factura factura = new Factura();
 
+        factura.setMes(jo.getString("Mes"));
+        factura.setAnio(jo.getString("Año"));
+        factura.setNombre_cliente(jo.getString("Nombre"));
+        factura.setDni_cliente(jo.getString("DNI"));
+        factura.setFecha_de_emision(LocalDate.parse(jo.getString("Fecha de emision")));
+        factura.setMonto(jo.getDouble("Mes"));
+
+        return factura;
     }
 
     @Override
@@ -104,7 +140,7 @@ public class Factura implements I_toJson, Serializable {
        jsonObject.put("Mes", getMes());
        jsonObject.put("Año", getAnio());
        jsonObject.put("Nombre", getNombre_cliente());
-       jsonObject.put("Dni", getDni_cliente());
+       jsonObject.put("DNI", getDni_cliente());
        jsonObject.put("Fecha de emision", getFecha_de_emision());
        jsonObject.put("Monto", getMonto());
 

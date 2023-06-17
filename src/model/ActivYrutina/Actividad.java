@@ -1,5 +1,6 @@
 package model.ActivYrutina;
 
+import model.Enum.EGrupoSanguineo;
 import model.Enum.EdiaSemana;
 import model.Enum.EtipoActividad;
 import model.interfaces.I_toJson;
@@ -45,41 +46,69 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         horario=" ";
     }
 
+    /**Bloque de get -------------------------------------------------------------------------------------*/
     public String getHorario() {
         return horario;
     }
-
     public EtipoActividad getNombre() {
         return nombre;
     }
-
     public ArrayList<EdiaSemana> getListaDias() {
         return listaDias;
     }
-
     public String getNombre_instructor() {
         return nombre_instructor;
     }
-
     public int getCupo() {
         return cupo;
     }
-
     public int getInscriptos() {
         return inscriptos;
     }
-
     public boolean isDisponible() {
         return disponible;
     }
-
     public String getComentario() {
         return comentario;
     }
-
     public double getPrecio_mensual() {
         return precio_mensual;
     }
+
+    /**Bloque de set -------------------------------------------------------------------------------------*/
+    private void setNombre(EtipoActividad nombre) {
+        this.nombre = nombre;
+    }
+
+    private void setHorario(String horario) {
+        this.horario = horario;
+    }
+
+    private void setNombre_instructor(String nombre_instructor) {
+        this.nombre_instructor = nombre_instructor;
+    }
+
+    private void setCupo(int cupo) {
+        this.cupo = cupo;
+    }
+
+    private void setInscriptos(int inscriptos) {
+        this.inscriptos = inscriptos;
+    }
+
+    private void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    private void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    private void setPrecio_mensual(double precio_mensual) {
+        this.precio_mensual = precio_mensual;
+    }
+
+    /**---------------------------------------------------------------------------------------------------*/
 
     /**Compara por nombre, luego por horario, luego por si coincide en al menos un dia.*/
     /** Esto esta pensado en base a que el gym tiene un solo espacio para cada actividad.*/
@@ -139,8 +168,25 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     }
 
     @Override
-    public void fromJson(JSONObject jo) throws JSONException {
+    public Actividad fromJson(JSONObject jo) throws JSONException {
+       Actividad actividad = new Actividad();
 
+       actividad.setNombre((EtipoActividad) jo.get("Nombre"));
+       actividad.setNombre_instructor(jo.getString("Nombre Instructor"));
+       actividad.setCupo(jo.getInt("Cupo"));
+       actividad.setInscriptos(jo.getInt("Inscriptos"));
+       actividad.setDisponible(jo.getBoolean("Disponible"));
+       actividad.setComentario(jo.getString("Comentario"));
+       actividad.setPrecio_mensual(jo.getDouble("Precio Mensual"));
+       actividad.setHorario(jo.getString("Horario"));
+
+       JSONArray jsonArray = jo.getJSONArray("Dias");
+
+       for(int i=0; i<jsonArray.length(); i++){
+           actividad.listaDias.add((EdiaSemana)(jsonArray.get(i)));
+       }
+
+        return actividad;
     }
 
     @Override
@@ -148,7 +194,7 @@ public class Actividad implements Serializable,Comparable, I_toJson {
             JSONObject jsonObject = new JSONObject();
 
             jsonObject.put("Nombre",getNombre() );
-            jsonObject.put("Nombre_instructor",getNombre_instructor());
+            jsonObject.put("Nombre Instructor",getNombre_instructor());
             jsonObject.put("Cupo",getCupo());
             jsonObject.put("Inscriptos",getInscriptos());
             jsonObject.put("Disponible",isDisponible());

@@ -32,6 +32,10 @@ public class Personal extends Persona implements Serializable, I_toJson
         return CUIL;
     }
 
+    private void setCUIL(String CUIL) {
+        this.CUIL = CUIL;
+    }
+
     @Override
     public String toString() {
         return "Personal{" +
@@ -40,8 +44,10 @@ public class Personal extends Persona implements Serializable, I_toJson
     }
 
     @Override
-    public void fromJson(JSONObject jo) throws JSONException {
-
+    public Personal fromJson(JSONObject jo) throws JSONException {
+       /*Personal personal = (Personal) super.fromJson(jo);
+        personal.setCUIL(jo.getString("CUIL"));*/
+        return null;
     }
 
     @Override
