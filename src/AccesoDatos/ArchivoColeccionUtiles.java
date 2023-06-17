@@ -1,10 +1,11 @@
-package model.Utilidades;
+package AccesoDatos;
 
 import java.io.*;
 import java.util.Collection;
 
-public class ArchivoUtilidadesCollection<T extends Collection> {
-    public void grabar(T coleccion, String nombre_archivo) {
+public class ArchivoColeccionUtiles<T extends Collection> {
+
+    public void guardarColeccion(T coleccion, String nombre_archivo){
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(nombre_archivo);
@@ -39,7 +40,7 @@ public class ArchivoUtilidadesCollection<T extends Collection> {
         }
     }
 
-    public T leer(String nombre_archivo) {
+    public T leerColeccion(String nombre_archivo) {
         T coleccion = null;
         FileInputStream fis = null;
         try {
@@ -50,11 +51,15 @@ public class ArchivoUtilidadesCollection<T extends Collection> {
 
                 coleccion = (T) ois.readObject();
 
-            } catch (IOException | ClassNotFoundException e) {
+            }catch (EOFException e){
+
+            } catch(IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             } finally {
                 try {
-                    ois.close();
+                    if (ois != null) {
+                        ois.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -73,6 +78,5 @@ public class ArchivoUtilidadesCollection<T extends Collection> {
         }
         return coleccion;
     }
+
 }
-
-
