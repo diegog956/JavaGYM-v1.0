@@ -82,9 +82,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return true;
     }
 
-<<<<<<< Updated upstream
     /**Bloque get ---------------------------------------------------------------------------------------*/
-=======
     /**
      * Metodo que cuenta la cantidad de actividades del cliente.
      * @return cantidad de actividades en numero entero.
@@ -96,7 +94,6 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return rta;
     }
 
->>>>>>> Stashed changes
     public boolean isAlta_medica() {
         return alta_medica;
     }
@@ -107,7 +104,6 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return debe;
     }
 
-<<<<<<< Updated upstream
     public LocalDate getFecha_de_inscripcion() {
         return fecha_de_inscripcion;
     }
@@ -138,13 +134,10 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     }
 
     /**--------------------------------------------------------------------------------------------------*/
-
-=======
     /**
      *  Utilidad : mostrar datos en un formato amigable, y que no se visualice true/false
      * @return devuelve si debe o no el cliente.
      */
->>>>>>> Stashed changes
     public String getDebe(){
 
         String rta = "No";

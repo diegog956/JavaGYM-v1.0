@@ -2,11 +2,14 @@ package model.Personal;
 
 
 import com.sun.source.tree.Tree;
+import excepciones.RutinaSinAvisoException;
 import model.ActivYrutina.Actividad;
+import model.ActivYrutina.Rutina;
 import model.Enum.EGenero;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
+import model.Persona.Cliente;
 import model.interfaces.I_toJson;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Instructor extends Personal implements Serializable, I_toJson {
@@ -91,5 +95,14 @@ private String imagenPerfil;
         }
         jsonObject.put("Actividades", jsonArray);
         return jsonObject;
+    }
+
+    public Rutina generarRutina(Cliente cliente) throws RutinaSinAvisoException {
+        if (!cliente.isSolicito_rutina())
+        {
+            throw new RutinaSinAvisoException();
+        }
+        Rutina rutina=new Rutina(getNombre(),LocalDate.now().getMonth().toString(),"nueva rutina");
+        return rutina;
     }
 }
