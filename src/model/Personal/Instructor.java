@@ -51,8 +51,12 @@ private String imagenPerfil;
         return imagenPerfil;
     }
 
-    public void setImagenPerfil(String imagenPerfil) {
+    private void setImagenPerfil(String imagenPerfil) {
         this.imagenPerfil = imagenPerfil;
+    }
+
+     private void setActividades(ArrayList<Actividad> actividades) {
+        this.actividades = actividades;
     }
 
     @Override
@@ -67,7 +71,6 @@ private String imagenPerfil;
     public int hashCode() {
         return Objects.hash(actividades);
     }
-
 
     @Override
     public Instructor fromJson(JSONObject jo) throws JSONException {
@@ -92,4 +95,13 @@ private String imagenPerfil;
         jsonObject.put("Actividades", jsonArray);
         return jsonObject;
     }
+
+    public void modificar(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento,String comentario, String cuil, String imagen_de_perfil, ArrayList<Actividad> listaActividades){
+    super.modificar(nombre, dni, genero, telefono, domicilio, email,
+            estado, grupo_sanguineo, contacto_emergencia,obra_social,
+            fecha_nacimiento,comentario, cuil);
+    setImagenPerfil(imagen_de_perfil);
+    setActividades(listaActividades);
+    }
+
 }

@@ -2,13 +2,12 @@ package model.Otros;
 
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
-import excepciones.ActividadNoEncontradaException;
-import excepciones.ActividadYaExisteException;
-import excepciones.CredencialesInvalidasException;
-import excepciones.UsuarioExistenteException;
+import excepciones.*;
 import model.ActivYrutina.Actividad;
-import model.Enum.EGenero;
+import model.ActivYrutina.Rutina;
+import model.Enum.*;
 import model.Persona.Cliente;
+import model.Persona.Persona;
 import model.Personal.Administrativo;
 import model.Personal.Instructor;
 import model.Personal.Encargado;
@@ -18,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.KeyStore;
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -37,29 +37,6 @@ public class Gimnasio {
     private TreeSet<Actividad> arbolActividades;
 
     private HashMap<String, Usuario> mapaUsuarios;
-
-    public Gimnasio(String responsable, String direccion) {/**Cuidado con este constructor. Yo lo sacaria....*/
-
-        ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
-        ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
-
-        encargado = new Encargado("JavaGym", "21541044", EGenero.OTRO,"474-5698", "Avenida de los trabajadores 1005", "javaGym@gmail.com","Veni capo", "24-21541044-3");
-        responsable = encargado.getNombre();
-        direccion = encargado.getDomicilio();
-        CUIL = encargado.getCUIL();
-        //mail = encargado.get
-
-        mapaCliente = new HashMap<>();
-        mapaCliente = (HashMap<String, Cliente>) archivoMapaUtiles.leerMapa("clientes.dat");
-        mapaInstructor = new HashMap<>();
-        mapaInstructor = (HashMap<String, Instructor>) archivoMapaUtiles.leerMapa("instructores.dat");
-        listaFacturas = new LinkedHashSet<>();
-        listaFacturas = (LinkedHashSet<Factura>) archivoColeccionUtiles.leerColeccion("facturas.dat");
-        arbolActividades = new TreeSet<>();
-        arbolActividades = (TreeSet<Actividad>) archivoColeccionUtiles.leerColeccion("actividades.dat");
-
-
-    }
 
     public Gimnasio() {
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
@@ -107,24 +84,23 @@ public class Gimnasio {
 
     }
 
-
-    public String getResponsable() {
-        return responsable;
+    public HashMap<String, Cliente> getMapaCliente() {
+        return mapaCliente;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public HashMap<String, Instructor> getMapaInstructor() {
+        return mapaInstructor;
     }
 
+    public TreeSet<Actividad> getArbolActividades() {
+        return arbolActividades;
+    }
 
     public String agregarFactura(Factura factura) {
         listaFacturas.add(factura);
         return factura.toString();
     }
 
-    /**
-     * Queremos tener este metodo?
-     */
     @Override
     public String toString() {
         return "Gimnasio{" +
@@ -135,8 +111,6 @@ public class Gimnasio {
                 ", listaFacturas=" + listaFacturas +
                 '}';
     }
-
-
     public String ListarClientes() {
         String rta = "Clientes Presentes en Sistema (mapaCliente):\n";
         //Iterator it = mapaCliente.GetRecorredor();
@@ -168,7 +142,6 @@ public class Gimnasio {
         }catch(JSONException e){
             json = e.toString();
         }
-
         return json;
     }
     /**
@@ -192,19 +165,9 @@ public class Gimnasio {
         }
             return texto_json;
     }
-
-
     public String listarActividades() {
         return arbolActividades.toString();
     }
-
-    public String ListarFacturas() {
-
-        /**Preguntar como se planteara esto a nivel proyecto.*/
-
-        return "a";
-    }
-
     public void guardarEnArchivo() {
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
@@ -218,7 +181,6 @@ public class Gimnasio {
         archivoMapaUtiles.guardarMapa(mapaUsuarios,"usuarios.dat");
 
     }
-
     public JSONObject actualizarJson() throws JSONException {
         /**No pongo Responsable y Direccion*/
         JSONObject jsonObject = new JSONObject();
@@ -274,30 +236,127 @@ public class Gimnasio {
 
     }
 
-    public void agregar(Cliente cliente) {
+    /**BLOQUE ABM*/
+    /**AGREGAR  ==================================================================================*/
+    public boolean agregar(Cliente cliente) throws ExistenteException {
+        if(mapaCliente.containsKey(cliente.getDni())){
+            throw new ExistenteException(cliente.getClass());
+        }
         mapaCliente.put(cliente.getDni(), cliente);
+        return true;
     }
-
-    public boolean agregar(Actividad actividad) throws ActividadYaExisteException {
+    public boolean agregar(Actividad actividad) throws ExistenteException {
         if(!arbolActividades.add(actividad)){
-            throw new ActividadYaExisteException("La actividad ya se encuentra presente");
+            throw new ExistenteException(actividad.getClass());
+        }
+        return true;
+    }
+    public boolean agregar(Instructor instructor) throws ExistenteException {
+        if(mapaInstructor.containsKey(instructor.getDni())){
+            throw new ExistenteException(instructor.getClass());
+        }
+        mapaInstructor.put(instructor.getDni(), instructor);
+        return true;
+    }
+    public boolean agregar(Factura factura) throws ExistenteException {
+        if(!listaFacturas.add(factura)){
+            throw new ExistenteException(factura.getClass());
         }
         return true;
     }
 
-    public void agregar(Instructor instructor) {
-        mapaInstructor.put(instructor.getDni(), instructor);
+    /**MODIFICAR  ==================================================================================*/
+    public boolean modificarCliente(String DNI, String nombre, String dni, EGenero genero, String telefono, String domicilio, String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento,
+                                    String comentario, boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, TreeSet<Actividad> actividades_cliente ) throws NoEncontradoException {
+        if(!mapaCliente.containsKey(DNI)){
+            throw new NoEncontradoException(Cliente.class);
+        }else{
+            mapaCliente.get(DNI).modificar(nombre, dni,genero, telefono, domicilio, email,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario, alta_medica, solicito_rutina, debe, rutina, actividades_cliente);
+
+            return true;
+        }
+
+    }
+    public boolean modificarInstructor (String DNI, String nombre, String dni, EGenero genero,
+                                        String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo,
+                                        String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento,String comentario,
+                                        String cuil, String imagen_de_perfil, ArrayList<Actividad> listaActividades) throws NoEncontradoException {
+
+        if(!mapaInstructor.containsKey(DNI)){
+            throw new NoEncontradoException(Instructor.class);
+        }else{
+        mapaInstructor.get(DNI).modificar(nombre, dni, genero, telefono, domicilio, email,
+                estado, grupo_sanguineo, contacto_emergencia,obra_social,
+                fecha_nacimiento,comentario, cuil, imagen_de_perfil, listaActividades);
+            return true;
+        }
+    }
+    public boolean modificarActividad(Actividad actividad, EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor,
+                                      int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual) {
+        Iterator<Actividad> it = arbolActividades.iterator();
+        while (it.hasNext()) {
+            Actividad actividad1 = it.next();
+            if (actividad1.equals(actividad)) {
+                Actividad actividad2 = new Actividad(nombre, horario, listaDias1, nombre_instructor,
+                        cupo, inscriptos, disponible, comentario, precio_mensual);
+                if (arbolActividades.contains(actividad2)) {
+                    return false;
+                } else {
+                    actividad.modificar(nombre, horario, listaDias1, nombre_instructor,
+                            cupo, inscriptos, disponible, comentario, precio_mensual);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    public void agregar(Factura factura) {
-        listaFacturas.add(factura);
+    /**DAR DE BAJA/ALTA  ==================================================================================*/
+
+    public boolean cambiarEstado(String dni) throws NoEncontradoException { ///Esto es activar/inactivar
+        if(mapaCliente.containsKey(dni)){
+            if(mapaCliente.get(dni).getEstado() == Eestado.ACTIVO){
+            mapaCliente.get(dni).setEstado(Eestado.INACTIVO);
+            }else{
+                mapaCliente.get(dni).setEstado(Eestado.ACTIVO);
+            }
+            return true;
+        }else{
+            throw new NoEncontradoException(Cliente.class);
+        }
     }
 
-    public void remover(Cliente cliente) {
-
-
+    public boolean banear(String dni) throws NoEncontradoException { ///Esto es banear/Desbanear
+        if(mapaCliente.containsKey(dni)){
+            if(mapaCliente.get(dni).getEstado() == Eestado.BANEADO){
+                mapaCliente.get(dni).setEstado(Eestado.ACTIVO);
+            }else{
+                mapaCliente.get(dni).setEstado(Eestado.BANEADO);
+            }
+            return true;
+        }else{
+            throw new NoEncontradoException(Cliente.class);
+        }
     }
 
+    /**AGREGAR APERCIBIMIENTO  ==================================================================================*/
+
+    public boolean agregarApercibimiento(String DNI, String descripcion, LocalDate fecha) throws NoEncontradoException {
+        if(mapaCliente.containsKey(DNI)){
+
+            mapaCliente.get(DNI).agregarApercibimiento(descripcion,fecha);
+            return true;
+
+        } else if (mapaInstructor.containsKey(DNI)) {
+
+            mapaInstructor.get(DNI).agregarApercibimiento(descripcion, fecha);
+            return true;
+        }else{
+            throw new NoEncontradoException(Persona.class);
+        }
+    }
+
+    /**=====================================================================================================*/
     public void listarTodo() {
         System.out.println("Clientes\n\n\n");
         System.out.println(mapaCliente);
@@ -315,10 +374,10 @@ public class Gimnasio {
     }
 
     //Sergio - Martes 13 de Junio
-    public boolean agregar(Usuario usuario) throws UsuarioExistenteException {
+    public boolean agregar(Usuario usuario) throws ExistenteException {
         //metodo que agrega un usuario a la lista de usuarios. La excepcion es atrapada por la UI
         if (mapaUsuarios.containsKey(usuario.getUsuario())) {
-            throw new UsuarioExistenteException();
+            throw new ExistenteException(usuario.getClass());
         }
         mapaUsuarios.put(usuario.getUsuario(), usuario); //no es necesario el else ya que el throw rompe ejecucion
         return true;
@@ -459,4 +518,116 @@ public class Gimnasio {
         precio_actividades += actividad.getPrecio_mensual();}
     return precio_base + precio_actividades;//el precio que el cliente abonara en total
     }
+
+    public void verificarPagos() {
+        LocalDate fechaActual = LocalDate.now();
+
+        for (Map.Entry<String, Cliente> entry : mapaCliente.entrySet()) {
+
+            Cliente cliente = entry.getValue();
+
+            LocalDate fechaPago = cliente.getFechaUltimoPago().plusMonths(1);
+
+            boolean debePagar = fechaActual.isAfter(fechaPago) || fechaActual.isEqual(fechaPago);
+
+            cliente.setDebe(debePagar);
+        }
+    }
+
+    public void cobrar(Cliente cliente){
+        Factura factura = cliente.pagar();
+        listaFacturas.add(factura);
+    }
+
+    /**
+
+     Permite obtener la coleccion de instructores en Formato JSON
+     @return La coleccion de actividades en formato JSON*/
+    public String CompartirDatosInstructores(){
+        String json = "";
+        Iterator it = mapaInstructor.entrySet().iterator();
+        JSONArray jsonArray_clientes = new JSONArray();
+        try{
+            while (it.hasNext()) {
+                Map.Entry<String, Instructor> entradaDelMapa = (Map.Entry<String, Instructor>) it.next();
+                Instructor instructor = entradaDelMapa.getValue();
+                jsonArray_clientes.put(instructor.toJsonObj());}
+            json = jsonArray_clientes.toString();}catch(JSONException e){
+            json = e.toString();}
+
+        return json;
+    }
+
+
+
+    /**Apartado estadisticas (Diego's playroom)*/
+
+
+    /**Devuelve estadisticas por edad y genero*/
+    public String estadisticas(){
+        String string = "";
+        int cantidadMujeresmenora30 = 0;
+        int cantidadHombresmenora30 = 0;
+        int cantidadMujeres30a45 = 0;
+        int cantidadHombres30a45 = 0;
+        int cantidadMujeres45a60 = 0;
+        int cantidadHombres45a60 = 0;
+        int cantidadMujeresmayora60 = 0;
+        int cantidadHombresmayora60 = 0;
+
+
+        Iterator<Map.Entry<String, Cliente>> it = mapaCliente.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<String, Cliente> entrada =  it.next();
+            Cliente cliente = entrada.getValue();
+            EGenero genero = cliente.getGenero();
+            int edad = LocalDate.now().getYear() - cliente.getFecha_nacimiento().getYear();
+            if(genero == EGenero.MASCULINO){
+                if(edad<30){
+                   cantidadHombresmenora30++;
+                } else if (edad>=30 && edad<=45) {
+                    cantidadHombres30a45++;
+                } else if (edad>=45 && edad<=60) {
+                   cantidadHombres45a60++;
+                } else if (edad>=60) {
+                    cantidadHombresmayora60++;
+                }
+            } else if (genero == EGenero.FEMENINO) {
+                if(edad<30){
+                    cantidadMujeresmenora30++;
+                } else if (edad>=30 && edad<=45) {
+                    cantidadMujeres30a45++;
+                } else if (edad>=45 && edad<=60) {
+                    cantidadMujeres45a60++;
+                } else if (edad>=60) {
+                    cantidadMujeresmayora60++;
+                }
+            }
+        }
+        int sumaHombres = cantidadHombresmenora30 + cantidadHombres30a45 + cantidadHombres45a60 + cantidadHombresmayora60;
+        int sumaMujeres = cantidadMujeresmenora30 + cantidadMujeres30a45 + cantidadMujeres45a60 + cantidadMujeresmayora60;
+        string = "ESTADISTICAS:\n\n MUJERES" + "\nCantidad total de Mujeres: " + sumaMujeres
+                + "\n   Menores de 30 años: " + cantidadMujeresmenora30 + "\n   Entre 30 y 45 años: " + cantidadMujeres30a45
+                + "\n   Entre 45 y 60 años: " + cantidadMujeres45a60 + "\n   Mayores de 60 años: " + cantidadMujeresmayora60 +
+                "\n\nHOMBRES\nCantidad de total Hombres: " + sumaHombres
+                + "\n   Menores de 30 años: " + cantidadHombresmenora30 + "\n   Entre 30 y 45 años: " + cantidadHombres30a45
+                + "\n   Entre 45 y 60 años: " + cantidadHombres45a60 + "\n   Mayores de 60 años: " + cantidadHombresmayora60;
+
+        return string;
+    }
+    /**Se envia un mes y devuelve ganancia del mismo. Se puede ampliar y hacer un prorrateo.*/
+    public double GananciaMensual(String mes){
+        double ganancia = 0;
+        Iterator<Factura> it = listaFacturas.iterator();
+        while(it.hasNext()){
+            Factura factura = it.next();
+            if(factura.getMes().equals(mes)){
+                ganancia += factura.getMonto();
+            }
+        }
+        return ganancia;
+    }
+
+
+
 }
