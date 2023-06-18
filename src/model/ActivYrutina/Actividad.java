@@ -74,6 +74,13 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     public double getPrecio_mensual() {
         return precio_mensual;
     }
+    /**Permite informar si una actividad esta disponible, en una cadena de texto Si/No.
+    @return si la actividad se encuentra disponible, en formato de una cadena legible para el usuario.*/
+    public String EstaDisponible(){
+        String rta = "No";
+        if(disponible){
+            rta = "Si";}
+        return rta;}
 
     /**Bloque de set -------------------------------------------------------------------------------------*/
     private void setNombre(EtipoActividad nombre) {

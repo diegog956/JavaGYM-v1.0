@@ -2,6 +2,7 @@
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
 import AccesoDatos.JsonUtiles;
+import excepciones.ActividadYaExisteException;
 import excepciones.CredencialesInvalidasException;
 import excepciones.UsuarioExistenteException;
 import model.ActivYrutina.*;
@@ -37,7 +38,6 @@ public class Main {
             //System.out.println(e.getMessage());
         }
 
-
         /**------------------------------------ ACTIVIDADES --------------------------------------------*/
         ArrayList<EdiaSemana> listaDias = new ArrayList<>();
 
@@ -46,20 +46,40 @@ public class Main {
         listaDias.add(EdiaSemana.VIERNES);
 
         Actividad actividad1 = new Actividad(EtipoActividad.BOXEO, "10:00 - 11:00", listaDias, "Instructor 1", 20, 0, true, "", 50.0);
-        gimnasio.agregar(actividad1);
+        try {
+            gimnasio.agregar(actividad1);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
         listaDias.clear();
         listaDias.add(EdiaSemana.MIERCOLES);
         Actividad actividad2 = new Actividad(EtipoActividad.DANZA, "10:00 - 11:00", listaDias, "Instructor 2", 15, 0, true, "", 60.0);
-        gimnasio.agregar(actividad1);
+        try {
+            gimnasio.agregar(actividad1);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
         listaDias.clear();
         listaDias.add(EdiaSemana.VIERNES);
 
         Actividad actividad4 = new Actividad(EtipoActividad.LIBRE, "19:30 - 20:30", listaDias, "Instructor 4", 25, 0, true, "¡Diviértete y mantente en forma con nuestros ritmos latinos!", 55.0);
 
-        gimnasio.agregar(actividad1);
-        gimnasio.agregar(actividad2);
+        try {
+            gimnasio.agregar(actividad1);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            gimnasio.agregar(actividad2);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
 
-        gimnasio.agregar(actividad4);
+        try {
+            gimnasio.agregar(actividad4);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
 
 
         Actividad actividad7 = new Actividad(EtipoActividad.LIBRE, "17:00 - 18:00", listaDias, "Instructor 7", 20, 0, true, "", 55.0);
@@ -75,30 +95,45 @@ public class Main {
 
         Actividad actividad15 = new Actividad(EtipoActividad.LIBRE, "15:30 - 16:30", listaDias, "Instructor 15", 25, 0, true, "", 50.0);
 
-        gimnasio.agregar(actividad7);
+        try {
+            gimnasio.agregar(actividad7);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
 
-        gimnasio.agregar(actividad9);
+        try {
+            gimnasio.agregar(actividad9);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
 
-        gimnasio.agregar(actividad11);
+        try {
+            gimnasio.agregar(actividad11);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
 
-        gimnasio.agregar(actividad13);
+        try {
+            gimnasio.agregar(actividad13);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
 
-        gimnasio.agregar(actividad15);
+        try {
+            gimnasio.agregar(actividad15);
+        } catch (ActividadYaExisteException e) {
+            System.out.println(e.getMessage());
+        }
 
         /**------------------------------------ INSTRUCTORES --------------------------------------------*/
 
-
         Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
 
-        // Ejemplo 2
         Instructor instructor2 = new Instructor("María López", "987654321", "555-5678", "Avenida XYZ", Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
 
-        // Ejemplo 3
         Instructor instructor3 = new Instructor("Pedro González", "456789123", "555-9999", "Plaza ABC", Eestado.ACTIVO, EGrupoSanguineo.B_POSITIVO, "555-1111", "Obra Social C", LocalDate.of(1988, 12, 5), "Comentario 3", "45678912345", new ArrayList<Actividad>(), "imagen3.jpg");
 
-        // Ejemplo 4
         Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456", "555-4444", "Calle 456", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", new ArrayList<Actividad>(), "imagen4.jpg");
-
 
         gimnasio.agregar(instructor1);
         gimnasio.agregar(instructor2);
@@ -128,17 +163,16 @@ public class Main {
         gimnasio.agregar(cliente3);
         gimnasio.agregar(cliente4);
 
-        /**------------------------------------ A ARCHIVO --------------------------------------------*/
+        /**------------------------------------ A ARCHIVO ------------------------------------------------*/
 
         gimnasio.guardarEnArchivo();
-
 
         /**------------------------------------ DESDE ARCHIVO --------------------------------------------*/
 
         /*Gimnasio nuevo_gim = new Gimnasio();
         nuevo_gim.listarTodo();*/
 
-        /**Hacia y desde JSON ----------------------------------------------------------------------------*/
+        /** Hacia y desde JSON ----------------------------------------------------------------------------*/
         JSONObject jsonObject = new JSONObject();
         try {
                 jsonObject = gimnasio.actualizarJson();
@@ -163,9 +197,7 @@ public class Main {
         System.out.println("ACTIVIDADES \n\n" + arbolActividades);
         System.out.println("USUARIOS \n\n" + mapaUsuarios);
 
-
         //Sergio 17-06 (perdon por spamear tanto el main) lo que sigue son pruebas de json
-
 /*
         Gimnasio javagym = new Gimnasio();
         try {

@@ -2,6 +2,8 @@ package model.Otros;
 
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
+import excepciones.ActividadNoEncontradaException;
+import excepciones.ActividadYaExisteException;
 import excepciones.CredencialesInvalidasException;
 import excepciones.UsuarioExistenteException;
 import model.ActivYrutina.Actividad;
@@ -275,8 +277,11 @@ public class Gimnasio {
         mapaCliente.put(cliente.getDni(), cliente);
     }
 
-    public void agregar(Actividad actividad) {
-        arbolActividades.add(actividad);
+    public boolean agregar(Actividad actividad) throws ActividadYaExisteException {
+        if(!arbolActividades.add(actividad)){
+            throw new ActividadYaExisteException("La actividad ya se encuentra presente");
+        }
+        return true;
     }
 
     public void agregar(Instructor instructor) {
@@ -403,7 +408,54 @@ public class Gimnasio {
         }
     }
 
+    /** Agrega Sergio 18/6
+
+     Permite obtener informacion adicional del cliente
+     @param dni del cliente a localizar
+     @return una cadena de texto que contiene informacion adicional del cliente*/
+    public String InformacionAdicionalCliente(String dni){
+        return LocalizarCliente(dni).MostrarInformacionAdicional();
+
+    }
+
+    /**
+
+     Permite localizar un cliente a partir de su dni
+     @param dni
+     @return El cliente localizado a partir de su Dni*/
+    private Cliente LocalizarCliente (String dni){
+        return mapaCliente.get(dni);}
 
 
+    /**
+
+     Permite reconocer una actividad presente en el sistema(el metodo es llamado desde la interfaz para ubicar una actividad)
+     @param actividad buscada
+     @return actividad encontrada
+     @throws ActividadNoEncontradaException, si no fue encontrada la actividad.
+     */
+    public Actividad buscarActividad(Actividad actividad) throws ActividadNoEncontradaException {
+        Actividad actividad_encontrada = null;
+        Iterator it = arbolActividades.iterator();
+        while(it.hasNext()){
+            Actividad actividad_en_arbol = (Actividad) it.next();
+            if(actividad_en_arbol.equals(actividad)){
+                actividad_encontrada = actividad_en_arbol;}
+
+        }
+        if(actividad_encontrada==null){
+            throw new ActividadNoEncontradaException();
+        }
+        return actividad_encontrada;
+    }
+
+    public double CalcularPrecio(TreeSet<Actividad> actividades_a_calcular){
+        double precio_base = 2000; /*suponiendo que el precio base del gym es este. ver luego si esto sera un atributo del gym*/
+    double precio_actividades=0;
+    Iterator it = actividades_a_calcular.iterator();
+    while(it.hasNext()){
+        Actividad actividad = (Actividad)it.next();
+        precio_actividades += actividad.getPrecio_mensual();}
+    return precio_base + precio_actividades;//el precio que el cliente abonara en total
+    }
 }
-

@@ -1,4 +1,5 @@
 package model.Persona;
+import model.Enum.EGenero;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
@@ -26,11 +27,13 @@ public abstract class Persona implements Serializable, I_toJson {
     private LocalDate fecha_nacimiento;
     private String comentario;
 
-    public Persona(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
+    public Persona(String nombre, String dni , String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
+
         this.telefono = telefono;
         this.domicilio = domicilio;
+
         listaApercibimientos = new ArrayList<>();
         this.estado = estado;
         this.grupo_sanguineo = grupo_sanguineo;
@@ -45,8 +48,10 @@ public abstract class Persona implements Serializable, I_toJson {
     {
         nombre=" ";
         dni=" ";
+
         telefono=" ";
         domicilio = "";
+
         listaApercibimientos=new ArrayList<>();
         estado=Eestado.ACTIVO;
         grupo_sanguineo=EGrupoSanguineo.NINGUNO;
@@ -62,6 +67,7 @@ public abstract class Persona implements Serializable, I_toJson {
         dni = jo.getString("DNI");
         telefono = jo.getString("Telefono");
         domicilio = jo.getString("Domicilio");
+
        // estado = (Eestado) jo.get("Estado");
         estado = Eestado.valueOf(jo.getString("Estado")) ;
         //grupo_sanguineo = (EGrupoSanguineo)
@@ -131,11 +137,13 @@ public abstract class Persona implements Serializable, I_toJson {
     }
 
 
+
     @Override
     public String toString() {
         return "Persona{" +
                 "nombre='" + nombre + '\'' +
                 ", dni='" + dni + '\'' +
+
                 ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio +
                 ", listaApercibimientos=" + listaApercibimientos.toString() +
                 ", estado=" + estado +
@@ -189,5 +197,17 @@ public abstract class Persona implements Serializable, I_toJson {
            jsonObject.put("Apercibimientos", jsonArray);
         return jsonObject;
     }
+
+    public int getCantidadApercibimientos(){
+        return listaApercibimientos.size();
+    }
+    /**
+     Permite mostrar en una cadena de texto la totalidad de apercibimientos de una persona.
+     @return Una cadena de texto que describe los apercibimientos.*/
+    public String DescripcionApercibimientos(){
+        String rta = "";
+        for(Apercibimiento apercibimiento: listaApercibimientos){
+            rta += apercibimiento.getDescripcion() + "\n";}
+        return rta;}
 }
 

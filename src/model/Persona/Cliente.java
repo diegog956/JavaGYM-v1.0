@@ -203,4 +203,32 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         actividades_cliente.addAll(actividades);
     }
 
+    /**
+
+     Permite obtener una cadena de texto que incluya informacion adicional del cliente*/
+    public String MostrarInformacionAdicional(){
+        String rta = "";
+        if(getEstado().toString().equals("INACTIVO")){
+            rta += "CLIENTE INACTIVO\n\n";}
+
+        if(getCantidadApercibimientos()>0){
+            rta += DescripcionApercibimientos() + "\n\n";
+        }
+
+        if (!isAlta_medica()){
+            rta += "Alta Médica Pendiente" + "\n\n";
+        }
+
+        if(!getComentario().equals("")){
+            rta += getComentario() + "\n\n";
+        }
+
+        rta+= "Contacto de Emergencia: " + getContacto_emergencia() + "\n\n" +
+                "Obra Social: " + getObra_social() + "\n\n" +
+                "Grupo Sanguíneo: " + getGrupo_sanguineo().toString() + "\n\n" +
+                "Fecha de Inscripción: " + getFecha_de_inscripcion().toString();
+
+        return rta;
+    }
+
 }
