@@ -81,7 +81,6 @@ public abstract class Persona implements Serializable, I_toJson {
         LocalDate fecha = LocalDate.parse(fecha_string, formatter);
 
         fecha_nacimiento = fecha;
-
         comentario = jo.getString("Comentario");
         listaApercibimientos = new ArrayList<>();
         JSONArray ja = null;
@@ -144,65 +143,7 @@ public abstract class Persona implements Serializable, I_toJson {
     public String getEmail() {/**ESTO-----------------------------------*/
         return email;
     }
-/**Bloque set =====================================================================================================*/
-    private void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    private void setDni(String dni) {
-        this.dni = dni;
-    }
-    private void setGenero(EGenero genero) {
-        this.genero = genero;
-    }
-    private void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-    private void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-    private void setEmail(String email) {
-        this.email = email;
-    }
-    public void setEstado(Eestado estado) {
-        this.estado = estado;
-    }
-    private void setGrupo_sanguineo(EGrupoSanguineo grupo_sanguineo) {
-        this.grupo_sanguineo = grupo_sanguineo;
-    }
-    private void setContacto_emergencia(String contacto_emergencia) {
-        this.contacto_emergencia = contacto_emergencia;
-    }
-    private void setObra_social(String obra_social) {
-        this.obra_social = obra_social;
-    }
-    private void setFecha_nacimiento(LocalDate fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
-    }
-    private void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
-    /**=========================================================================================================*/
-    /**MODIFICAR*/
-    public void modificar(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email,
-    Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,
-    LocalDate fecha_nacimiento,String comentario){
 
-        setNombre(nombre);
-        setDni(dni);
-        setGenero(genero);
-        setTelefono(telefono);
-        setDomicilio(domicilio);
-        setEmail(email);
-        setEstado(estado);
-        setGrupo_sanguineo(grupo_sanguineo);
-        setContacto_emergencia(contacto_emergencia);
-        setObra_social(obra_social);
-        setFecha_nacimiento(fecha_nacimiento);
-        setComentario(comentario);
-
-    }
-
-    /**=========================================================================================================*/
     @Override
     public String toString() {
         return "Persona{" +
@@ -276,13 +217,5 @@ public abstract class Persona implements Serializable, I_toJson {
         for(Apercibimiento apercibimiento: listaApercibimientos){
             rta += apercibimiento.getDescripcion() + "\n";}
         return rta;}
-
-
-
-    public void agregarApercibimiento(String descripcion, LocalDate fecha){
-        Apercibimiento apercibimiento = new Apercibimiento(descripcion, fecha);
-        listaApercibimientos.add(apercibimiento);
-    }
-
 }
 
