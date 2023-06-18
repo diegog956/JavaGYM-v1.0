@@ -2,11 +2,9 @@ package model.Otros;
 
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
-import excepciones.ActividadNoEncontradaException;
-import excepciones.ActividadYaExisteException;
-import excepciones.CredencialesInvalidasException;
-import excepciones.UsuarioExistenteException;
+import excepciones.*;
 import model.ActivYrutina.Actividad;
+import model.ActivYrutina.Rutina;
 import model.Enum.EGenero;
 import model.Persona.Cliente;
 import model.Personal.Administrativo;
@@ -458,4 +456,21 @@ public class Gimnasio {
         Factura factura = cliente.pagar();
         listaFacturas.add(factura);
     }
+
+    public Rutina pedidoRutina(Cliente cliente, Instructor instructor) throws ClienteDeudorException, RutinaSinAvisoException {
+        Rutina rutina=new Rutina();
+        if (cliente.isDebe())
+        {
+            throw new ClienteDeudorException();
+        }
+        else if (!cliente.isSolicito_rutina())
+        {
+            throw new RutinaSinAvisoException();
+        }
+        cliente.pedirRutina();
+       rutina= instructor.generarRutina(cliente);
+       cliente.setRutina(rutina);
+       return rutina;
+    }
+
 }

@@ -98,16 +98,8 @@ private String imagenPerfil;
         return jsonObject;
     }
 
-    public Rutina generarRutina(Cliente cliente) throws RutinaSinAvisoException, ClienteDeudorException {
-        if (!cliente.isSolicito_rutina())
-        {
-            throw new RutinaSinAvisoException();
-        }
-        else if (cliente.isDebe())
-        {
-            throw new ClienteDeudorException();
-        }
-        Rutina rutina=new Rutina(getNombre(),LocalDate.now().getMonth().toString(),"nueva rutina");
+    public Rutina generarRutina(Cliente cliente) {
+        Rutina rutina=new Rutina(getNombre(),LocalDate.now().getMonth().toString(),"rutina numero: "+cliente.getActividadesCliente());
         return rutina;
     }
 }

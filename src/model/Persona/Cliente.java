@@ -273,11 +273,9 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return factura;
     }
 
-    public String pedirRutina() throws ClienteDeudorException {
-        if (isDebe())
-        {
-            throw new ClienteDeudorException();
-        }
+
+
+    public String pedirRutina() {
         solicito_rutina=true;
         return "Su rutina se realizara pronto!";
     }
