@@ -429,14 +429,13 @@ public class Gimnasio {
         return actividad_encontrada;
     }
 
-    public double CalcularPrecio(TreeSet<Actividad> actividades_a_calcular){
+    public double CalcularPrecio(ArrayList<Actividad> actividades_a_calcular){
         double precio_base = 2000; /*suponiendo que el precio base del gym es este. ver luego si esto sera un atributo del gym*/
-    double precio_actividades=0;
-    Iterator it = actividades_a_calcular.iterator();
-    while(it.hasNext()){
-        Actividad actividad = (Actividad)it.next();
-        precio_actividades += actividad.getPrecio_mensual();}
-    return precio_base + precio_actividades;//el precio que el cliente abonara en total
+        double precio_actividades=0;
+        for(Actividad actividad : actividades_a_calcular){
+            precio_actividades += actividad.getPrecio_mensual();
+        }
+        return precio_base + precio_actividades;//el precio que el cliente abonara en total
     }
 
 
