@@ -24,10 +24,9 @@ import java.util.*;
 public class Gimnasio {
 
     private Encargado encargado;
-    private String mail;
-    private String CUIL;
-    private String responsable;
-    private String direccion;
+    private String CUIL; //esto ahora esta en el encargado
+    private String responsable; //esto ahora esta en el encargado
+    private String direccion; //esto ahora esta en el encargado
     /**
      * Ver Bloc de notas. Se puede pensar en que el encargado contenga los datos del gimnasio, tales como mail, direccion, etc.
      */
@@ -38,28 +37,7 @@ public class Gimnasio {
 
     private HashMap<String, Usuario> mapaUsuarios;
 
-    public Gimnasio(String responsable, String direccion) {/**Cuidado con este constructor. Yo lo sacaria....*/
 
-        ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
-        ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
-
-        encargado = new Encargado("JavaGym", "21541044", EGenero.OTRO,"474-5698", "Avenida de los trabajadores 1005", "javaGym@gmail.com","Veni capo", "24-21541044-3");
-        responsable = encargado.getNombre();
-        direccion = encargado.getDomicilio();
-        CUIL = encargado.getCUIL();
-        //mail = encargado.get
-
-        mapaCliente = new HashMap<>();
-        mapaCliente = (HashMap<String, Cliente>) archivoMapaUtiles.leerMapa("clientes.dat");
-        mapaInstructor = new HashMap<>();
-        mapaInstructor = (HashMap<String, Instructor>) archivoMapaUtiles.leerMapa("instructores.dat");
-        listaFacturas = new LinkedHashSet<>();
-        listaFacturas = (LinkedHashSet<Factura>) archivoColeccionUtiles.leerColeccion("facturas.dat");
-        arbolActividades = new TreeSet<>();
-        arbolActividades = (TreeSet<Actividad>) archivoColeccionUtiles.leerColeccion("actividades.dat");
-
-
-    }
 
     public Gimnasio() {
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
