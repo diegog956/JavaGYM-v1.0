@@ -4,6 +4,7 @@ import model.Enum.EGenero;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
+import model.Persona.Cliente;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -19,4 +20,5 @@ public class Administrativo extends Usuario implements Serializable {
     {
         super();
     }
+
 }

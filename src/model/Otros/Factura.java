@@ -101,6 +101,9 @@ public class Factura implements I_toJson, Serializable {
                 "\n";
     }
 
+    /**
+     * NO SE PUEDE COBRARLE DOS VECES EL MISMO MES A UN CLIENTE. EL EQUALS SE ENCARGA DE COMPRONARLO.
+     */
     @Override
     public boolean equals(Object o) {
        boolean rta = false;
