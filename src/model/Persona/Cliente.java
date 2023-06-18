@@ -25,6 +25,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     private Rutina rutina;
 
     private LocalDate fecha_de_inscripcion;
+    private LocalDate fecha_ultimo_pago;
     private LinkedHashSet<Factura> listaFacturas;
 
     private TreeSet<Actividad> actividades_cliente;
@@ -96,6 +97,10 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return fecha_de_inscripcion;
     }
 
+    public LocalDate getFecha_ultimo_pago() {
+        return fecha_ultimo_pago;
+    }
+
     /**Bloque set ---------------------------------------------------------------------------------------*/
     public void setAlta_medica(boolean alta_medica) {
         this.alta_medica = alta_medica;
@@ -111,6 +116,10 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     }
     public void setFecha_de_inscripcion(LocalDate fecha_de_inscripcion) {
         this.fecha_de_inscripcion = fecha_de_inscripcion;
+    }
+
+    public void setFecha_ultimo_pago(LocalDate fecha_ultimo_pago) {
+        this.fecha_ultimo_pago = fecha_ultimo_pago;
     }
 
     /**--------------------------------------------------------------------------------------------------*/
@@ -230,6 +239,24 @@ public class Cliente extends Persona implements I_toJson, Serializable {
                 "Fecha de Inscripción: " + getFecha_de_inscripcion().toString();
 
         return rta;
+    }
+
+
+    public Factura pagar(){
+        double monto = 0;
+
+        Iterator<Actividad> it = actividades_cliente.iterator();
+
+        while(it.hasNext()){
+            monto += it.next().getPrecio_mensual();
+        }
+        /*No esta hecho ningun tipo de descuento!!!!*/
+        Factura factura = new Factura(LocalDate.now().getMonth().toString(), String.valueOf(LocalDate.now().getYear()), getDni(), getNombre(), LocalDate.now(),monto);
+        setDebe(false);
+        setFecha_ultimo_pago(LocalDate.now());
+        listaFacturas.add(factura);
+
+        return factura;
     }
 
 }

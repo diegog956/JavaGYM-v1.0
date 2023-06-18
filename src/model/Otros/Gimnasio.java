@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.KeyStore;
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -436,5 +437,26 @@ public class Gimnasio {
         Actividad actividad = (Actividad)it.next();
         precio_actividades += actividad.getPrecio_mensual();}
     return precio_base + precio_actividades;//el precio que el cliente abonara en total
+    }
+
+
+    public void verificarPagos() {
+        LocalDate fechaActual = LocalDate.now();
+
+        for (Map.Entry<String, Cliente> entry : mapaCliente.entrySet()) {
+
+            Cliente cliente = entry.getValue();
+
+            LocalDate fechaPago = cliente.getFecha_ultimo_pago().plusMonths(1);
+
+            boolean debePagar = fechaActual.isAfter(fechaPago) || fechaActual.isEqual(fechaPago);
+
+            cliente.setDebe(debePagar);
+        }
+    }
+
+    public void cobrar(Cliente cliente){
+        Factura factura = cliente.pagar();
+        listaFacturas.add(factura);
     }
 }
