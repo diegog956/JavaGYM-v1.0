@@ -2,6 +2,7 @@ package model.Personal;
 
 
 import com.sun.source.tree.Tree;
+import excepciones.ClienteDeudorException;
 import excepciones.RutinaSinAvisoException;
 import model.ActivYrutina.Actividad;
 import model.ActivYrutina.Rutina;
@@ -97,10 +98,14 @@ private String imagenPerfil;
         return jsonObject;
     }
 
-    public Rutina generarRutina(Cliente cliente) throws RutinaSinAvisoException {
+    public Rutina generarRutina(Cliente cliente) throws RutinaSinAvisoException, ClienteDeudorException {
         if (!cliente.isSolicito_rutina())
         {
             throw new RutinaSinAvisoException();
+        }
+        else if (cliente.isDebe())
+        {
+            throw new ClienteDeudorException();
         }
         Rutina rutina=new Rutina(getNombre(),LocalDate.now().getMonth().toString(),"nueva rutina");
         return rutina;

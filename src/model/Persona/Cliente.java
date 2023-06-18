@@ -1,4 +1,5 @@
 package model.Persona;
+import excepciones.ClienteDeudorException;
 import model.ActivYrutina.Actividad;
 import model.ActivYrutina.Rutina;
 import model.Enum.EGenero;
@@ -270,6 +271,15 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         listaFacturas.add(factura);
 
         return factura;
+    }
+
+    public String pedirRutina() throws ClienteDeudorException {
+        if (isDebe())
+        {
+            throw new ClienteDeudorException();
+        }
+        solicito_rutina=true;
+        return "Su rutina se realizara pronto!";
     }
 
 }
