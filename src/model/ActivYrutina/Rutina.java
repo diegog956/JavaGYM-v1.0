@@ -28,19 +28,28 @@ public class Rutina implements Serializable, I_toJson {
 
     }
 
+    /**Bloque get -----------------------------------------------------------------------------------------*/
     public String getInstructor() {
         return instructor;
     }
-
     public String getMes() {
         return mes;
     }
-
     public String getDescripcion() {
         return descripcion;
     }
 
-
+    /**Bloque set -----------------------------------------------------------------------------------------*/
+    private void setInstructor(String instructor) {
+        this.instructor = instructor;
+    }
+    private void setMes(String mes) {
+        this.mes = mes;
+    }
+    private void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    /**----------------------------------------------------------------------------------------------------*/
     @Override
     public String toString() {
         return "Rutina{" +
@@ -49,11 +58,15 @@ public class Rutina implements Serializable, I_toJson {
                 ", descripcion='" + descripcion + '\''  +
                 '}';
     }
-
-
     @Override
-    public void fromJson(JSONObject jo) throws JSONException {
+    public Rutina fromJson(JSONObject jo) throws JSONException {
+        Rutina rutina = new Rutina();
 
+        rutina.setMes(jo.getString("Mes"));
+        rutina.setInstructor(jo.getString("Instructor"));
+        rutina.setDescripcion(jo.getString("Descripcion"));
+
+        return rutina;
     }
 
     @Override
@@ -66,7 +79,6 @@ public class Rutina implements Serializable, I_toJson {
             jsonObject.put("Descripcion", getDescripcion());
 
             return jsonObject;
-
     }
 }
 

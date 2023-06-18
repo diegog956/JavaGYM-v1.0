@@ -31,6 +31,14 @@ public class Apercibimiento implements Serializable,I_toJson {
         return fecha;
     }
 
+    private void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    private void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
     @Override
     public String toString() {
         return "Apercibimiento{" +
@@ -54,16 +62,21 @@ public class Apercibimiento implements Serializable,I_toJson {
 
 
     @Override
-    public void fromJson(JSONObject jo) throws JSONException {
+    public Apercibimiento fromJson(JSONObject jo) throws JSONException {
+        Apercibimiento apercibimiento = new Apercibimiento();
 
+        apercibimiento.setFecha(LocalDate.parse(jo.getString("Fecha")));
+        apercibimiento.setDescripcion(jo.getString("Descripcion"));
+
+        return apercibimiento;
     }
 
     @Override
     public JSONObject toJsonObj() throws JSONException {
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put("descripcion", getDescripcion());
-        jsonObject.put("fecha", getFecha());
+        jsonObject.put("Descripcion", getDescripcion());
+        jsonObject.put("Fecha", getFecha());
 
         return  jsonObject;
     }

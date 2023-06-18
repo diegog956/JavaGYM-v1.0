@@ -3,8 +3,8 @@ package model.interfaces;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public interface I_toJson {
+public interface I_toJson <T extends Object>{
 
-    void fromJson(JSONObject jo)  throws JSONException;
+    T fromJson(JSONObject jo)  throws JSONException;
     JSONObject toJsonObj() throws JSONException;
 }

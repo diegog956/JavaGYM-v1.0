@@ -67,11 +67,13 @@ public class ArchivoColeccionUtiles<T extends Collection> {
 
         } catch (FileNotFoundException e) {
 
-            e.printStackTrace();
+            //e.printStackTrace();
 
         } finally {
             try {
-                fis.close();
+                if (fis != null) {
+                    fis.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

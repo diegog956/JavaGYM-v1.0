@@ -54,7 +54,7 @@ public class ArchivoMapaUtiles <T extends Map> implements Serializable {
 
             } catch (EOFException e) {
 
-            } catch (IOException | ClassNotFoundException e) {
+            }catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             } finally{
                 try {
@@ -68,11 +68,13 @@ public class ArchivoMapaUtiles <T extends Map> implements Serializable {
 
         } catch (FileNotFoundException e) {
 
-            e.printStackTrace();
+            //e.printStackTrace();
 
         } finally {
             try {
-                fis.close();
+                if (fis != null) {
+                    fis.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

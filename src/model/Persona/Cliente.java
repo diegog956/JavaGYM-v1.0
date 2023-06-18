@@ -1,8 +1,10 @@
 package model.Persona;
 import model.ActivYrutina.Actividad;
 import model.ActivYrutina.Rutina;
+import model.Enum.EGenero;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
+import model.Otros.Apercibimiento;
 import model.Otros.Factura;
 import model.interfaces.I_toJson;
 import org.json.JSONArray;
@@ -10,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.TreeSet;
@@ -21,11 +25,10 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     private Rutina rutina;
 
     private LocalDate fecha_de_inscripcion;
+    private LocalDate fecha_ultimo_pago;
     private LinkedHashSet<Factura> listaFacturas;
 
     private TreeSet<Actividad> actividades_cliente;
-
-
 
     public Cliente()
     {
@@ -39,8 +42,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         actividades_cliente=new TreeSet<>();
     }
 
-    public Cliente(String nombre, String dni, String telefono, String domicilio,LocalDate fecha_de_inscripcion, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
-        super(nombre, dni, telefono, domicilio ,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+    public Cliente(String nombre, String dni, EGenero genero, String telefono, String domicilio, String email, LocalDate fecha_de_inscripcion, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
+        super(nombre, dni,genero, telefono, domicilio,email ,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
         this.alta_medica = alta_medica;
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
@@ -49,10 +52,14 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         listaFacturas=new LinkedHashSet<>();
         actividades_cliente=new TreeSet<>();
     }
+    /**Este constructor es para el fromJson*/
+    public Cliente(JSONObject jo) throws JSONException {
+        super(jo);
+    }
 
     //el constructor de aca abajo recibe la lista de actividades por parametro, lo cual sera necesario al momento de realizar inscripcion (no borrar)
-    public Cliente(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento, String comentario, boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, LocalDate fecha_de_inscripcion, TreeSet<Actividad> actividades_cliente) {
-        super(nombre, dni, telefono, domicilio, estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+    public Cliente(String nombre, String dni,EGenero genero, String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento, String comentario, boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, LocalDate fecha_de_inscripcion, TreeSet<Actividad> actividades_cliente) {
+        super(nombre, dni,genero, telefono, domicilio, email,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
         this.alta_medica = alta_medica;
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
@@ -75,17 +82,47 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return true;
     }
 
+    /**Bloque get ---------------------------------------------------------------------------------------*/
     public boolean isAlta_medica() {
         return alta_medica;
     }
-
     public boolean isSolicito_rutina() {
         return solicito_rutina;
     }
-
     public boolean isDebe() {
         return debe;
     }
+
+    public LocalDate getFecha_de_inscripcion() {
+        return fecha_de_inscripcion;
+    }
+
+    public LocalDate getFecha_ultimo_pago() {
+        return fecha_ultimo_pago;
+    }
+
+    /**Bloque set ---------------------------------------------------------------------------------------*/
+    public void setAlta_medica(boolean alta_medica) {
+        this.alta_medica = alta_medica;
+    }
+    public void setSolicito_rutina(boolean solicito_rutina) {
+        this.solicito_rutina = solicito_rutina;
+    }
+    public void setDebe(boolean debe) {
+        this.debe = debe;
+    }
+    public void setRutina(Rutina rutina) {
+        this.rutina = rutina;
+    }
+    public void setFecha_de_inscripcion(LocalDate fecha_de_inscripcion) {
+        this.fecha_de_inscripcion = fecha_de_inscripcion;
+    }
+
+    public void setFecha_ultimo_pago(LocalDate fecha_ultimo_pago) {
+        this.fecha_ultimo_pago = fecha_ultimo_pago;
+    }
+
+    /**--------------------------------------------------------------------------------------------------*/
 
     public String getDebe(){
         //metodo que devuelve si debe o no el cliente, en un formato de texto legible para cualquier usuario
@@ -104,6 +141,12 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         if(rutina==null){
             rutina = new Rutina();
         }
+        if(listaFacturas==null){
+            listaFacturas = new LinkedHashSet<>();
+        }
+        if(actividades_cliente==null){
+            actividades_cliente = new TreeSet<>();
+        }
         return  super.toString() + "Cliente{" +
                 "alta_medica=" + alta_medica +
                 ", solicito_rutina=" + solicito_rutina +
@@ -115,18 +158,13 @@ public class Cliente extends Persona implements I_toJson, Serializable {
                 "\n";
     }
 
-
-    @Override
-    public void fromJson(JSONObject jo) throws JSONException {
-
-    }
-
     public JSONObject toJsonObj() throws JSONException {
         JSONObject jsonObject = super.toJsonObj();
 
         jsonObject.put("Solicita rutina", isSolicito_rutina());
         jsonObject.put("Alta Medica", isAlta_medica());
         jsonObject.put("Debe", isDebe());
+        jsonObject.put("Fecha de Inscripcion", getFecha_de_inscripcion().toString());
         if(rutina !=null) {
             jsonObject.put("Rutina", rutina.toJsonObj());
         }
@@ -142,11 +180,83 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return jsonObject;
     }
 
+    @Override
+    public Cliente fromJson(JSONObject jo) throws JSONException {
+        Cliente cliente = new Cliente(jo);
+        cliente.setDebe(jo.getBoolean("Debe"));
+        cliente.setAlta_medica(jo.getBoolean("Alta Medica"));
+        cliente.setSolicito_rutina(jo.getBoolean("Solicita rutina"));
+       // cliente.setFecha_de_inscripcion((LocalDate) jo.get("Fecha de Inscripcion"));
+
+        String fecha_string = jo.getString("Fecha de Inscripcion");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fecha = LocalDate.parse(fecha_string, formatter);
+
+        cliente.setFecha_de_inscripcion(fecha);
+
+        if(jo.has("Rutina")) {
+            Rutina rutina = new Rutina();
+            cliente.setRutina(rutina.fromJson(jo.getJSONObject("Rutina")));
+        }
+        JSONArray jsonArray = jo.getJSONArray("Facturas");
+        for(int i=0; i<jsonArray.length();i++){
+            Factura factura = new Factura();
+            cliente.listaFacturas.add(factura.fromJson(jsonArray.getJSONObject(i)));
+        }
+        return cliente;
+    }
+
     public void agregarActividad(Actividad actividad){
         actividades_cliente.add(actividad);
     }
     public void agregarActividad(TreeSet<Actividad> actividades){
         actividades_cliente.addAll(actividades);
+    }
+
+    /**
+
+     Permite obtener una cadena de texto que incluya informacion adicional del cliente*/
+    public String MostrarInformacionAdicional(){
+        String rta = "";
+        if(getEstado().toString().equals("INACTIVO")){
+            rta += "CLIENTE INACTIVO\n\n";}
+
+        if(getCantidadApercibimientos()>0){
+            rta += DescripcionApercibimientos() + "\n\n";
+        }
+
+        if (!isAlta_medica()){
+            rta += "Alta Médica Pendiente" + "\n\n";
+        }
+
+        if(!getComentario().equals("")){
+            rta += getComentario() + "\n\n";
+        }
+
+        rta+= "Contacto de Emergencia: " + getContacto_emergencia() + "\n\n" +
+                "Obra Social: " + getObra_social() + "\n\n" +
+                "Grupo Sanguíneo: " + getGrupo_sanguineo().toString() + "\n\n" +
+                "Fecha de Inscripción: " + getFecha_de_inscripcion().toString();
+
+        return rta;
+    }
+
+
+    public Factura pagar(){
+        double monto = 0;
+
+        Iterator<Actividad> it = actividades_cliente.iterator();
+
+        while(it.hasNext()){
+            monto += it.next().getPrecio_mensual();
+        }
+        /*No esta hecho ningun tipo de descuento!!!!*/
+        Factura factura = new Factura(LocalDate.now().getMonth().toString(), String.valueOf(LocalDate.now().getYear()), getDni(), getNombre(), LocalDate.now(),monto);
+        setDebe(false);
+        setFecha_ultimo_pago(LocalDate.now());
+        listaFacturas.add(factura);
+
+        return factura;
     }
 
 }

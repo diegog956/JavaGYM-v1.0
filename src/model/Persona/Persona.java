@@ -1,4 +1,5 @@
 package model.Persona;
+import model.Enum.EGenero;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
@@ -8,15 +9,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public abstract class Persona implements Serializable, I_toJson {
     private String nombre;
     private String dni;
+    private EGenero genero;/**ESTO-----------------------------------*/
     private String telefono;
     private String domicilio;
+    private String email;/**ESTO-----------------------------------*/
 
-    /**Pensar en la incorporacion de correo electronico como atributo de las personas.*/
     private ArrayList<Apercibimiento> listaApercibimientos;
     private Eestado estado;
     private EGrupoSanguineo grupo_sanguineo;
@@ -25,11 +28,13 @@ public abstract class Persona implements Serializable, I_toJson {
     private LocalDate fecha_nacimiento;
     private String comentario;
 
-    public Persona(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
+    public Persona(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
+        this.genero = genero;/**ESTO-----------------------------------*/
         this.telefono = telefono;
         this.domicilio = domicilio;
+        this.email = email;/**ESTO-----------------------------------*/
         listaApercibimientos = new ArrayList<>();
         this.estado = estado;
         this.grupo_sanguineo = grupo_sanguineo;
@@ -38,13 +43,14 @@ public abstract class Persona implements Serializable, I_toJson {
         this.fecha_nacimiento = fecha_nacimiento;
         this.comentario=comentario;
     }
-
     public Persona ()
     {
         nombre=" ";
         dni=" ";
+        genero = EGenero.MASCULINO;/**ESTO-----------------------------------*/
         telefono=" ";
         domicilio = "";
+        email = "";/**ESTO-----------------------------------*/
         listaApercibimientos=new ArrayList<>();
         estado=Eestado.ACTIVO;
         grupo_sanguineo=EGrupoSanguineo.NINGUNO;
@@ -54,6 +60,37 @@ public abstract class Persona implements Serializable, I_toJson {
         comentario=" ";
     }
 
+    /**Constructor para fromJson*/
+    public Persona(JSONObject jo) throws JSONException {
+        nombre = jo.getString("Nombre");
+        dni = jo.getString("DNI");
+        telefono = jo.getString("Telefono");
+        domicilio = jo.getString("Domicilio");
+        genero = EGenero.valueOf(jo.getString("Genero"));/**ESTO-----------------------------------*/
+        email = jo.getString("Email");/**ESTO-----------------------------------*/
+       // estado = (Eestado) jo.get("Estado");
+        estado = Eestado.valueOf(jo.getString("Estado")) ;
+        //grupo_sanguineo = (EGrupoSanguineo)
+        grupo_sanguineo = EGrupoSanguineo.valueOf(jo.getString("Grupo Sanguineo"));
+        contacto_emergencia = jo.getString("Contacto de Emergencia");
+        obra_social = jo.getString("Obra Social");
+        //fecha_nacimiento = (LocalDate) jo.get("Fecha de Nacimiento");
+
+        String fecha_string = jo.getString("Fecha de Nacimiento");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fecha = LocalDate.parse(fecha_string, formatter);
+
+        fecha_nacimiento = fecha;
+        comentario = jo.getString("Comentario");
+        listaApercibimientos = new ArrayList<>();
+        JSONArray ja = null;
+        ja = jo.getJSONArray("Apercibimientos");
+        for(int i=0; i< ja.length();i++){
+            Apercibimiento apercibimiento = new Apercibimiento();
+            apercibimiento = apercibimiento.fromJson(ja.getJSONObject(i));
+            listaApercibimientos.add(apercibimiento);
+        }
+    }
     public String getComentario() {
         return comentario;
     }
@@ -99,48 +136,12 @@ public abstract class Persona implements Serializable, I_toJson {
         return domicilio;
     }
 
-    private void setNombre(String nombre) {
-        this.nombre = nombre;
+    public EGenero getGenero() {/**ESTO-----------------------------------*/
+        return genero;
     }
 
-    private void setDni(String dni) {
-        this.dni = dni;
-    }
-
-    private void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    private void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    private void setListaApercibimientos(ArrayList<Apercibimiento> listaApercibimientos) {
-        this.listaApercibimientos = listaApercibimientos;
-    }
-
-    private void setEstado(Eestado estado) {
-        this.estado = estado;
-    }
-
-    private void setGrupo_sanguineo(EGrupoSanguineo grupo_sanguineo) {
-        this.grupo_sanguineo = grupo_sanguineo;
-    }
-
-    private void setContacto_emergencia(String contacto_emergencia) {
-        this.contacto_emergencia = contacto_emergencia;
-    }
-
-    private void setObra_social(String obra_social) {
-        this.obra_social = obra_social;
-    }
-
-    private void setFecha_nacimiento(LocalDate fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
-    }
-
-    private void setComentario(String comentario) {
-        this.comentario = comentario;
+    public String getEmail() {/**ESTO-----------------------------------*/
+        return email;
     }
 
     @Override
@@ -148,7 +149,8 @@ public abstract class Persona implements Serializable, I_toJson {
         return "Persona{" +
                 "nombre='" + nombre + '\'' +
                 ", dni='" + dni + '\'' +
-                ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio +
+                ", genero='" + genero + /**ESTO-----------------------------------*/
+                ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio + ", email='" + email + /**ESTO-----------------------------------*/
                 ", listaApercibimientos=" + listaApercibimientos.toString() +
                 ", estado=" + estado +
                 ", grupo_sanguineo=" + grupo_sanguineo +
@@ -177,26 +179,20 @@ public abstract class Persona implements Serializable, I_toJson {
         return 1;
     }
 
-    /**Agregar parte desde y hacia json si corresponde*/
-
-   /* @Override
-    public void fromJson(JSONObject jo) throws JSONException {
-        Persona persona = null;
-        persona.setNombre(jo.getString("nombre"));
-    }*/
-
     @Override
     public JSONObject toJsonObj() throws JSONException {
         JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("nombre", getNombre());
+            jsonObject.put("Nombre", getNombre());
             jsonObject.put("DNI", getDni());
-            jsonObject.put("telefono", getTelefono());
-            jsonObject.put("Estado", getEstado());
-            jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo());
-            jsonObject.put("Contacto de emergencia", getContacto_emergencia());
+            jsonObject.put("Genero", getGenero().name());/**ESTO-----------------------------------*/
+            jsonObject.put("Telefono", getTelefono());
+            jsonObject.put("Email", getEmail());/**ESTO-----------------------------------*/
+            jsonObject.put("Estado", getEstado().name()); //name agregado a prosopito
+            jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo().name());//name agregado a prosopito
+            jsonObject.put("Contacto de Emergencia", getContacto_emergencia());
             jsonObject.put("Obra Social", getObra_social());
-            jsonObject.put("Fecha de Nacimiento", getFecha_nacimiento());
+            jsonObject.put("Fecha de Nacimiento", getFecha_nacimiento().toString());
             jsonObject.put("Comentario", getComentario());
             jsonObject.put("Domicilio", getDomicilio());
 
@@ -209,5 +205,17 @@ public abstract class Persona implements Serializable, I_toJson {
            jsonObject.put("Apercibimientos", jsonArray);
         return jsonObject;
     }
+
+    public int getCantidadApercibimientos(){
+        return listaApercibimientos.size();
+    }
+    /**
+     Permite mostrar en una cadena de texto la totalidad de apercibimientos de una persona.
+     @return Una cadena de texto que describe los apercibimientos.*/
+    public String DescripcionApercibimientos(){
+        String rta = "";
+        for(Apercibimiento apercibimiento: listaApercibimientos){
+            rta += apercibimiento.getDescripcion() + "\n";}
+        return rta;}
 }
 
