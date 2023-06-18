@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Factura implements I_toJson, Serializable {
@@ -127,8 +128,13 @@ public class Factura implements I_toJson, Serializable {
         factura.setAnio(jo.getString("Año"));
         factura.setNombre_cliente(jo.getString("Nombre"));
         factura.setDni_cliente(jo.getString("DNI"));
-        factura.setFecha_de_emision(LocalDate.parse(jo.getString("Fecha de emision")));
-        factura.setMonto(jo.getDouble("Mes"));
+
+        String fecha_string = jo.getString("Fecha de Emision");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fecha = LocalDate.parse(fecha_string, formatter);
+        factura.setFecha_de_emision(fecha);
+
+        factura.setMonto(jo.getDouble("Monto"));
 
         return factura;
     }
@@ -141,7 +147,7 @@ public class Factura implements I_toJson, Serializable {
        jsonObject.put("Año", getAnio());
        jsonObject.put("Nombre", getNombre_cliente());
        jsonObject.put("DNI", getDni_cliente());
-       jsonObject.put("Fecha de emision", getFecha_de_emision());
+       jsonObject.put("Fecha de Emision", getFecha_de_emision().toString());
        jsonObject.put("Monto", getMonto());
 
         return jsonObject;

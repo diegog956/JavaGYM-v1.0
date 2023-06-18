@@ -19,8 +19,8 @@ public class Instructor extends Personal implements Serializable, I_toJson {
 private ArrayList<Actividad> actividades;
 private String imagenPerfil;
 
-    public Instructor(String nombre, String dni, String telefono,String domicilio,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL, ArrayList<Actividad> actividades, String imagenPerfil) {
-        super(nombre, dni, telefono,domicilio,estado, grupo_sanguineo, contacto_emergencia, obra_social, alta_medica, fecha_nacimiento, comentario, CUIL);
+    public Instructor(String nombre, String dni, String telefono,String domicilio,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento, String comentario, String CUIL, ArrayList<Actividad> actividades, String imagenPerfil) {
+        super(nombre, dni, telefono,domicilio,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario, CUIL);
         this.actividades = actividades;
         this.imagenPerfil = imagenPerfil;
     }
@@ -32,8 +32,15 @@ private String imagenPerfil;
         imagenPerfil=" ";
     }
 
+    public Instructor (JSONObject jo) throws JSONException {
+        super(jo);
+    }
+
     @Override
     public String toString() {
+        if(actividades == null){
+            actividades = new ArrayList<>();
+        }
         return super.toString() + "Instructor{" +
                 "actividades=" + actividades.toString() +
                 "\n";
@@ -63,20 +70,20 @@ private String imagenPerfil;
 
     @Override
     public Instructor fromJson(JSONObject jo) throws JSONException {
-       Instructor instructor = (Instructor) super.fromJson(jo);
-       instructor.setImagenPerfil(jo.getString("Imagen de Perfil"));
-       JSONArray jsonArray = jo.getJSONArray("Actividades");
-       for(int i=0; i<jsonArray.length(); i++){
-           Actividad actividad = new Actividad();
-           instructor.actividades.add(actividad.fromJson(jsonArray.getJSONObject(i)));
-        }
+        Instructor instructor = new Instructor(jo);
+        JSONArray jsonArray = jo.getJSONArray("Actividades");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Actividad actividad = new Actividad();
+                instructor.actividades.add(actividad.fromJson(jsonArray.getJSONObject(i)));
+            }
+        instructor.setImagenPerfil(jo.getString("Imagen de Perfil"));
        return instructor;
     }
 
     @Override
     public JSONObject toJsonObj() throws JSONException {
-         JSONObject jsonObject = super.toJsonObj();
-         jsonObject.put("Imagen de Perfil", getImagenPerfil());
+        JSONObject jsonObject = super.toJsonObj();
+        jsonObject.put("Imagen de Perfil", getImagenPerfil());
         JSONArray jsonArray = new JSONArray();
         for(int i=0; i<actividades.size();i++){
             jsonArray.put(actividades.get(i).toJsonObj());

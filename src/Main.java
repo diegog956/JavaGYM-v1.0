@@ -1,6 +1,7 @@
 
 import AccesoDatos.ArchivoColeccionUtiles;
 import AccesoDatos.ArchivoMapaUtiles;
+import AccesoDatos.JsonUtiles;
 import excepciones.CredencialesInvalidasException;
 import excepciones.UsuarioExistenteException;
 import model.ActivYrutina.*;
@@ -27,13 +28,13 @@ public class Main {
         /**------------------------------------ usuarios (Sergio Martes 13-06) --------------------------------------------*/
 
         Administrativo administrativo1 = new Administrativo("Mauricio Macri","111111","111111","Calle 1 111",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2201,01,01),"","111111","mauriciomacri","mauriciomacri");
-        Administrativo administrativo2 = new Administrativo("Alberto Fernandez","222222","222222","Calle 2 222",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2002,02,02),"","","albertofernandez","albertofernandez");
+        Administrativo administrativo2 = new Administrativo("Alberto Fernandez","222222","222222","Calle 2 222",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2002,02,02),"","565156","albertofernandez","albertofernandez");
 
         try {
             gimnasio.agregar(administrativo1);
             gimnasio.agregar(administrativo2);
         } catch (UsuarioExistenteException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
 
 
@@ -87,16 +88,16 @@ public class Main {
         /**------------------------------------ INSTRUCTORES --------------------------------------------*/
 
 
-        Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", true, LocalDate.of(1990, 5, 10), "Comentario 1", "12345678901", new ArrayList<Actividad>(), "imagen1.jpg");
+        Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
 
         // Ejemplo 2
-        Instructor instructor2 = new Instructor("María López", "987654321", "555-5678", "Avenida XYZ", Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", false, LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
+        Instructor instructor2 = new Instructor("María López", "987654321", "555-5678", "Avenida XYZ", Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
 
         // Ejemplo 3
-        Instructor instructor3 = new Instructor("Pedro González", "456789123", "555-9999", "Plaza ABC", Eestado.ACTIVO, EGrupoSanguineo.B_POSITIVO, "555-1111", "Obra Social C", true, LocalDate.of(1988, 12, 5), "Comentario 3", "45678912345", new ArrayList<Actividad>(), "imagen3.jpg");
+        Instructor instructor3 = new Instructor("Pedro González", "456789123", "555-9999", "Plaza ABC", Eestado.ACTIVO, EGrupoSanguineo.B_POSITIVO, "555-1111", "Obra Social C", LocalDate.of(1988, 12, 5), "Comentario 3", "45678912345", new ArrayList<Actividad>(), "imagen3.jpg");
 
         // Ejemplo 4
-        Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456", "555-4444", "Calle 456", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", true, LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", new ArrayList<Actividad>(), "imagen4.jpg");
+        Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456", "555-4444", "Calle 456", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", new ArrayList<Actividad>(), "imagen4.jpg");
 
 
         gimnasio.agregar(instructor1);
@@ -131,6 +132,7 @@ public class Main {
 
         gimnasio.guardarEnArchivo();
 
+
         /**------------------------------------ DESDE ARCHIVO --------------------------------------------*/
 
         /*Gimnasio nuevo_gim = new Gimnasio();
@@ -143,30 +145,28 @@ public class Main {
             }catch (JSONException e){
                 e.printStackTrace();
             }
-
+        JsonUtiles.grabar(jsonObject, "json");
         HashMap<String, Cliente> mapaCliente = new HashMap<>();
         HashMap<String, Instructor> mapaInstructor= new HashMap<>();
         LinkedHashSet<Factura> listaFacturas= new LinkedHashSet<>();
         TreeSet<Actividad> arbolActividades= new TreeSet<>();
+        HashMap<String, Usuario> mapaUsuarios = new HashMap<>();
 
         try{
-            gimnasio.desgrabarJson(jsonObject, mapaCliente, mapaInstructor, listaFacturas, arbolActividades);
+            gimnasio.desgrabarJson(jsonObject, mapaCliente, mapaInstructor, listaFacturas, arbolActividades, mapaUsuarios);
         }catch (JSONException e){
             e.printStackTrace();
         }
-        System.out.println(mapaCliente);
-        System.out.println(mapaInstructor);
-        System.out.println(listaFacturas);
-        System.out.println(arbolActividades);
-
-
-
-
+        System.out.println("CLIENTES \n\n" + mapaCliente);
+        System.out.println("INSTRUCTORES \n\n" + mapaInstructor);
+        System.out.println("FACTURAS \n\n" + listaFacturas);
+        System.out.println("ACTIVIDADES \n\n" + arbolActividades);
+        System.out.println("USUARIOS \n\n" + mapaUsuarios);
 
 
         //Sergio 17-06 (perdon por spamear tanto el main) lo que sigue son pruebas de json
 
-
+/*
         Gimnasio javagym = new Gimnasio();
         try {
             System.out.println(javagym.IngresarAlSistema("encargado2023","encargado2023"));
@@ -194,12 +194,12 @@ public class Main {
 
 
 
-           /* for(int i=0; i<jsonArray_clientes.length();i++){
+           *//* for(int i=0; i<jsonArray_clientes.length();i++){
                 JSONObject jsonObject_cliente = jsonArray_clientes.getJSONObject(i);
                 Cliente cliente = new Cliente();
                 cliente = cliente.fromJson(jsonObject_cliente);
                 clientes.add(cliente);
-            }*/
+            }*//*
             System.out.println("Clientes tomados del json: \n " + clientes );
         } catch (JSONException e) {
             System.out.println(e.getMessage());
@@ -228,11 +228,12 @@ public class Main {
             System.out.println(actividades);
         }catch(JSONException e){
             System.out.println(e.getMessage());
-        }
+        }*/
 
 
 
 
 
 
-    }}
+    }
+}

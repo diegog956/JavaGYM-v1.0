@@ -16,7 +16,7 @@ public class Personal extends Persona implements Serializable, I_toJson
 {
     private String CUIL;
 
-    public Personal(String nombre, String dni, String telefono, String domicilio,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, String CUIL) {
+    public Personal(String nombre, String dni, String telefono, String domicilio,Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento, String comentario, String CUIL) {
         super(nombre,dni,telefono,domicilio,estado,grupo_sanguineo,contacto_emergencia,obra_social,fecha_nacimiento,comentario);
         this.CUIL = CUIL;
     }
@@ -24,8 +24,10 @@ public class Personal extends Persona implements Serializable, I_toJson
     public Personal()
     {
         super();
+    }
 
-
+    public Personal(JSONObject jo) throws JSONException {
+        super(jo);
     }
 
     public String getCUIL() {
@@ -45,9 +47,9 @@ public class Personal extends Persona implements Serializable, I_toJson
 
     @Override
     public Personal fromJson(JSONObject jo) throws JSONException {
-       /*Personal personal = (Personal) super.fromJson(jo);
-        personal.setCUIL(jo.getString("CUIL"));*/
-        return null;
+       Personal personal = new Personal(jo);
+       personal.setCUIL(jo.getString("CUIL"));
+       return personal;
     }
 
     @Override

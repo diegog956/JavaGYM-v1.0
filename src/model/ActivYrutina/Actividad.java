@@ -171,8 +171,8 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     public Actividad fromJson(JSONObject jo) throws JSONException {
        Actividad actividad = new Actividad();
 
-       //actividad.setNombre((EtipoActividad) jo.get("Nombre")); modificado en la linea de abajo
-        actividad.setNombre(EtipoActividad.valueOf(jo.getString("Nombre")));
+       //actividad.setNombre((EtipoActividad) jo.get("Nombre"));// modificado en la linea de abajo
+       actividad.setNombre(EtipoActividad.valueOf(jo.getString("Nombre")));
        actividad.setNombre_instructor(jo.getString("Nombre Instructor"));
        actividad.setCupo(jo.getInt("Cupo"));
        actividad.setInscriptos(jo.getInt("Inscriptos"));
@@ -191,7 +191,6 @@ public class Actividad implements Serializable,Comparable, I_toJson {
             actividad.listaDias.add(enum_dia_semana);
         }
 
-
         return actividad;
     }
 
@@ -199,7 +198,7 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     public JSONObject toJsonObj() throws JSONException {
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("Nombre",getNombre() );
+            jsonObject.put("Nombre",getNombre().toString());
             jsonObject.put("Nombre Instructor",getNombre_instructor());
             jsonObject.put("Cupo",getCupo());
             jsonObject.put("Inscriptos",getInscriptos());
@@ -210,7 +209,7 @@ public class Actividad implements Serializable,Comparable, I_toJson {
 
             JSONArray jsonArray = new JSONArray();
             for(int i=0;i<listaDias.size();i++){
-                jsonArray.put(i, getListaDias().get(i));
+                jsonArray.put(i, getListaDias().get(i).toString());
             }
             jsonObject.put("Dias", jsonArray);
             return jsonObject;

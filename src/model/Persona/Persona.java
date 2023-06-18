@@ -80,7 +80,7 @@ public abstract class Persona implements Serializable, I_toJson {
         JSONArray ja = null;
         ja = jo.getJSONArray("Apercibimientos");
         for(int i=0; i< ja.length();i++){
-            Apercibimiento apercibimiento = null;
+            Apercibimiento apercibimiento = new Apercibimiento();
             apercibimiento = apercibimiento.fromJson(ja.getJSONObject(i));
             listaApercibimientos.add(apercibimiento);
         }

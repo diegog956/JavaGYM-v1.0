@@ -249,16 +249,23 @@ public class Gimnasio {
         }
         jsonObject.put("Clientes", jsonArrayClientes);
 
-        Iterator<Map.Entry<String, Cliente>> it4 = mapaCliente.entrySet().iterator();
+        Iterator<Map.Entry<String, Instructor>> it4 = mapaInstructor.entrySet().iterator();
         JSONArray jsonArrayInstructor = new JSONArray();
         i = 0;
         while (it4.hasNext()) {
-            jsonArrayInstructor.put(i, it4.next());
+            jsonArrayInstructor.put(i, it4.next().getValue().toJsonObj());
             i++;
         }
         jsonObject.put("Instructores", jsonArrayInstructor);
 
-        /**EL MAPA DE USUARIO VA EN EL JSON?*/
+        Iterator<Map.Entry<String, Usuario>> it5 = mapaUsuarios.entrySet().iterator();
+        JSONArray jsonArrayUsuario = new JSONArray();
+        i = 0;
+        while (it5.hasNext()) {
+            jsonArrayUsuario.put(i, it5.next().getValue().toJsonObj());
+            i++;
+        }
+        jsonObject.put("Usuarios", jsonArrayUsuario);
 
         return jsonObject;
 
@@ -352,7 +359,7 @@ public class Gimnasio {
 
     //Mateo - Viernes 31 de Febrero
 
-    public void desgrabarJson(JSONObject jsonObject, HashMap<String, Cliente> mapaCliente, HashMap<String, Instructor> mapaInstructor,LinkedHashSet<Factura> listaFacturas, TreeSet<Actividad> arbolActividades) throws JSONException {
+    public void desgrabarJson(JSONObject jsonObject, HashMap<String, Cliente> mapaCliente, HashMap<String, Instructor> mapaInstructor,LinkedHashSet<Factura> listaFacturas, TreeSet<Actividad> arbolActividades, HashMap<String, Usuario> mapaUsuarios ) throws JSONException {
 
         JSONArray jsonArray;
         jsonArray = jsonObject.getJSONArray("Clientes");
@@ -362,20 +369,22 @@ public class Gimnasio {
             mapaCliente.put(cliente.getDni(), cliente);
         }
 
-        /*JSONArray jsonArray2 = new JSONArray(jsonObject.getJSONArray("Instructores"));
+        JSONArray jsonArray2;
+        jsonArray2 = jsonObject.getJSONArray("Instructores");
         for(int i=0; i<jsonArray2.length();i++){
            Instructor instructor = new Instructor();
             instructor = instructor.fromJson(jsonArray2.getJSONObject(i));
             mapaInstructor.put(instructor.getDni(), instructor);
         }
 
-        JSONArray jsonArray3 = new JSONArray(jsonObject.getJSONArray("Facturas"));
+        JSONArray jsonArray3;
+        jsonArray3 = jsonObject.getJSONArray("Facturas");
         for(int i=0; i<jsonArray3.length();i++){
             Factura factura = new Factura();
             factura = factura.fromJson(jsonArray3.getJSONObject(i));
             listaFacturas.add(factura);
         }
-*/
+
         JSONArray jsonArray4;
         jsonArray4 = jsonObject.getJSONArray("Actividades");
         for(int i=0; i<jsonArray4.length();i++){
@@ -384,6 +393,14 @@ public class Gimnasio {
             arbolActividades.add(actividad);
         }
 
+
+        JSONArray jsonArray5;
+        jsonArray5 = jsonObject.getJSONArray("Usuarios");
+        for(int i=0; i<jsonArray5.length();i++){
+            Usuario usuario = new Usuario();
+            usuario = usuario.fromJson(jsonArray5.getJSONObject(i));
+            mapaUsuarios.put(usuario.getUsuario(), usuario);
+        }
     }
 
 

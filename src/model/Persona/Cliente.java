@@ -172,7 +172,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
 
     @Override
     public Cliente fromJson(JSONObject jo) throws JSONException {
-        Cliente cliente  = new Cliente(jo);
+        Cliente cliente = new Cliente(jo);
         cliente.setDebe(jo.getBoolean("Debe"));
         cliente.setAlta_medica(jo.getBoolean("Alta Medica"));
         cliente.setSolicito_rutina(jo.getBoolean("Solicita rutina"));
