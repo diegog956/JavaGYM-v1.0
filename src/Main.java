@@ -145,7 +145,7 @@ public class Main {
             }catch (JSONException e){
                 e.printStackTrace();
             }
-        JsonUtiles.grabar(jsonObject, "json");
+
         HashMap<String, Cliente> mapaCliente = new HashMap<>();
         HashMap<String, Instructor> mapaInstructor= new HashMap<>();
         LinkedHashSet<Factura> listaFacturas= new LinkedHashSet<>();
