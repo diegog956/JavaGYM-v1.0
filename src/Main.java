@@ -24,12 +24,27 @@ import java.util.TreeSet;
 public class Main {
     public static void main(String[] args) {
 
+
+        /**Impacto del agregue Genero y Mail:
+         * PERSONA:
+         * - 2 Atributos nuevos.
+         * - Constructores y cabecera.
+         * - 2 Gets y el to String.
+         * - toJson
+         *EL RESTO DE LOS QUE HEREDAN DE PERSONA:
+         * -Todos los constructores
+         *
+         * MAIN:
+         * -Todos aquellos hardcodeados que hereden de persona.
+         * - Creacion del encargado en gimnasio
+         * */
+
         Gimnasio gimnasio = new Gimnasio();
 
         /**------------------------------------ usuarios (Sergio Martes 13-06) --------------------------------------------*/
 
-        Administrativo administrativo1 = new Administrativo("Mauricio Macri","111111","111111","Calle 1 111",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2201,01,01),"","111111","mauriciomacri","mauriciomacri");
-        Administrativo administrativo2 = new Administrativo("Alberto Fernandez","222222","222222","Calle 2 222",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2002,02,02),"","565156","albertofernandez","albertofernandez");
+        Administrativo administrativo1 = new Administrativo("Mauricio Macri","111111",EGenero.MASCULINO,"111111","Calle 1 111","prueba@gmail.com",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2201,01,01),"","111111","mauriciomacri","mauriciomacri");
+        Administrativo administrativo2 = new Administrativo("Alberto Fernandez","222222",EGenero.MASCULINO,"222222","Calle 2 222","prueba@gmail.com",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2002,02,02),"","565156","albertofernandez","albertofernandez");
 
         try {
             gimnasio.agregar(administrativo1);
@@ -127,13 +142,13 @@ public class Main {
 
         /**------------------------------------ INSTRUCTORES --------------------------------------------*/
 
-        Instructor instructor1 = new Instructor("Juan Perez", "123456789", "555-1234", "Calle 123", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
+        Instructor instructor1 = new Instructor("Juan Perez", "123456789",EGenero.MASCULINO, "555-1234", "Calle 123", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
 
-        Instructor instructor2 = new Instructor("María López", "987654321", "555-5678", "Avenida XYZ", Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
+        Instructor instructor2 = new Instructor("María López", "987654321",EGenero.MASCULINO, "555-5678", "Avenida XYZ", "prueba@gmail.com",Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
 
-        Instructor instructor3 = new Instructor("Pedro González", "456789123", "555-9999", "Plaza ABC", Eestado.ACTIVO, EGrupoSanguineo.B_POSITIVO, "555-1111", "Obra Social C", LocalDate.of(1988, 12, 5), "Comentario 3", "45678912345", new ArrayList<Actividad>(), "imagen3.jpg");
+        Instructor instructor3 = new Instructor("Pedro González", "456789123",EGenero.MASCULINO, "555-9999", "Plaza ABC","prueba@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.B_POSITIVO, "555-1111", "Obra Social C", LocalDate.of(1988, 12, 5), "Comentario 3", "45678912345", new ArrayList<Actividad>(), "imagen3.jpg");
 
-        Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456", "555-4444", "Calle 456", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", new ArrayList<Actividad>(), "imagen4.jpg");
+        Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456",EGenero.MASCULINO, "555-4444", "Calle 456", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", new ArrayList<Actividad>(), "imagen4.jpg");
 
         gimnasio.agregar(instructor1);
         gimnasio.agregar(instructor2);
@@ -153,10 +168,10 @@ public class Main {
         gimnasio.agregar(factura4);
         /**------------------------------------ CLIENTES --------------------------------------------*/
 
-        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", "1234567890", "Calle 123", LocalDate.of(2023, 3, 5), Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", true, LocalDate.of(1990, 5, 15), "Comentario 1", true, false);
-        Cliente cliente2 = new Cliente("María González", "987654321", "0987654321", "Avenida 456", LocalDate.of(2023, 10, 9), Eestado.INACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", false, LocalDate.of(1985, 10, 20), "Comentario 2", false, true);
-        Cliente cliente3 = new Cliente("Pedro López", "456789123", "1112223333", "Plaza 789", LocalDate.of(2023, 4, 3), Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", true, LocalDate.of(1995, 3, 8), "Comentario 3", true, false);
-        Cliente cliente4 = new Cliente("Ana Rodríguez", "789123456", "4445556666", "Callejón 987", LocalDate.of(2023, 12, 22), Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", true, LocalDate.of(2000, 12, 25), "Comentario 4", false, false);
+        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", EGenero.MASCULINO,"1234567890", "Calle 123", "prueba@gmail.com",LocalDate.of(2023, 3, 5), Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", true, LocalDate.of(1990, 5, 15), "Comentario 1", true, false);
+        Cliente cliente2 = new Cliente("María González", "987654321",EGenero.MASCULINO, "0987654321", "Avenida 456","prueba@gmail.com", LocalDate.of(2023, 10, 9), Eestado.INACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", false, LocalDate.of(1985, 10, 20), "Comentario 2", false, true);
+        Cliente cliente3 = new Cliente("Pedro López", "456789123",EGenero.MASCULINO, "1112223333", "Plaza 789","prueba@gmail.com", LocalDate.of(2023, 4, 3), Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", true, LocalDate.of(1995, 3, 8), "Comentario 3", true, false);
+        Cliente cliente4 = new Cliente("Ana Rodríguez", "789123456",EGenero.MASCULINO, "4445556666", "Callejón 987","prueba@gmail.com", LocalDate.of(2023, 12, 22), Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", true, LocalDate.of(2000, 12, 25), "Comentario 4", false, false);
 
         gimnasio.agregar(cliente1);
         gimnasio.agregar(cliente2);

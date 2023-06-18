@@ -1,6 +1,7 @@
 package model.Persona;
 import model.ActivYrutina.Actividad;
 import model.ActivYrutina.Rutina;
+import model.Enum.EGenero;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 import model.Otros.Apercibimiento;
@@ -40,8 +41,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         actividades_cliente=new TreeSet<>();
     }
 
-    public Cliente(String nombre, String dni, String telefono, String domicilio,LocalDate fecha_de_inscripcion, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
-        super(nombre, dni, telefono, domicilio ,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+    public Cliente(String nombre, String dni, EGenero genero, String telefono, String domicilio, String email, LocalDate fecha_de_inscripcion, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, boolean alta_medica, LocalDate fecha_nacimiento, String comentario, boolean solicito_rutina, boolean debe) {
+        super(nombre, dni,genero, telefono, domicilio,email ,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
         this.alta_medica = alta_medica;
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
@@ -56,8 +57,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     }
 
     //el constructor de aca abajo recibe la lista de actividades por parametro, lo cual sera necesario al momento de realizar inscripcion (no borrar)
-    public Cliente(String nombre, String dni, String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento, String comentario, boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, LocalDate fecha_de_inscripcion, TreeSet<Actividad> actividades_cliente) {
-        super(nombre, dni, telefono, domicilio, estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+    public Cliente(String nombre, String dni,EGenero genero, String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento, String comentario, boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, LocalDate fecha_de_inscripcion, TreeSet<Actividad> actividades_cliente) {
+        super(nombre, dni,genero, telefono, domicilio, email,estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
         this.alta_medica = alta_medica;
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;

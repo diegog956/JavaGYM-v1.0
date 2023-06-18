@@ -15,10 +15,11 @@ import java.util.ArrayList;
 public abstract class Persona implements Serializable, I_toJson {
     private String nombre;
     private String dni;
+    private EGenero genero;/**ESTO-----------------------------------*/
     private String telefono;
     private String domicilio;
+    private String email;/**ESTO-----------------------------------*/
 
-    /**Pensar en la incorporacion de correo electronico como atributo de las personas.*/
     private ArrayList<Apercibimiento> listaApercibimientos;
     private Eestado estado;
     private EGrupoSanguineo grupo_sanguineo;
@@ -27,13 +28,13 @@ public abstract class Persona implements Serializable, I_toJson {
     private LocalDate fecha_nacimiento;
     private String comentario;
 
-    public Persona(String nombre, String dni , String telefono, String domicilio, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
+    public Persona(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
-
+        this.genero = genero;/**ESTO-----------------------------------*/
         this.telefono = telefono;
         this.domicilio = domicilio;
-
+        this.email = email;/**ESTO-----------------------------------*/
         listaApercibimientos = new ArrayList<>();
         this.estado = estado;
         this.grupo_sanguineo = grupo_sanguineo;
@@ -41,17 +42,15 @@ public abstract class Persona implements Serializable, I_toJson {
         this.obra_social = obra_social;
         this.fecha_nacimiento = fecha_nacimiento;
         this.comentario=comentario;
-
     }
-
     public Persona ()
     {
         nombre=" ";
         dni=" ";
-
+        genero = EGenero.MASCULINO;/**ESTO-----------------------------------*/
         telefono=" ";
         domicilio = "";
-
+        email = "";/**ESTO-----------------------------------*/
         listaApercibimientos=new ArrayList<>();
         estado=Eestado.ACTIVO;
         grupo_sanguineo=EGrupoSanguineo.NINGUNO;
@@ -67,7 +66,8 @@ public abstract class Persona implements Serializable, I_toJson {
         dni = jo.getString("DNI");
         telefono = jo.getString("Telefono");
         domicilio = jo.getString("Domicilio");
-
+        genero = EGenero.valueOf(jo.getString("Genero"));/**ESTO-----------------------------------*/
+        email = jo.getString("Email");/**ESTO-----------------------------------*/
        // estado = (Eestado) jo.get("Estado");
         estado = Eestado.valueOf(jo.getString("Estado")) ;
         //grupo_sanguineo = (EGrupoSanguineo)
@@ -136,15 +136,21 @@ public abstract class Persona implements Serializable, I_toJson {
         return domicilio;
     }
 
+    public EGenero getGenero() {/**ESTO-----------------------------------*/
+        return genero;
+    }
 
+    public String getEmail() {/**ESTO-----------------------------------*/
+        return email;
+    }
 
     @Override
     public String toString() {
         return "Persona{" +
                 "nombre='" + nombre + '\'' +
                 ", dni='" + dni + '\'' +
-
-                ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio +
+                ", genero='" + genero + /**ESTO-----------------------------------*/
+                ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio + ", email='" + email + /**ESTO-----------------------------------*/
                 ", listaApercibimientos=" + listaApercibimientos.toString() +
                 ", estado=" + estado +
                 ", grupo_sanguineo=" + grupo_sanguineo +
@@ -179,7 +185,9 @@ public abstract class Persona implements Serializable, I_toJson {
 
             jsonObject.put("Nombre", getNombre());
             jsonObject.put("DNI", getDni());
+            jsonObject.put("Genero", getGenero().name());/**ESTO-----------------------------------*/
             jsonObject.put("Telefono", getTelefono());
+            jsonObject.put("Email", getEmail());/**ESTO-----------------------------------*/
             jsonObject.put("Estado", getEstado().name()); //name agregado a prosopito
             jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo().name());//name agregado a prosopito
             jsonObject.put("Contacto de Emergencia", getContacto_emergencia());

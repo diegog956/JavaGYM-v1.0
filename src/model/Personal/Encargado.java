@@ -1,5 +1,6 @@
 package model.Personal;
 
+import model.Enum.EGenero;
 import model.Enum.EGrupoSanguineo;
 import model.Enum.Eestado;
 
@@ -8,10 +9,8 @@ import java.time.LocalDate;
 
 public class Encargado extends Usuario implements Serializable
 {
-
-
-    public Encargado(String nombre, String dni, String telefono, String domicilio, String comentario, String CUIL) {
-        super(nombre, dni, telefono, domicilio,null,"","",null,"","", "encargado2023","encargado2023");
+    public Encargado(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email, String comentario, String CUIL) {
+        super(nombre, dni,genero, telefono, domicilio,email,null,"","",null,"","", "encargado2023","encargado2023");
     }
 
     /**Pensar el rol del encargado a nivel metodos.*/

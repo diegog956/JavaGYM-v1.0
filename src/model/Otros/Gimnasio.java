@@ -7,6 +7,7 @@ import excepciones.ActividadYaExisteException;
 import excepciones.CredencialesInvalidasException;
 import excepciones.UsuarioExistenteException;
 import model.ActivYrutina.Actividad;
+import model.Enum.EGenero;
 import model.Persona.Cliente;
 import model.Personal.Administrativo;
 import model.Personal.Instructor;
@@ -37,12 +38,12 @@ public class Gimnasio {
 
     private HashMap<String, Usuario> mapaUsuarios;
 
-    public Gimnasio(String responsable, String direccion) {/**Cuidado con este constructor.*/
+    public Gimnasio(String responsable, String direccion) {/**Cuidado con este constructor. Yo lo sacaria....*/
 
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
 
-        encargado = new Encargado("JavaGym", "21541044", "474-5698", "Avenida de los trabajadores 1005", "Veni capo", "24-21541044-3");
+        encargado = new Encargado("JavaGym", "21541044", EGenero.OTRO,"474-5698", "Avenida de los trabajadores 1005", "javaGym@gmail.com","Veni capo", "24-21541044-3");
         responsable = encargado.getNombre();
         direccion = encargado.getDomicilio();
         CUIL = encargado.getCUIL();
@@ -67,7 +68,7 @@ public class Gimnasio {
         responsable = " ";
         direccion = " ";
 
-        encargado = new Encargado("JavaGym", "21541044", "474-5698", "Avenida de los trabajadores 1005", "Veni capo", "24-21541044-3");
+        encargado = new Encargado("JavaGym", "21541044",EGenero.OTRO,"474-5698", "Avenida de los trabajadores 1005", "javaGym@gmail.com","Veni capo", "24-21541044-3");
         responsable = encargado.getNombre();
         direccion = encargado.getDomicilio();
         CUIL = encargado.getCUIL();
