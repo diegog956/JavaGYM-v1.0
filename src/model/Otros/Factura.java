@@ -91,14 +91,11 @@ public class Factura implements I_toJson, Serializable {
 
     @Override
     public String toString() {
-        return "Factura{" +
-                "mes='" + mes + '\'' +
-                ", anio='" + anio + '\'' +
-                ", dni_cliente='" + dni_cliente + '\'' +
-                ", nombre_cliente='" + nombre_cliente + '\'' +
-                ", fecha_de_emision=" + fecha_de_emision +
-                ", monto=" + monto +
-                "\n";
+        return "\n======================\nFactura " + getMes() + " " + getAnio() + "\n======================\n" +
+                "Cliente: " + getNombre_cliente() +
+                "\nDNI: " + getDni_cliente() +
+                "\nFecha emision: "+ getFecha_de_emision() +
+                "\n-------------------\nMonto: " + getMonto() + "\n-------------------\n";
     }
 
     /**

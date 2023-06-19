@@ -172,7 +172,7 @@ public class Main {
         System.out.println("\n\n\n" + gimnasio.getMapaInstructor());*/
         /**------------------------------------ FACTURAS --------------------------------------------*/
 
-       /* Factura factura1 = new Factura("Enero", "2023", "123456789", "Juan Pérez", LocalDate.now(), 1000.0);
+        Factura factura1 = new Factura("Enero", "2023", "123456789", "Juan Pérez", LocalDate.now(), 1000.0);
         Factura factura2 = new Factura("Febrero", "2023", "987654321", "María González", LocalDate.now(), 1500.0);
         Factura factura3 = new Factura("Marzo", "2023", "456789123", "Pedro López", LocalDate.now(), 2000.0);
         Factura factura4 = new Factura("Abril", "2023", "789123456", "Ana Rodríguez", LocalDate.now(), 1200.0);
@@ -183,7 +183,7 @@ public class Main {
         gimnasio.agregar(factura4);}
         catch (ExistenteException e){
             System.out.println(e.getMessage());
-        }*/
+        }
         /**------------------------------------ CLIENTES --------------------------------------------*/
         TreeSet<Actividad> setActividades = new TreeSet<>();
         setActividades.add(actividad4);
@@ -240,7 +240,7 @@ public class Main {
 
     /**------------------------------------ A ARCHIVO ------------------------------------------------*/
 
-    //gimnasio.guardarEnArchivo();
+    gimnasio.guardarEnArchivo();
 
     /**------------------------------------ DESDE ARCHIVO --------------------------------------------*/
 
@@ -342,6 +342,8 @@ public class Main {
         }catch(JSONException e){
             System.out.println(e.getMessage());
         }*/
+
+        gimnasio.listarTodo();
 
 
 
