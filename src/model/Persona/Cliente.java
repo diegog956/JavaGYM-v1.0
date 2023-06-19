@@ -159,7 +159,6 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     }
 
 
-
     @Override
     public String toString() {
         if(rutina==null){

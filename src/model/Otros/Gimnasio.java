@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.*;
 
 
@@ -672,7 +673,7 @@ public class Gimnasio {
         return ganancia;
     }
 
-    public boolean agregarRutina(String dniCliente, String nombreInstructor, String etiqueta) throws NoEncontradoException, ClienteDeudorException, RutinaSinAvisoException {
+    public boolean agregarRutina(String dniCliente, String nombreInstructor, String descripcion) throws NoEncontradoException, ClienteDeudorException, RutinaSinAvisoException {
         Cliente cliente=LocalizarCliente(dniCliente);
         if (cliente.isDebe())
         {
@@ -684,7 +685,11 @@ public class Gimnasio {
         }
         else
         {
-            Rutina rutina=new Rutina(nombreInstructor,etiqueta,LocalDate.now().getMonth().toString());
+            LocalDate fecha = LocalDate.now();
+            String mes = fecha.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+            mes = mes.substring(0, 1).toUpperCase() + mes.substring(1);
+
+            Rutina rutina=new Rutina(nombreInstructor,mes,descripcion);
             cliente.cambiarEstadoRutina();
             cliente.agregarRutina(rutina);
         }
