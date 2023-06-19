@@ -23,6 +23,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     private boolean solicito_rutina;
     private boolean debe;
     private Rutina rutina;
+    private LocalDate fechaUltimoPago;
+
 
     private LocalDate fecha_de_inscripcion;
     private LinkedHashSet<Factura> listaFacturas;
@@ -47,6 +49,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
         rutina = null;
+        fechaUltimoPago = fecha_de_inscripcion;/**La fecha de ultimo pago cuando se crea el cliente es la de inscripcion(paga al instante)*/
         this.fecha_de_inscripcion = fecha_de_inscripcion;
         listaFacturas=new LinkedHashSet<>();
         actividades_cliente=new TreeSet<>();
@@ -63,6 +66,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
         this.rutina = rutina;
+        fechaUltimoPago = fecha_de_inscripcion;/**La fecha de ultimo pago cuando se crea el cliente es la de inscripcion(paga al instante)*/
         this.fecha_de_inscripcion = fecha_de_inscripcion;
         this.actividades_cliente = actividades_cliente;
     }
@@ -72,6 +76,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         this.solicito_rutina = solicito_rutina;
         this.debe = debe;
         this.rutina = rutina;
+        fechaUltimoPago = fecha_de_inscripcion;
         this.fecha_de_inscripcion = fecha_de_inscripcion;
         this.actividades_cliente = actividades_cliente;
     }
@@ -91,28 +96,37 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     public boolean isDebe() {
         return debe;
     }
-
+    public LocalDate getFechaUltimoPago() {
+        return fechaUltimoPago;
+    }
     public LocalDate getFecha_de_inscripcion() {
         return fecha_de_inscripcion;
     }
 
     /**Bloque set ---------------------------------------------------------------------------------------*/
-    public void setAlta_medica(boolean alta_medica) {
+    private void setAlta_medica(boolean alta_medica) {
         this.alta_medica = alta_medica;
     }
-    public void setSolicito_rutina(boolean solicito_rutina) {
+    private void setSolicito_rutina(boolean solicito_rutina) {
         this.solicito_rutina = solicito_rutina;
     }
     public void setDebe(boolean debe) {
         this.debe = debe;
     }
-    public void setRutina(Rutina rutina) {
+    private void setRutina(Rutina rutina) {
         this.rutina = rutina;
     }
-    public void setFecha_de_inscripcion(LocalDate fecha_de_inscripcion) {
+    private void setFecha_de_inscripcion(LocalDate fecha_de_inscripcion) {
         this.fecha_de_inscripcion = fecha_de_inscripcion;
     }
 
+    public void setActividades_cliente(TreeSet<Actividad> actividades_cliente) {
+        this.actividades_cliente = actividades_cliente;
+    }
+
+    public void setFechaUltimoPago(LocalDate fechaUltimoPago) {
+        this.fechaUltimoPago = fechaUltimoPago;
+    }
     /**--------------------------------------------------------------------------------------------------*/
 
     public String getDebe(){
@@ -142,6 +156,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
                 "alta_medica=" + alta_medica +
                 ", solicito_rutina=" + solicito_rutina +
                 ", debe=" + debe +
+                ", fecha de ultimo pago=" + fechaUltimoPago +
                 ", fecha de inscripcion=" + fecha_de_inscripcion +
                 ", Rutinas=" + rutina.toString() +
                 ", listaFacturas=" + listaFacturas.toString() +
@@ -156,6 +171,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         jsonObject.put("Alta Medica", isAlta_medica());
         jsonObject.put("Debe", isDebe());
         jsonObject.put("Fecha de Inscripcion", getFecha_de_inscripcion().toString());
+        jsonObject.put("Fecha de ultimo pago", getFechaUltimoPago().toString());/**Agregue esto*/
+
         if(rutina !=null) {
             jsonObject.put("Rutina", rutina.toJsonObj());
         }
@@ -184,6 +201,13 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         LocalDate fecha = LocalDate.parse(fecha_string, formatter);
 
         cliente.setFecha_de_inscripcion(fecha);
+        /**Agregue esto ---------------------------------------------------------------------------*/
+        String fecha_string2 = jo.getString("Fecha de ultimo pago");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fecha2 = LocalDate.parse(fecha_string2, formatter2);
+
+        cliente.setFechaUltimoPago(fecha2);
+        /**------------------------------------------------------------------------------------------*/
 
         if(jo.has("Rutina")) {
             Rutina rutina = new Rutina();
@@ -230,6 +254,32 @@ public class Cliente extends Persona implements I_toJson, Serializable {
                 "Fecha de Inscripción: " + getFecha_de_inscripcion().toString();
 
         return rta;
+    }
+
+    public Factura pagar(){
+        double monto = 0;
+
+        Iterator<Actividad> it = actividades_cliente.iterator();
+
+        while(it.hasNext()){
+            monto += it.next().getPrecio_mensual();
+        }
+        /**No esta hecho ningun tipo de descuento!!!!*/
+        Factura factura = new Factura(LocalDate.now().getMonth().toString(), String.valueOf(LocalDate.now().getYear()), getDni(), getNombre(), LocalDate.now(),monto);
+        setDebe(false);
+        setFechaUltimoPago(LocalDate.now());
+        listaFacturas.add(factura);
+
+        return factura;
+    }
+
+    public void modificar(String nombre, String dni, EGenero genero, String telefono, String domicilio, String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento, String comentario,  boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, TreeSet<Actividad> actividades_cliente) {
+        super.modificar(nombre, dni, genero, telefono, domicilio, email, estado, grupo_sanguineo, contacto_emergencia, obra_social, fecha_nacimiento, comentario);
+        setAlta_medica(alta_medica);
+        setSolicito_rutina(solicito_rutina);
+        setDebe(debe);
+        setRutina(rutina);
+        setActividades_cliente(actividades_cliente);
     }
 
 }

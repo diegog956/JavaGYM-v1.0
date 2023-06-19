@@ -115,6 +115,9 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         this.precio_mensual = precio_mensual;
     }
 
+    private void setListaDias(ArrayList<EdiaSemana> listaDias) {
+        this.listaDias = listaDias;
+    }
     /**---------------------------------------------------------------------------------------------------*/
 
     /**Compara por nombre, luego por horario, luego por si coincide en al menos un dia.*/
@@ -220,6 +223,20 @@ public class Actividad implements Serializable,Comparable, I_toJson {
             }
             jsonObject.put("Dias", jsonArray);
             return jsonObject;
+    }
+
+    public void modificar(EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor,
+                          int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual){
+        setNombre(nombre);
+        setHorario(horario);
+        setListaDias(listaDias1);
+        setNombre_instructor(nombre_instructor);
+        setCupo(cupo);
+        setInscriptos(inscriptos);
+        setDisponible(disponible);
+        setComentario(comentario);
+        setPrecio_mensual(precio_mensual);
+
     }
 }
 
