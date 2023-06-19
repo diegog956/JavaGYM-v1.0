@@ -142,6 +142,22 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return rta;
     }
 
+    public String getAltaMedica(){
+        String rta = "No";
+        if(isAlta_medica()){
+            rta = "Si";
+        }
+        return rta;
+    }
+
+    public String getSolicitoRutina(){
+        String rta = "No";
+        if(isSolicito_rutina()){
+            rta = "Si";
+        }
+        return rta;
+    }
+
 
 
     @Override
