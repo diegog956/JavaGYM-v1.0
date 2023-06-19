@@ -104,6 +104,10 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         return fecha_de_inscripcion;
     }
 
+    public Rutina getRutina() {
+        return rutina;
+    }
+
     /**Bloque set ---------------------------------------------------------------------------------------*/
     private void setAlta_medica(boolean alta_medica) {
         this.alta_medica = alta_medica;

@@ -523,7 +523,7 @@ public class Gimnasio {
      Permite obtener informacion adicional del cliente
      @param dni del cliente a localizar
      @return una cadena de texto que contiene informacion adicional del cliente*/
-    private String InformacionAdicionalCliente(String dni){
+    public String InformacionAdicionalCliente(String dni){
         return LocalizarCliente(dni).MostrarInformacionAdicional();
 
     }
