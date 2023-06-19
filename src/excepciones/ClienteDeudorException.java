@@ -6,4 +6,8 @@ public class ClienteDeudorException extends Exception{
     {
         super("ESTE CLIENTE ESTA ADEUDANDO.");
     }
+
+    public ClienteDeudorException(String message) {
+        super(message);
+    }
 }

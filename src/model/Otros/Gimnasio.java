@@ -523,7 +523,7 @@ public class Gimnasio {
      Permite obtener informacion adicional del cliente
      @param dni del cliente a localizar
      @return una cadena de texto que contiene informacion adicional del cliente*/
-    public String InformacionAdicionalCliente(String dni){
+    public String InformacionAdicionalCliente(String dni) throws NoEncontradoException {
         return LocalizarCliente(dni).MostrarInformacionAdicional();
 
     }
@@ -531,8 +531,13 @@ public class Gimnasio {
      Permite localizar un cliente a partir de su dni
      @param dni
      @return El cliente localizado a partir de su Dni*/
-    public Cliente LocalizarCliente (String dni){
-        return mapaCliente.get(dni);}
+    public Cliente LocalizarCliente (String dni) throws NoEncontradoException {
+        if (!mapaCliente.containsKey(dni))
+        {
+            throw new NoEncontradoException(Cliente.class);
+        }
+        return mapaCliente.get(dni);
+    }
 
     /**
      Permite reconocer una actividad presente en el sistema(el metodo es llamado desde la interfaz para ubicar una actividad)
@@ -580,6 +585,24 @@ public class Gimnasio {
         Factura factura = cliente.pagar();
         listaFacturas.add(factura);
     }
+
+    public boolean cobrar(String dni) throws ClienteDeudorException, NoEncontradoException{
+        Cliente cliente = LocalizarCliente(dni);
+        if(cliente!=null){ //si es nulo, se arroja excepcion
+            if(!cliente.isDebe()){
+                throw new ClienteDeudorException("El cliente no posee deuda");
+            }
+            else{
+                //efectuar cobro
+                Factura factura = cliente.pagar();
+                listaFacturas.add(factura);
+            }
+        }
+
+            return true;
+    }
+
+
 
     /**Apartado estadisticas (Diego's playroom)*/
 
