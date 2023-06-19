@@ -52,12 +52,12 @@ public class Rutina implements Serializable, I_toJson {
     /**----------------------------------------------------------------------------------------------------*/
     @Override
     public String toString() {
-        return "Rutina{" +
-                "instructor='" + instructor + '\'' +
-                ", mes='" + mes + '\'' +
-                ", descripcion='" + descripcion + '\''  +
-                '}';
+        return "======================\nRutina " + getMes() +  "\nAutor: "  + getInstructor()  + "\n======================\n"
+                + "\n" + getDescripcion() + "\n";
+
     }
+
+
     @Override
     public Rutina fromJson(JSONObject jo) throws JSONException {
         Rutina rutina = new Rutina();
