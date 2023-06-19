@@ -317,4 +317,9 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         rutina=rutinaNueva;
     }
 
+    public void pedidoRutina()
+    {
+        solicito_rutina=true;
+    }
+
 }

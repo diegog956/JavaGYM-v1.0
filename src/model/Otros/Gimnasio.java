@@ -547,11 +547,12 @@ public class Gimnasio {
      */
     public Actividad buscarActividad(Actividad actividad) throws NoEncontradoException {
         Actividad actividad_encontrada = null;
-        Iterator it = arbolActividades.iterator();
-        while(it.hasNext()){
-            Actividad actividad_en_arbol = (Actividad) it.next();
+        Iterator iterator = arbolActividades.iterator();
+        while(iterator.hasNext()){
+            Actividad actividad_en_arbol = (Actividad) iterator.next();
             if(actividad_en_arbol.equals(actividad)){
-                actividad_encontrada = actividad_en_arbol;}
+                actividad_encontrada = actividad_en_arbol;
+            }
 
         }
         if(actividad_encontrada==null){
@@ -686,6 +687,20 @@ public class Gimnasio {
             Rutina rutina=new Rutina(nombreInstructor,etiqueta,LocalDate.now().getMonth().toString());
             cliente.cambiarEstadoRutina();
             cliente.agregarRutina(rutina);
+        }
+        return true;
+    }
+
+    public boolean pedidoDeRutina(String dni) throws RutinaYaPedida, NoEncontradoException {
+        Cliente cliente=LocalizarCliente(dni);
+
+        if (cliente.isSolicito_rutina())
+        {
+            throw new RutinaYaPedida();
+        }
+        else
+        {
+            cliente.pedidoRutina();
         }
         return true;
     }
