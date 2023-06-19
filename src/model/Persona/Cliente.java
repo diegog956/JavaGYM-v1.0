@@ -13,10 +13,8 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.TreeSet;
+import java.time.format.TextStyle;
+import java.util.*;
 
 public class Cliente extends Persona implements I_toJson, Serializable {
     private boolean alta_medica;
@@ -284,7 +282,13 @@ public class Cliente extends Persona implements I_toJson, Serializable {
             monto += it.next().getPrecio_mensual();
         }
         /**No esta hecho ningun tipo de descuento!!!!*/
-        Factura factura = new Factura(LocalDate.now().getMonth().toString(), String.valueOf(LocalDate.now().getYear()), getDni(), getNombre(), LocalDate.now(),monto);
+
+        LocalDate fecha = LocalDate.now();
+        String mes = fecha.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+        mes = mes.substring(0, 1).toUpperCase() + mes.substring(1);
+
+
+        Factura factura = new Factura(mes, String.valueOf(LocalDate.now().getYear()), getDni(), getNombre(), LocalDate.now(),monto);
         setDebe(false);
         setFechaUltimoPago(LocalDate.now());
         listaFacturas.add(factura);
