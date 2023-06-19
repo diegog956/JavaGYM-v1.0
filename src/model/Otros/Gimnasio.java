@@ -671,6 +671,24 @@ public class Gimnasio {
         return ganancia;
     }
 
+    public boolean agregarRutina(String dniCliente, String nombreInstructor, String etiqueta) throws NoEncontradoException, ClienteDeudorException, RutinaSinAvisoException {
+        Cliente cliente=LocalizarCliente(dniCliente);
+        if (cliente.isDebe())
+        {
+            throw new ClienteDeudorException();
+        }
+        if (!cliente.isSolicito_rutina())
+        {
+            throw new RutinaSinAvisoException();
+        }
+        else
+        {
+            Rutina rutina=new Rutina(nombreInstructor,etiqueta,LocalDate.now().getMonth().toString());
+            cliente.cambiarEstadoRutina();
+            cliente.agregarRutina(rutina);
+        }
+        return true;
+    }
 
 
 }
