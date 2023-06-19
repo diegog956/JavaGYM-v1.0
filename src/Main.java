@@ -43,8 +43,8 @@ public class Main {
 
         /**------------------------------------ usuarios (Sergio Martes 13-06) --------------------------------------------*/
 
-        Administrativo administrativo1 = new Administrativo("Mauricio Macri","111111",EGenero.MASCULINO,"111111","Calle 1 111","prueba@gmail.com",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2201,01,01),"","111111","mauriciomacri","mauriciomacri");
-        Administrativo administrativo2 = new Administrativo("Alberto Fernandez","222222",EGenero.MASCULINO,"222222","Calle 2 222","prueba@gmail.com",EGrupoSanguineo.A_POSITIVO,"","",LocalDate.of(2002,02,02),"","565156","albertofernandez","albertofernandez");
+        Administrativo administrativo1 = new Administrativo("Mauricio Macri", "111111", EGenero.MASCULINO, "111111", "Calle 1 111", "prueba@gmail.com", EGrupoSanguineo.A_POSITIVO, "", "", LocalDate.of(2201, 01, 01), "", "111111", "mauriciomacri", "mauriciomacri");
+        Administrativo administrativo2 = new Administrativo("Alberto Fernandez", "222222", EGenero.MASCULINO, "222222", "Calle 2 222", "prueba@gmail.com", EGrupoSanguineo.A_POSITIVO, "", "", LocalDate.of(2002, 02, 02), "", "565156", "albertofernandez", "albertofernandez");
 
         try {
             gimnasio.agregar(administrativo1);
@@ -140,15 +140,15 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-        System.out.println(gimnasio.getArbolActividades());
 
-        System.out.println(gimnasio.modificarActividad(actividad15,EtipoActividad.LIBRE, "17:00 - 18:00", listaDias, "Instructor 15", 25, 0, true, "", 50.0));
 
-        System.out.println("\n\n\n" + gimnasio.getArbolActividades());
+        /*System.out.println(gimnasio.modificarActividad(actividad15, EtipoActividad.LIBRE, "17:00 - 18:00", listaDias, "Instructor 15", 25, 0, true, "", 50.0));
+
+        System.out.println("\n\n\n" + gimnasio.getArbolActividades());*/
 
         /**------------------------------------ INSTRUCTORES --------------------------------------------*/
 
-        Instructor instructor1 = new Instructor("Juan Perez", "123456789",EGenero.MASCULINO, "555-1234", "Calle 123", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
+        /*Instructor instructor1 = new Instructor("Juan Perez", "123456789",EGenero.MASCULINO, "555-1234", "Calle 123", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
 
         Instructor instructor2 = new Instructor("María López", "987654321",EGenero.MASCULINO, "555-5678", "Avenida XYZ", "prueba@gmail.com",Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
 
@@ -169,10 +169,10 @@ public class Main {
         }catch (NoEncontradoException e){
             System.out.println(e.getMessage());
         }
-        System.out.println("\n\n\n" + gimnasio.getMapaInstructor());
+        System.out.println("\n\n\n" + gimnasio.getMapaInstructor());*/
         /**------------------------------------ FACTURAS --------------------------------------------*/
 
-        Factura factura1 = new Factura("Enero", "2023", "123456789", "Juan Pérez", LocalDate.now(), 1000.0);
+       /* Factura factura1 = new Factura("Enero", "2023", "123456789", "Juan Pérez", LocalDate.now(), 1000.0);
         Factura factura2 = new Factura("Febrero", "2023", "987654321", "María González", LocalDate.now(), 1500.0);
         Factura factura3 = new Factura("Marzo", "2023", "456789123", "Pedro López", LocalDate.now(), 2000.0);
         Factura factura4 = new Factura("Abril", "2023", "789123456", "Ana Rodríguez", LocalDate.now(), 1200.0);
@@ -183,59 +183,85 @@ public class Main {
         gimnasio.agregar(factura4);}
         catch (ExistenteException e){
             System.out.println(e.getMessage());
-        }
+        }*/
         /**------------------------------------ CLIENTES --------------------------------------------*/
+        TreeSet<Actividad> setActividades = new TreeSet<>();
+        setActividades.add(actividad4);
+        setActividades.add(actividad2);
 
-        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", EGenero.MASCULINO,"1234567890", "Calle 123", "prueba@gmail.com",LocalDate.of(2023, 3, 5), Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", true, LocalDate.of(1990, 5, 15), "Comentario 1", true, false);
-        Cliente cliente2 = new Cliente("María González", "987654321",EGenero.FEMENINO, "0987654321", "Avenida 456","prueba@gmail.com", LocalDate.of(2023, 10, 9), Eestado.INACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", false, LocalDate.of(1985, 10, 20), "Comentario 2", false, false);
-        Cliente cliente3 = new Cliente("Pedro López", "456789123",EGenero.MASCULINO, "1112223333", "Plaza 789","prueba@gmail.com", LocalDate.of(2023, 4, 3), Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", true, LocalDate.of(1995, 3, 8), "Comentario 3", true, false);
-        Cliente cliente4 = new Cliente("Ana Rodríguez", "789123456",EGenero.FEMENINO, "4445556666", "Callejón 987","prueba@gmail.com", LocalDate.of(2023, 12, 22), Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", true, LocalDate.of(2000, 12, 25), "Comentario 4", false, false);
+        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", EGenero.MASCULINO,"1234567890", "Calle 123", "prueba@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "Contacto 1", "Obra Social 1", LocalDate.of(1990, 5, 15), "Comentario 1", true, false, false,new Rutina(), LocalDate.of(2023, 3, 5), setActividades);
+
+        Cliente cliente2 = new Cliente("María López", "987654321", EGenero.FEMENINO, "0987654321", "Avenida 456", "prueba2@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.B_NEGATIVO, "Contacto 2", "Obra Social 2", LocalDate.of(1985, 9, 20), "Comentario 2", true, false, false, new Rutina(), LocalDate.of(2023, 3, 15), new TreeSet<Actividad>());
+
+        Cliente cliente3 = new Cliente("Pedro Gómez", "654321987", EGenero.MASCULINO,"1357924680", "Calle 789", "prueba3@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.O_POSITIVO, "Contacto 3", "Obra Social 3", LocalDate.of(1988, 10, 25), "Comentario 3", true, true, false,new Rutina(), LocalDate.of(2023, 3, 10), new TreeSet<Actividad>());
+
+        Cliente cliente4 = new Cliente("Ana Torres", "987123654", EGenero.FEMENINO, "0864217539", "Avenida 987", "prueba4@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", LocalDate.of(1995, 4, 8), "Comentario 4", false, false, true, new Rutina(), LocalDate.of(2023, 3, 20), new TreeSet<Actividad>());
+
+
         try{
         gimnasio.agregar(cliente1);
-        gimnasio.agregar(cliente2);
-        gimnasio.agregar(cliente3);
-        gimnasio.agregar(cliente4);}
-        catch (ExistenteException e){
-            System.out.println(e.getMessage());
-        }
-        try{
+        //gimnasio.agregar(cliente2);
+        //gimnasio.agregar(cliente3);
+       // gimnasio.agregar(cliente4);
+    }
+        catch(ExistenteException e){
+        System.out.println(e.getMessage());}/*
+        try {
         gimnasio.cambiarEstado("789123456");}
-        catch (NoEncontradoException e){
+        catch(NoEncontradoException e){
+        System.out.println(e.getMessage());
+    }*/
+        System.out.println("\n\n\n" + gimnasio.getMapaCliente());
+
+        try {
+            gimnasio.borrarActividad(actividad2);
+        }catch (NoEncontradoException e){
             System.out.println(e.getMessage());
         }
-        System.out.println(gimnasio.getMapaCliente());
 
-        //System.out.println(gimnasio.estadisticas());
+        System.out.println(gimnasio.getMapaCliente() + "\n\n\n\n");
+        System.out.println(gimnasio.getArbolActividades());
+
+
+        System.out.println(gimnasio.getArbolActividades());
+
+        gimnasio.sumarInscripto(setActividades);
+
+        System.out.println(gimnasio.getArbolActividades());
+
+        /*//System.out.println(gimnasio.estadisticas());
         try {
             gimnasio.modificarCliente("789123456", "SERGIO", "789123456", EGenero.FEMENINO, "4445556666", "Callejón 987", "prueba@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "Contacto 4", "Obra Social 4", LocalDate.of(2000, 12, 25), "Comentario 4", false, false, false, new Rutina(), new TreeSet<>());
             gimnasio.agregarApercibimiento("789123456", "Saco 8", LocalDate.now());
         }catch (NoEncontradoException e){
             System.out.println(e.getMessage());
         }
+        System.out.println(gimnasio.getMapaCliente());*/
 
-        System.out.println(gimnasio.getMapaCliente());
+    /**------------------------------------ A ARCHIVO ------------------------------------------------*/
 
+    //gimnasio.guardarEnArchivo();
 
-
-
-        /**------------------------------------ A ARCHIVO ------------------------------------------------*/
-
-        gimnasio.guardarEnArchivo();
-
-        /**------------------------------------ DESDE ARCHIVO --------------------------------------------*/
+    /**------------------------------------ DESDE ARCHIVO --------------------------------------------*/
 
         /*Gimnasio nuevo_gim = new Gimnasio();
         nuevo_gim.listarTodo();*/
 
-        /** Hacia y desde JSON ----------------------------------------------------------------------------*/
-        /*JSONObject jsonObject = new JSONObject();
-        try {
-                jsonObject = gimnasio.actualizarJson();
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
+    /**
+     * Hacia y desde JSON ----------------------------------------------------------------------------
+     */
+    /*JSONObject jsonObject = new JSONObject();
+        try
+    {
+        jsonObject = gimnasio.actualizarJson();
+    }catch(JSONException e)
+    {
+        e.printStackTrace();
+    }
 
-        HashMap<String, Cliente> mapaCliente = new HashMap<>();
+        JsonUtiles.grabar(jsonObject,"json");*/
+
+        /*HashMap<String, Cliente> mapaCliente = new HashMap<>();
         HashMap<String, Instructor> mapaInstructor= new HashMap<>();
         LinkedHashSet<Factura> listaFacturas= new LinkedHashSet<>();
         TreeSet<Actividad> arbolActividades= new TreeSet<>();
@@ -252,7 +278,7 @@ public class Main {
         System.out.println("ACTIVIDADES \n\n" + arbolActividades);
         System.out.println("USUARIOS \n\n" + mapaUsuarios);*/
 
-        //Sergio 17-06 (perdon por spamear tanto el main) lo que sigue son pruebas de json
+    //Sergio 17-06 (perdon por spamear tanto el main) lo que sigue son pruebas de json
 /*
         Gimnasio javagym = new Gimnasio();
         try {
@@ -316,11 +342,6 @@ public class Main {
         }catch(JSONException e){
             System.out.println(e.getMessage());
         }*/
-
-
-
-
-
 
 
 

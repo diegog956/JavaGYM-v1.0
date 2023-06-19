@@ -167,7 +167,6 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     public int hashCode() {
         return 1;
     }
-
     @Override
     public int compareTo(Object o) {
         int resta = getNombre().ordinal() - ((Actividad)o).getNombre().ordinal();
@@ -176,7 +175,6 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         }
         return resta;
     }
-
     @Override
     public Actividad fromJson(JSONObject jo) throws JSONException {
        Actividad actividad = new Actividad();
@@ -200,10 +198,8 @@ public class Actividad implements Serializable,Comparable, I_toJson {
             EdiaSemana enum_dia_semana = EdiaSemana.valueOf(jsonArray.getString(i));
             actividad.listaDias.add(enum_dia_semana);
         }
-
         return actividad;
     }
-
     @Override
     public JSONObject toJsonObj() throws JSONException {
             JSONObject jsonObject = new JSONObject();
@@ -224,7 +220,6 @@ public class Actividad implements Serializable,Comparable, I_toJson {
             jsonObject.put("Dias", jsonArray);
             return jsonObject;
     }
-
     public void modificar(EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor,
                           int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual){
         setNombre(nombre);
@@ -237,6 +232,9 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         setComentario(comentario);
         setPrecio_mensual(precio_mensual);
 
+    }
+    public void sumarInscripto(){
+        inscriptos++;
     }
 }
 

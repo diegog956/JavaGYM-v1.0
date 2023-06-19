@@ -188,8 +188,6 @@ public class Gimnasio {
         return json;
     }
 
-
-
     public String listarActividades() {
         return arbolActividades.toString();
     }
@@ -382,7 +380,38 @@ public class Gimnasio {
             throw new NoEncontradoException(Persona.class);
         }
     }
-    /**=====================================================================================================*/
+    /**BORRAR ACTIVIDAD ======================================================================================*/
+    public boolean borrarActividad(Actividad actividad) throws NoEncontradoException {
+        if(!arbolActividades.contains(actividad)){
+            throw new NoEncontradoException(actividad.getClass());
+        }
+        arbolActividades.remove(actividad);
+
+        Iterator<Map.Entry<String, Cliente>> it = mapaCliente.entrySet().iterator();
+        while(it.hasNext()){
+            Cliente cliente = it.next().getValue();
+                cliente.borrarActividad(actividad);
+        }
+        return true;
+    }
+    /**========================================================================================================*/
+    public void sumarInscripto(TreeSet<Actividad> setActividades){
+
+            Iterator<Actividad> itExterior = setActividades.iterator();
+
+            while(itExterior.hasNext()){
+                Actividad actividad = itExterior.next();
+                Iterator<Actividad> itInterior = arbolActividades.iterator();
+                while(itInterior.hasNext()){
+                    Actividad actividadArbol = itInterior.next();
+                        if(actividad.equals(actividadArbol)){
+                               actividadArbol.sumarInscripto();
+                        }
+                    }
+                }
+            }
+
+    /**========================================================================================================*/
     public void listarTodo() {
         System.out.println("Clientes\n\n\n");
         System.out.println(mapaCliente);
@@ -410,7 +439,6 @@ public class Gimnasio {
     }
 
     //Sergio - Miercoles 14 de Junio
-
     public Usuario IngresarAlSistema(String usuario_ingresado, String contrasenia_ingresada) throws CredencialesInvalidasException {
         //metodo del que se sirve la interfaz para reconocer quien es el usuario que esta ingresando
         //este usuario puede ser uno de los administrativos, o bien el encargado (unico)
@@ -433,8 +461,6 @@ public class Gimnasio {
         }
         return usuario_encontrado;
     }
-
-
     public String getTipoDeUsuario(Usuario usuario){
         //metodo que devuelve el tipo de usuario (adm o encargado) segun el usuario recibido
         //Utilidad: es llamado por UI para saber el tipo de Usuario
@@ -447,9 +473,7 @@ public class Gimnasio {
         }
         return rta;
     }
-
     //Mateo - Viernes 31 de Febrero
-
     public void desgrabarJson(JSONObject jsonObject, HashMap<String, Cliente> mapaCliente, HashMap<String, Instructor> mapaInstructor,LinkedHashSet<Factura> listaFacturas, TreeSet<Actividad> arbolActividades, HashMap<String, Usuario> mapaUsuarios ) throws JSONException {
 
         JSONArray jsonArray;
@@ -503,20 +527,14 @@ public class Gimnasio {
         return LocalizarCliente(dni).MostrarInformacionAdicional();
 
     }
-
     /**
-
      Permite localizar un cliente a partir de su dni
      @param dni
      @return El cliente localizado a partir de su Dni*/
     public Cliente LocalizarCliente (String dni){
         return mapaCliente.get(dni);}
 
-
-
-
     /**
-
      Permite reconocer una actividad presente en el sistema(el metodo es llamado desde la interfaz para ubicar una actividad)
      @param actividad buscada
      @return actividad encontrada
@@ -536,7 +554,6 @@ public class Gimnasio {
         }
         return actividad_encontrada;
     }
-
     public double CalcularPrecio(ArrayList<Actividad> actividades_a_calcular){
         double precio_base = 2000; /*suponiendo que el precio base del gym es este. ver luego si esto sera un atributo del gym*/
         double precio_actividades=0;
@@ -545,8 +562,6 @@ public class Gimnasio {
         }
         return precio_base + precio_actividades;//el precio que el cliente abonara en total
     }
-
-
     public void verificarPagos() {
         LocalDate fechaActual = LocalDate.now();
 
@@ -561,14 +576,12 @@ public class Gimnasio {
             cliente.setDebe(debePagar);
         }
     }
-
     public void cobrar(Cliente cliente){
         Factura factura = cliente.pagar();
         listaFacturas.add(factura);
     }
 
     /**Apartado estadisticas (Diego's playroom)*/
-
 
     /**Devuelve estadisticas por edad y genero*/
     public String estadisticas(){

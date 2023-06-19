@@ -28,7 +28,6 @@ public class Cliente extends Persona implements I_toJson, Serializable {
 
     private LocalDate fecha_de_inscripcion;
     private LinkedHashSet<Factura> listaFacturas;
-
     private TreeSet<Actividad> actividades_cliente;
 
     public Cliente()
@@ -57,6 +56,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     /**Este constructor es para el fromJson*/
     public Cliente(JSONObject jo) throws JSONException {
         super(jo);
+        listaFacturas=new LinkedHashSet<>();
+        actividades_cliente=new TreeSet<>();
     }
 
     //el constructor de aca abajo recibe la lista de actividades por parametro, lo cual sera necesario al momento de realizar inscripcion (no borrar)
@@ -149,9 +150,6 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         if(listaFacturas==null){
             listaFacturas = new LinkedHashSet<>();
         }
-        if(actividades_cliente==null){
-            actividades_cliente = new TreeSet<>();
-        }
         return  super.toString() + "Cliente{" +
                 "alta_medica=" + alta_medica +
                 ", solicito_rutina=" + solicito_rutina +
@@ -178,12 +176,23 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         }
 
         JSONArray jsonArray = new JSONArray();
-
+        int i =0;
         Iterator<Factura> it = listaFacturas.iterator();
         while(it.hasNext()){
-            JSONObject aux = it.next().toJsonObj();
+            jsonArray.put(i,it.next().toJsonObj());
+            i++;
         }
         jsonObject.put("Facturas", jsonArray);
+
+
+        JSONArray jsonArray1 = new JSONArray();
+        Iterator<Actividad> it2 = actividades_cliente.iterator();
+        i=0;
+        while(it2.hasNext()){
+            jsonArray1.put(i, it2.next().toJsonObj());
+            i++;
+        }
+        jsonObject.put("Actividades", jsonArray1);
 
         return jsonObject;
     }
@@ -217,6 +226,12 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         for(int i=0; i<jsonArray.length();i++){
             Factura factura = new Factura();
             cliente.listaFacturas.add(factura.fromJson(jsonArray.getJSONObject(i)));
+        }
+
+        JSONArray jsonArray2 = jo.getJSONArray("Actividades");
+        for(int i=0; i<jsonArray2.length();i++){
+            Actividad actividad = new Actividad();
+            cliente.actividades_cliente.add(actividad.fromJson(jsonArray2.getJSONObject(i)));
         }
         return cliente;
     }
@@ -281,5 +296,11 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         setRutina(rutina);
         setActividades_cliente(actividades_cliente);
     }
+
+    public void borrarActividad(Actividad actividad){
+        actividades_cliente.remove(actividad);
+    }
+
+
 
 }
