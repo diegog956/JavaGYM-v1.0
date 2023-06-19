@@ -165,6 +165,31 @@ public class Gimnasio {
         }
             return texto_json;
     }
+
+    /**
+     * Permite obtener la coleccion de instructores en Formato JSON
+     * @return La coleccion de actividades en formato JSON
+     */
+    public String CompartirDatosInstructores(){
+        String json = "";
+        Iterator it = mapaInstructor.entrySet().iterator();
+        JSONArray jsonArray_clientes = new JSONArray();
+        try{
+            while (it.hasNext()) {
+                Map.Entry<String, Instructor> entradaDelMapa = (Map.Entry<String, Instructor>) it.next();
+                Instructor instructor = entradaDelMapa.getValue();
+                jsonArray_clientes.put(instructor.toJsonObj());
+            }
+            json = jsonArray_clientes.toString();
+        }catch(JSONException e){
+            json = e.toString();
+        }
+
+        return json;
+    }
+
+
+
     public String listarActividades() {
         return arbolActividades.toString();
     }
@@ -357,8 +382,6 @@ public class Gimnasio {
             throw new NoEncontradoException(Persona.class);
         }
     }
-
-
     /**=====================================================================================================*/
     public void listarTodo() {
         System.out.println("Clientes\n\n\n");
@@ -476,7 +499,7 @@ public class Gimnasio {
      Permite obtener informacion adicional del cliente
      @param dni del cliente a localizar
      @return una cadena de texto que contiene informacion adicional del cliente*/
-    public String InformacionAdicionalCliente(String dni){
+    private String InformacionAdicionalCliente(String dni){
         return LocalizarCliente(dni).MostrarInformacionAdicional();
 
     }
@@ -486,8 +509,10 @@ public class Gimnasio {
      Permite localizar un cliente a partir de su dni
      @param dni
      @return El cliente localizado a partir de su Dni*/
-    private Cliente LocalizarCliente (String dni){
+    public Cliente LocalizarCliente (String dni){
         return mapaCliente.get(dni);}
+
+
 
 
     /**
@@ -497,7 +522,7 @@ public class Gimnasio {
      @return actividad encontrada
      @throws ExistenteException, si no fue encontrada la actividad.
      */
-    public Actividad buscarActividad(Actividad actividad) throws ExistenteException {
+    public Actividad buscarActividad(Actividad actividad) throws NoEncontradoException {
         Actividad actividad_encontrada = null;
         Iterator it = arbolActividades.iterator();
         while(it.hasNext()){
@@ -507,20 +532,20 @@ public class Gimnasio {
 
         }
         if(actividad_encontrada==null){
-            throw new ExistenteException(actividad.getClass());
+            throw new NoEncontradoException(Actividad.class);
         }
         return actividad_encontrada;
     }
 
-    public double CalcularPrecio(TreeSet<Actividad> actividades_a_calcular){
+    public double CalcularPrecio(ArrayList<Actividad> actividades_a_calcular){
         double precio_base = 2000; /*suponiendo que el precio base del gym es este. ver luego si esto sera un atributo del gym*/
-    double precio_actividades=0;
-    Iterator it = actividades_a_calcular.iterator();
-    while(it.hasNext()){
-        Actividad actividad = (Actividad)it.next();
-        precio_actividades += actividad.getPrecio_mensual();}
-    return precio_base + precio_actividades;//el precio que el cliente abonara en total
+        double precio_actividades=0;
+        for(Actividad actividad : actividades_a_calcular){
+            precio_actividades += actividad.getPrecio_mensual();
+        }
+        return precio_base + precio_actividades;//el precio que el cliente abonara en total
     }
+
 
     public void verificarPagos() {
         LocalDate fechaActual = LocalDate.now();
