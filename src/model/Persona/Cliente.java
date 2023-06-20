@@ -266,25 +266,38 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     public String MostrarInformacionAdicional(){
         String rta = "";
         if(getEstado().toString().equals("INACTIVO")){
-            rta += "CLIENTE INACTIVO\n\n";}
+            rta += "CLIENTE INACTIVO\n";}
 
         if(getCantidadApercibimientos()>0){
-            rta += DescripcionApercibimientos() + "\n\n";
+
+            rta += "\nApercibimientos:\n" + DescripcionApercibimientos() + "\n";
         }
 
         if (!isAlta_medica()){
-            rta += "Alta Médica Pendiente" + "\n\n";
+            rta += "\nAlta Médica Pendiente" + "\n";
         }
 
         if(!getComentario().equals("")){
-            rta += getComentario() + "\n\n";
+            rta += "\nComentario/s:" + getComentario() + "\n";
         }
 
-        rta+= "Contacto de Emergencia: " + getContacto_emergencia() + "\n\n" +
-                "Obra Social: " + getObra_social() + "\n\n" +
-                "Grupo Sanguíneo: " + getGrupo_sanguineo().toString() + "\n\n" +
+        if(actividades_cliente.size()>0){ //si tiene actividades las listamos
+            rta+= "\nInscripto en: \n" + listarActividades();
+        }
+
+        rta+= "\n\nContacto de Emergencia: " + getContacto_emergencia() + "\n" +
+                "Obra Social: " + getObra_social() + "\n" +
+                "Grupo Sanguíneo: " + getGrupo_sanguineo().toString() + "\n" +
                 "Fecha de Inscripción: " + getFecha_de_inscripcion().toString();
 
+        return rta;
+    }
+
+    public String listarActividades(){
+        String rta = "";
+        for(Actividad actividad:actividades_cliente){
+            rta += actividad.toString();
+        }
         return rta;
     }
 

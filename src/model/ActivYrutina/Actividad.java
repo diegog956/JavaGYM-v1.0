@@ -158,6 +158,15 @@ public class Actividad implements Serializable,Comparable, I_toJson {
                 "\n=========================================\n";
     }
 
+    /**
+     *
+     * @return resenia de la actividad, en forma resumida, para listarla desde los clientes que la realizan.
+     */
+    public String MostrarActividadBasica(){
+        return "\n======================\n " + getNombre() + "\n======================\n" + listaDias + "\n " + getHorario() +
+                "\nInstructor: " + getNombre_instructor() ;
+    }
+
     @Override
     public int hashCode() {
         return 1;

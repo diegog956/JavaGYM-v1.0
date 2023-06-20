@@ -348,6 +348,8 @@ public class Main {
 
         System.out.println(instructor1.getActividadesACargo());
 
+        System.out.println(actividad1.MostrarActividadBasica());
+
 
 
 
