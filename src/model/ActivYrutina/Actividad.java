@@ -148,19 +148,14 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         }
         return rta;
     }
-    @Override
     public String toString() {
-        return "\nActividad{" +
-                ", nombre='" + nombre + '\'' +
-                ", listaDias=" + listaDias +
-                ", horario='" + horario + '\'' +
-                ", nombre_instructor='" + nombre_instructor + '\'' +
-                ", cupo=" + cupo +
-                ", inscriptos=" + inscriptos +
-                ", disponible=" + disponible +
-                ", comentario='" + comentario + '\'' +
-                ", precio_mensual=" + precio_mensual +
-                '}';
+        return "\n======================\n " + getNombre() + listaDias + " " + getHorario() + "\n======================\n" +
+                "\nInstructor: " + getNombre_instructor() +
+                "\nCupo: " + getCupo() +
+                "\nInscriptos: "+ getInscriptos() +
+                "\nComentario: "+ getComentario() +
+                "\nPrecio: " + getPrecio_mensual() +
+                "\n=========================================\n";
     }
 
     @Override

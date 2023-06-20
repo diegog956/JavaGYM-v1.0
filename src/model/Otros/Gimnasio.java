@@ -316,7 +316,7 @@ public class Gimnasio {
             return true;
         }
     }
-    public boolean modificarActividad(Actividad actividad, EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor,
+   /* public boolean modificarActividad(Actividad actividad, EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor,
                                       int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual) {
         Iterator<Actividad> it = arbolActividades.iterator();
         while (it.hasNext()) {
@@ -334,7 +334,19 @@ public class Gimnasio {
             }
         }
         return false;
-    }
+    }*/
+   public boolean modificarActividad(Actividad actividad_anterior, Actividad actividad_modificada) throws NoEncontradoException, ExistenteException {
+       boolean rta = true;
+       boolean agregado;
+       Actividad actividad_encontrada = buscarActividad(actividad_anterior);
+       arbolActividades.remove(actividad_encontrada);
+       agregado = arbolActividades.add(actividad_modificada);
+       if(!agregado){
+           agregar(actividad_encontrada);
+           rta = false;
+       }
+       return rta;
+   }
 
 
     /**DAR DE BAJA/ALTA  ==================================================================================*/
@@ -354,11 +366,7 @@ public class Gimnasio {
 
     public boolean banear(String dni) throws NoEncontradoException { ///Esto es banear/Desbanear
         if(mapaCliente.containsKey(dni)){
-            if(mapaCliente.get(dni).getEstado() == Eestado.BANEADO){
-                mapaCliente.get(dni).setEstado(Eestado.ACTIVO);
-            }else{
-                mapaCliente.get(dni).setEstado(Eestado.BANEADO);
-            }
+            mapaCliente.get(dni).setEstado(Eestado.BANEADO);
             return true;
         }else{
             throw new NoEncontradoException(Cliente.class);
@@ -376,6 +384,23 @@ public class Gimnasio {
         } else if (mapaInstructor.containsKey(DNI)) {
 
             mapaInstructor.get(DNI).agregarApercibimiento(descripcion, fecha);
+            return true;
+        }else{
+            throw new NoEncontradoException(Persona.class);
+        }
+    }
+
+    public boolean agregarComentario(String DNI, String descripcion, LocalDate fecha) throws NoEncontradoException {
+        String texto ="";
+        if(mapaCliente.containsKey(DNI)){
+
+           texto =  mapaCliente.get(DNI).getComentario();
+           mapaCliente.get(DNI).setComentario(texto.concat("\n" + descripcion + "\n" + fecha.toString()));
+            return true;
+
+        } else if (mapaInstructor.containsKey(DNI)) {
+
+            mapaInstructor.get(DNI).setComentario(descripcion);
             return true;
         }else{
             throw new NoEncontradoException(Persona.class);
@@ -673,18 +698,12 @@ public class Gimnasio {
         return ganancia;
     }
 
-    public boolean agregarRutina(String dniCliente, String nombreInstructor, String descripcion) throws NoEncontradoException, ClienteDeudorException, RutinaSinAvisoException {
+    public boolean agregarRutina(String dniCliente, String nombreInstructor, String descripcion) throws NoEncontradoException, ClienteDeudorException {
         Cliente cliente=LocalizarCliente(dniCliente);
         if (cliente.isDebe())
         {
             throw new ClienteDeudorException();
         }
-        if (!cliente.isSolicito_rutina())
-        {
-            throw new RutinaSinAvisoException();
-        }
-        else
-        {
             LocalDate fecha = LocalDate.now();
             String mes = fecha.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
             mes = mes.substring(0, 1).toUpperCase() + mes.substring(1);
@@ -692,7 +711,7 @@ public class Gimnasio {
             Rutina rutina=new Rutina(nombreInstructor,mes,descripcion);
             cliente.cambiarEstadoRutina();
             cliente.agregarRutina(rutina);
-        }
+
         return true;
     }
 
@@ -709,6 +728,25 @@ public class Gimnasio {
         }
         return true;
     }
+
+    public boolean ConsultarClienteActivo(String dni) throws NoEncontradoException {
+        boolean rta = false;
+        Cliente cliente = LocalizarCliente(dni);
+        if(cliente.getEstado()==Eestado.ACTIVO){
+            rta = true;
+        }
+        return rta;
+    }
+
+    public String VerActividadesInstructor(String dni_instructor){
+        String rta = "";
+        if(mapaInstructor.containsKey(dni_instructor)){
+            rta = mapaInstructor.get(dni_instructor).getActividadesACargo();
+        }
+        return rta;
+    }
+
+
 
 
 }

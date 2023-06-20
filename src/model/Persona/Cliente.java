@@ -341,4 +341,8 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         solicito_rutina=true;
     }
 
+    public void CambiarSolicitudRutina(boolean valor){
+            setSolicito_rutina(valor);
+    }
+
 }

@@ -37,6 +37,11 @@ private String imagenPerfil;
         super(jo);
     }
 
+
+    public String getActividadesACargo(){
+        return "===================\nACTIVIDADES A CARGO\n===================\n" + actividades.toString();
+    }
+
     @Override
     public String toString() {
         if(actividades == null){

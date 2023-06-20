@@ -178,7 +178,7 @@ public abstract class Persona implements Serializable, I_toJson {
     private void setFecha_nacimiento(LocalDate fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
-    private void setComentario(String comentario) {
+    public void setComentario(String comentario) {
         this.comentario = comentario;
     }
     /**=========================================================================================================*/

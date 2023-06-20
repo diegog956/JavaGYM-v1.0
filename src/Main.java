@@ -148,7 +148,7 @@ public class Main {
 
         /**------------------------------------ INSTRUCTORES --------------------------------------------*/
 
-        /*Instructor instructor1 = new Instructor("Juan Perez", "123456789",EGenero.MASCULINO, "555-1234", "Calle 123", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
+        Instructor instructor1 = new Instructor("Juan Perez", "123456789",EGenero.MASCULINO, "555-1234", "Calle 123", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
 
         Instructor instructor2 = new Instructor("María López", "987654321",EGenero.MASCULINO, "555-5678", "Avenida XYZ", "prueba@gmail.com",Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
 
@@ -169,7 +169,7 @@ public class Main {
         }catch (NoEncontradoException e){
             System.out.println(e.getMessage());
         }
-        System.out.println("\n\n\n" + gimnasio.getMapaInstructor());*/
+        System.out.println("\n\n\n" + gimnasio.getMapaInstructor());
         /**------------------------------------ FACTURAS --------------------------------------------*/
 
         Factura factura1 = new Factura("Enero", "2023", "123456789", "Juan Pérez", LocalDate.now(), 1000.0);
@@ -345,6 +345,8 @@ public class Main {
 
         gimnasio.listarTodo();
 
+
+        System.out.println(instructor1.getActividadesACargo());
 
 
 
