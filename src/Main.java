@@ -148,13 +148,13 @@ public class Main {
 
         /**------------------------------------ INSTRUCTORES --------------------------------------------*/
 
-        Instructor instructor1 = new Instructor("Juan Perez", "123456789",EGenero.MASCULINO, "555-1234", "Calle 123", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", new ArrayList<Actividad>(), "imagen1.jpg");
+        Instructor instructor1 = new Instructor("Juan Perez", "123456789",EGenero.MASCULINO, "555-1234", "Calle 123", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_POSITIVO, "555-5678", "Obra Social A", LocalDate.of(1990, 5, 10), "Comentario 1", "1234-5678901", "imagen1.jpg");
 
-        Instructor instructor2 = new Instructor("María López", "987654321",EGenero.MASCULINO, "555-5678", "Avenida XYZ", "prueba@gmail.com",Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210", new ArrayList<Actividad>(), "imagen2.jpg");
+        Instructor instructor2 = new Instructor("María López", "987654321",EGenero.MASCULINO, "555-5678", "Avenida XYZ", "prueba@gmail.com",Eestado.INACTIVO, EGrupoSanguineo.O_NEGATIVO, "555-4321", "Obra Social B", LocalDate.of(1985, 8, 20), "Comentario 2", "09876543210",  "imagen2.jpg");
 
-        Instructor instructor3 = new Instructor("Pedro González", "456789123",EGenero.MASCULINO, "555-9999", "Plaza ABC","prueba@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.B_POSITIVO, "555-1111", "Obra Social C", LocalDate.of(1988, 12, 5), "Comentario 3", "45678912345", new ArrayList<Actividad>(), "imagen3.jpg");
+        Instructor instructor3 = new Instructor("Pedro González", "456789123",EGenero.MASCULINO, "555-9999", "Plaza ABC","prueba@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.B_POSITIVO, "555-1111", "Obra Social C", LocalDate.of(1988, 12, 5), "Comentario 3", "45678912345", "imagen3.jpg");
 
-        Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456",EGenero.MASCULINO, "555-4444", "Calle 456", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", new ArrayList<Actividad>(), "imagen4.jpg");
+        Instructor instructor4 = new Instructor("Ana Rodríguez", "789123456",EGenero.MASCULINO, "555-4444", "Calle 456", "prueba@gmail.com",Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678",  "imagen4.jpg");
         try {
             gimnasio.agregar(instructor1);
             gimnasio.agregar(instructor2);

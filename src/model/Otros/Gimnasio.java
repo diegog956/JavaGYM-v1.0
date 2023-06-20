@@ -564,6 +564,17 @@ public class Gimnasio {
         }
         return mapaCliente.get(dni);
     }
+    /**
+     Permite localizar un instructor a partir de su dni
+     @param dni
+     @return El instructor localizado a partir de su Dni*/
+    public Instructor LocalizarInstructor (String dni) throws NoEncontradoException {
+        if (!mapaInstructor.containsKey(dni))
+        {
+            throw new NoEncontradoException(Cliente.class);
+        }
+        return mapaInstructor.get(dni);
+    }
 
     /**
      Permite reconocer una actividad presente en el sistema(el metodo es llamado desde la interfaz para ubicar una actividad)
