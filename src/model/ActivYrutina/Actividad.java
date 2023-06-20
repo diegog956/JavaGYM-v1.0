@@ -94,6 +94,9 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     private void setNombre_instructor(String nombre_instructor) {
         this.nombre_instructor = nombre_instructor;
     }
+    public void CambiarNombreInstructor(String nombre_instructor) {
+        this.nombre_instructor = nombre_instructor;
+    }
 
     private void setCupo(int cupo) {
         this.cupo = cupo;

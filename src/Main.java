@@ -165,7 +165,7 @@ public class Main {
         }
         System.out.println(gimnasio.getMapaInstructor());
         try {
-            gimnasio.modificarInstructor(instructor4.getDni(), "Martin MigueL de Guemes", "789123456", EGenero.MASCULINO, "555-4444", "Calle 456", "prueba@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", "imagen4.jpg", new ArrayList<Actividad>());
+            gimnasio.modificarInstructor(instructor4.getDni(), "Martin MigueL de Guemes", "789123456", EGenero.MASCULINO, "555-4444", "Calle 456", "prueba@gmail.com", Eestado.ACTIVO, EGrupoSanguineo.A_NEGATIVO, "555-2222", "Obra Social D", LocalDate.of(1993, 3, 15), "Comentario 4", "78912345678", "imagen4.jpg");
         }catch (NoEncontradoException e){
             System.out.println(e.getMessage());
         }

@@ -305,15 +305,29 @@ public class Gimnasio {
     public boolean modificarInstructor (String DNI, String nombre, String dni, EGenero genero,
                                         String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo,
                                         String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento,String comentario,
-                                        String cuil, String imagen_de_perfil, ArrayList<Actividad> listaActividades) throws NoEncontradoException {
+                                        String cuil, String imagen_de_perfil) throws NoEncontradoException {
 
         if(!mapaInstructor.containsKey(DNI)){
             throw new NoEncontradoException(Instructor.class);
         }else{
+            String nombre_antiguo = mapaInstructor.get(dni).getNombre();
         mapaInstructor.get(DNI).modificar(nombre, dni, genero, telefono, domicilio, email,
                 estado, grupo_sanguineo, contacto_emergencia,obra_social,
-                fecha_nacimiento,comentario, cuil, imagen_de_perfil, listaActividades);
+                fecha_nacimiento,comentario, cuil, imagen_de_perfil);
+
+            if(!nombre.equals(nombre_antiguo)){
+                CambiarInstructorActividad(nombre_antiguo,nombre);
+            }
             return true;
+        }
+    }
+    private void CambiarInstructorActividad(String nombre_antiguo, String nombre){
+        Iterator <Actividad> it = arbolActividades.iterator();
+        while(it.hasNext()){
+            Actividad actividad = it.next();
+            if(actividad.getNombre_instructor().equals(nombre_antiguo)){
+                actividad.CambiarNombreInstructor(nombre);
+            }
         }
     }
    /* public boolean modificarActividad(Actividad actividad, EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor,
@@ -748,14 +762,41 @@ public class Gimnasio {
         }
         return rta;
     }
-
     public String VerActividadesInstructor(String dni_instructor){
-        String rta = "";
-        if(mapaInstructor.containsKey(dni_instructor)){
-            rta = mapaInstructor.get(dni_instructor).getActividadesACargo();
+        Instructor instructor = mapaInstructor.get(dni_instructor);
+        String nombre_instructor = instructor.getNombre();
+        String rta = "Actividades a Cargo\n";
+        String json_actividades = CompartirDatosActividades();
+        try{
+            JSONArray jsonArray_actividades = new JSONArray(json_actividades);
+            for(int i=0; i<jsonArray_actividades.length();i++){
+                Actividad actividad = new Actividad();
+                actividad = actividad.fromJson(jsonArray_actividades.getJSONObject(i));
+                if(actividad.getNombre_instructor().equals(nombre_instructor)){
+                    rta += actividad.getNombre().name() +  " " + actividad.getListaDias() + " " + actividad.getHorario() + "\n";
+                }
+            }
+                if(instructor.getCantidadApercibimientos()>0) {
+                    rta += "\nApercibimientos:\n: " + instructor.DescripcionApercibimientos();
+                }
+        }catch(JSONException e){
+            rta = e.getMessage();
         }
         return rta;
     }
+
+    public boolean borrarInstructor(String dni) throws NoEncontradoException {
+        if(mapaInstructor.containsKey(dni)){
+           mapaInstructor.remove(dni);
+            return true;
+        }else{
+            throw new NoEncontradoException(Cliente.class);
+        }
+    }
+
+
+
+
 
 
 
