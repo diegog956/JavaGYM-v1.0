@@ -243,6 +243,9 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     public void sumarInscripto(){
         inscriptos++;
     }
+    public void restarInscripto(){
+        inscriptos--;
+    }
 }
 
 

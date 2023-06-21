@@ -9,6 +9,6 @@ public class NoEncontradoException extends Exception{
     }
     @Override
     public String getMessage() {
-        return "ERROR. "+ clase.getSimpleName() + " no se encuenta en sistema.";
+        return "ERROR. "+ clase.getSimpleName() + " no se encuentra en sistema.";
     }
 }

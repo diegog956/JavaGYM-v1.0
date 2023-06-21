@@ -188,6 +188,27 @@ public class Gimnasio {
 
         return json;
     }
+    /**
+     * Permite obtener la coleccion de Administrativos en Formato JSON
+     * @return La coleccion de actividades en formato JSON
+     */
+    public String CompartirDatosAdministrativos(){
+        String json = "";
+        Iterator it = mapaUsuarios.entrySet().iterator();
+        JSONArray jsonArray_clientes = new JSONArray();
+        try{
+            while (it.hasNext()) {
+                Map.Entry<String, Usuario> entradaDelMapa = (Map.Entry<String, Usuario>) it.next();
+                Usuario usuario = entradaDelMapa.getValue();
+                jsonArray_clientes.put(usuario.toJsonObj());
+            }
+            json = jsonArray_clientes.toString();
+        }catch(JSONException e){
+            json = e.toString();
+        }
+
+        return json;
+    }
 
     public String listarActividades() {
         return arbolActividades.toString();
@@ -437,20 +458,19 @@ public class Gimnasio {
     /**========================================================================================================*/
     public void sumarInscripto(TreeSet<Actividad> setActividades){
 
-            Iterator<Actividad> itExterior = setActividades.iterator();
+        Iterator<Actividad> itExterior = setActividades.iterator();
 
-            while(itExterior.hasNext()){
-                Actividad actividad = itExterior.next();
-                Iterator<Actividad> itInterior = arbolActividades.iterator();
-                while(itInterior.hasNext()){
-                    Actividad actividadArbol = itInterior.next();
-                        if(actividad.equals(actividadArbol)){
-                               actividadArbol.sumarInscripto();
-                        }
-                    }
+        while(itExterior.hasNext()){
+            Actividad actividad = itExterior.next();
+            Iterator<Actividad> itInterior = arbolActividades.iterator();
+            while(itInterior.hasNext()){
+                Actividad actividadArbol = itInterior.next();
+                if(actividad.equals(actividadArbol)){
+                    actividadArbol.sumarInscripto();
                 }
             }
-
+        }
+    }
     /**========================================================================================================*/
     public void listarTodo() {
         System.out.println("Clientes\n\n\n");
@@ -793,6 +813,72 @@ public class Gimnasio {
             throw new NoEncontradoException(Cliente.class);
         }
     }
+
+    public void restarInscripto(TreeSet<Actividad> setActividades){
+
+        Iterator<Actividad> itExterior = setActividades.iterator();
+
+        while(itExterior.hasNext()){
+            Actividad actividad = itExterior.next();
+            Iterator<Actividad> itInterior = arbolActividades.iterator();
+            while(itInterior.hasNext()){
+                Actividad actividadArbol = itInterior.next();
+                if(actividad.equals(actividadArbol)){
+                    actividadArbol.restarInscripto();
+                }
+            }
+        }
+    }
+
+    /**
+     * Permite validar el ingreso de un cliente al establecimiento.
+     * @param dni
+     * @return
+     * @throws NoEncontradoException
+     * @throws ClienteDeudorException
+     */
+    public boolean ValidarIngresoCliente(String dni) throws NoEncontradoException, ClienteDeudorException {
+        Cliente cliente = LocalizarCliente(dni);
+        if(cliente.isDebe()){
+            throw new ClienteDeudorException("El cliente con Dni " + cliente.getDni() + " posee deuda.");
+        }
+        return true;
+    }
+
+    public String GetNombreCliente(String dni) throws NoEncontradoException {
+        return LocalizarCliente(dni).getNombre();
+    }
+
+
+    public boolean ModifcarContrasenia(String nombre_de_usuario, String nueva_contrasenia) throws NoEncontradoException {
+        if(mapaUsuarios.containsKey(nombre_de_usuario)){
+                mapaUsuarios.get(nombre_de_usuario).cambiarContrasenia(nueva_contrasenia);
+        }else{
+            throw new NoEncontradoException(Usuario.class);
+        }
+        return true;
+    }
+
+    public boolean ReestablecerContrasenia (String nombre_de_usuario) throws NoEncontradoException {
+        if(mapaUsuarios.containsKey(nombre_de_usuario)){
+            mapaUsuarios.get(nombre_de_usuario).cambiarContrasenia("12345678");
+        }else{
+            throw new NoEncontradoException(Usuario.class);
+        }
+        return true;
+    }
+
+    public boolean borrarUsuario(String nombre_usuario) throws NoEncontradoException {
+        if(mapaUsuarios.containsKey(nombre_usuario)){
+                mapaUsuarios.remove(nombre_usuario);
+            }else{
+            throw new NoEncontradoException(Cliente.class);
+        }
+        return true;
+    }
+
+
+
 
 
 

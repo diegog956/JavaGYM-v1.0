@@ -136,6 +136,10 @@ public class Usuario extends Personal implements Serializable, I_toJson {
 
         return factura;
     }*/
+    public void cambiarContrasenia(String contrasenia_nueva){
+        setContrasenia(contrasenia_nueva);
+    }
+
 
 
 

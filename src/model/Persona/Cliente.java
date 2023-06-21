@@ -192,6 +192,10 @@ public class Cliente extends Persona implements I_toJson, Serializable {
             jsonObject.put("Rutina", rutina.toJsonObj());
         }
 
+        if(listaFacturas==null){
+            listaFacturas = new LinkedHashSet<>();
+        }
+
         JSONArray jsonArray = new JSONArray();
         int i =0;
         Iterator<Factura> it = listaFacturas.iterator();
@@ -282,7 +286,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
         }
 
         if(actividades_cliente.size()>0){ //si tiene actividades las listamos
-            rta+= "\nInscripto en: \n" + listarActividades();
+            rta+= "Inscripto en:" + listarActividades();
         }
 
         rta+= "\n\nContacto de Emergencia: " + getContacto_emergencia() + "\n" +
@@ -296,7 +300,7 @@ public class Cliente extends Persona implements I_toJson, Serializable {
     public String listarActividades(){
         String rta = "";
         for(Actividad actividad:actividades_cliente){
-            rta += actividad.toString();
+            rta += actividad.MostrarActividadBasica() + "\n";
         }
         return rta;
     }
