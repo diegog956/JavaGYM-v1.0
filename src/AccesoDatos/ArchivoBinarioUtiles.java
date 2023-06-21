@@ -1,9 +1,12 @@
 package AccesoDatos;
 
 import java.io.*;
-
+/**Clase que permite la persistencia en archivos de datos binarios.*/
 public class ArchivoBinarioUtiles<T extends Object>{
-
+/**Guarda un objeto en un archivo
+ * @param objeto Objeto a guardar.
+ * @param nombre_archivo nombre del archivo donde se quiere almacenar.
+ * */
     public void guardarObjeto(T objeto, String nombre_archivo){
         FileOutputStream fos = null;
         try {
@@ -39,7 +42,10 @@ public class ArchivoBinarioUtiles<T extends Object>{
         }
     }
 
-    public T leerColeccion(String nombre_archivo) {
+    /**Obtener objeto de un archivo
+     * @param nombre_archivo nombre del archivo donde buscar el objeto.
+     * @return Objecto leido.*/
+    public T leerObjeto(String nombre_archivo) {
         T objeto = null;
         FileInputStream fis = null;
         try {

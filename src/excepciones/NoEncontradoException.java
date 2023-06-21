@@ -1,5 +1,5 @@
 package excepciones;
-
+/**Excepcion que es lanzada cuando no se encuentra determinado objecto en una determinada clase*/
 public class NoEncontradoException extends Exception{
 
     private Class clase;

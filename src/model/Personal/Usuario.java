@@ -49,7 +49,6 @@ public class Usuario extends Personal implements Serializable, I_toJson {
     {
         return (usuario.equals(getUsuario()) && contrasenia.equals(getContrasenia()));
     }
-
     private void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -141,6 +140,9 @@ public class Usuario extends Personal implements Serializable, I_toJson {
     }
 
 
+    public void cambiarContrasenia(String contrasenia_nueva){
+        setContrasenia(contrasenia_nueva);
+    }
 
 
 }

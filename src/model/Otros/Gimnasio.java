@@ -18,40 +18,29 @@ import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.time.LocalDate;
-import java.time.format.TextStyle;
 import java.util.*;
 
-
+/**
+ * Clase envoltorio encargada de llamar a los metodos propios de cada clase
+ * */
 public class Gimnasio {
-
     private Encargado encargado;
-    private String mail;
-    private String CUIL;
-    private String responsable;
-    private String direccion;
-    /**
-     * Ver Bloc de notas. Se puede pensar en que el encargado contenga los datos del gimnasio, tales como mail, direccion, etc.
-     */
     private HashMap<String, Cliente> mapaCliente;
     private HashMap<String, Instructor> mapaInstructor;
     private LinkedHashSet<Factura> listaFacturas;
     private TreeSet<Actividad> arbolActividades;
-
     private HashMap<String, Usuario> mapaUsuarios;
-
+/**
+ * Constructor de la clase gimnasio. Instancia el atributo Encargado(objeto unico en su clase) con los datos de la sede.
+ * Asi como tambien leer los datos de los 5 archivos en formato .dat principales para volcarlos en las respectivas listas de Clientes,
+ * Instructores, Actividades, Facturas y Usuarios. Si no se haya el archivo, se instancia la respectiva lista con la sentencia new.
+ *
+ * */
     public Gimnasio() {
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
 
-        responsable = " ";
-        direccion = " ";
-
         encargado = new Encargado("JavaGym", "21541044",EGenero.OTRO,"474-5698", "Avenida de los trabajadores 1005", "javaGym@gmail.com","Veni capo", "24-21541044-3");
-        responsable = encargado.getNombre();
-        direccion = encargado.getDomicilio();
-        CUIL = encargado.getCUIL();
-        //mail = encargado.get
-
 
         if (archivoMapaUtiles.leerMapa("clientes.dat") == null) {
             mapaCliente = new HashMap<>();
@@ -85,33 +74,8 @@ public class Gimnasio {
 
     }
 
-    public HashMap<String, Cliente> getMapaCliente() {
-        return mapaCliente;
-    }
-
-    public HashMap<String, Instructor> getMapaInstructor() {
-        return mapaInstructor;
-    }
-
-    public TreeSet<Actividad> getArbolActividades() {
-        return arbolActividades;
-    }
-
-    public String agregarFactura(Factura factura) {
-        listaFacturas.add(factura);
-        return factura.toString();
-    }
-
-    @Override
-    public String toString() {
-        return "Gimnasio{" +
-                "responsable='" + responsable + '\'' +
-                ", direccion='" + direccion + '\'' +
-                ", mapaCliente=" + mapaCliente +
-                ", mapaInstructor=" + mapaInstructor +
-                ", listaFacturas=" + listaFacturas +
-                '}';
-    }
+    /**Devuelve en formato String el mapa de clientes con sus respectivos values.
+     * @return values del mapa clientes en formato String.*/
     public String ListarClientes() {
         String rta = "Clientes Presentes en Sistema (mapaCliente):\n";
         //Iterator it = mapaCliente.GetRecorredor();
@@ -188,31 +152,18 @@ public class Gimnasio {
 
         return json;
     }
+
     /**
-     * Permite obtener la coleccion de Administrativos en Formato JSON
-     * @return La coleccion de actividades en formato JSON
+     * Permite obtener la lista de actividades en formato String.
+     * @return La coleccion de actividades en formato String.
      */
-    public String CompartirDatosAdministrativos(){
-        String json = "";
-        Iterator it = mapaUsuarios.entrySet().iterator();
-        JSONArray jsonArray_clientes = new JSONArray();
-        try{
-            while (it.hasNext()) {
-                Map.Entry<String, Usuario> entradaDelMapa = (Map.Entry<String, Usuario>) it.next();
-                Usuario usuario = entradaDelMapa.getValue();
-                jsonArray_clientes.put(usuario.toJsonObj());
-            }
-            json = jsonArray_clientes.toString();
-        }catch(JSONException e){
-            json = e.toString();
-        }
-
-        return json;
-    }
-
     public String listarActividades() {
         return arbolActividades.toString();
     }
+
+    /**Función encargada de la persistencia en archivos del tipo '.dat' de las 5 colecciones
+     * presentes en la clase Gimnasio
+     * */
     public void guardarEnArchivo() {
         ArchivoColeccionUtiles archivoColeccionUtiles = new ArchivoColeccionUtiles();
         ArchivoMapaUtiles archivoMapaUtiles = new ArchivoMapaUtiles();
@@ -226,6 +177,13 @@ public class Gimnasio {
         archivoMapaUtiles.guardarMapa(mapaUsuarios,"usuarios.dat");
 
     }
+
+    /**Funcion que crea un json con los datos de las 5
+     * listas pertencientes a la clase Gimnasio
+     * @return JSONObject con la infomación.
+     * @throws JSONException En el metodo 'put' del array si el indice es negativo o
+     * en el metodo 'put' del JSONObject si la clave es nula*/
+
     public JSONObject actualizarJson() throws JSONException {
         /**No pongo Responsable y Direccion*/
         JSONObject jsonObject = new JSONObject();
@@ -281,8 +239,11 @@ public class Gimnasio {
 
     }
 
-    /**BLOQUE ABM*/
-    /**AGREGAR  ==================================================================================*/
+   /**Agrega cliente a el mapa de clientes.
+    * @param cliente El cliente que desea ingresar.
+    * @return true si fue agregado exitosamente
+    * @throws ExistenteException Si ya se
+    * encontraba el cliente en la base de datos*/
     public boolean agregar(Cliente cliente) throws ExistenteException {
         if(mapaCliente.containsKey(cliente.getDni())){
             throw new ExistenteException(cliente.getClass());
@@ -290,12 +251,24 @@ public class Gimnasio {
         mapaCliente.put(cliente.getDni(), cliente);
         return true;
     }
+
+    /**Agrega actividad a el set de actividades.
+     * @param actividad Actividad a agregar.
+     * @return true si fue agregado exitosamente
+     * @throws ExistenteException Si ya se
+     * encontraba la actividad en la base de datos*/
     public boolean agregar(Actividad actividad) throws ExistenteException {
         if(!arbolActividades.add(actividad)){
             throw new ExistenteException(actividad.getClass());
         }
         return true;
     }
+
+    /**Agrega instructor a el mapa de instructores.
+     * @param instructor (Instructor a agregar)
+     * @return true si fue agregado exitosamente
+     * @throws ExistenteException Si ya se
+     * encontraba el instructor en la base de datos*/
     public boolean agregar(Instructor instructor) throws ExistenteException {
         if(mapaInstructor.containsKey(instructor.getDni())){
             throw new ExistenteException(instructor.getClass());
@@ -303,6 +276,12 @@ public class Gimnasio {
         mapaInstructor.put(instructor.getDni(), instructor);
         return true;
     }
+
+    /**Agrega factura a la lista de facturas.
+     * @param factura (Factura a agregar)
+     * @return true si fue agregado exitosamente.
+     * @throws ExistenteException Si ya se
+     * encontraba la factura en la base de datos*/
     public boolean agregar(Factura factura) throws ExistenteException {
         if(!listaFacturas.add(factura)){
             throw new ExistenteException(factura.getClass());
@@ -310,7 +289,14 @@ public class Gimnasio {
         return true;
     }
 
-    /**MODIFICAR  ==================================================================================*/
+    /**Permite la modificacion del cliente
+     * @param nombre, dni, genero,telefono, domicilio, email, estado, grupo_sanguineo,
+     * contacto_emergencia, obra_social, fecha_nacimiento, comentario,
+     * alta_medica, solicito_rutina, debe, rutina, actividades_cliente
+     * @return true si fue correctamente modificado.
+     * @throws NoEncontradoException Si no se encontro el cliente a modificar
+     *  en la base de datos.*/
+
     public boolean modificarCliente(String DNI, String nombre, String dni, EGenero genero, String telefono, String domicilio, String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento,
                                     String comentario, boolean alta_medica, boolean solicito_rutina, boolean debe, Rutina rutina, TreeSet<Actividad> actividades_cliente ) throws NoEncontradoException {
         if(!mapaCliente.containsKey(DNI)){
@@ -323,68 +309,55 @@ public class Gimnasio {
 
     }
 
+    /**Permite la modificacion del instructor
+     * @param nombre, dni, genero, telefono, domicilio, email,
+     * estado, grupo_sanguineo, contacto_emergencia,obra_social,
+     * fecha_nacimiento,comentario, cuil, imagen_de_perfil, listaActividades.
+     * @return true si fue correctamente modificado.
+     * @throws NoEncontradoException si no se encontro el instructor a modificar
+     * en la base de datos.*/
+
     public boolean modificarInstructor (String DNI, String nombre, String dni, EGenero genero,
                                         String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo,
                                         String contacto_emergencia, String obra_social, LocalDate fecha_nacimiento,String comentario,
-                                        String cuil, String imagen_de_perfil) throws NoEncontradoException {
+                                        String cuil, String imagen_de_perfil, ArrayList<Actividad> listaActividades) throws NoEncontradoException {
 
         if(!mapaInstructor.containsKey(DNI)){
             throw new NoEncontradoException(Instructor.class);
         }else{
-            String nombre_antiguo = mapaInstructor.get(dni).getNombre();
         mapaInstructor.get(DNI).modificar(nombre, dni, genero, telefono, domicilio, email,
                 estado, grupo_sanguineo, contacto_emergencia,obra_social,
-                fecha_nacimiento,comentario, cuil, imagen_de_perfil);
-
-            if(!nombre.equals(nombre_antiguo)){
-                CambiarInstructorActividad(nombre_antiguo,nombre);
-            }
+                fecha_nacimiento,comentario, cuil, imagen_de_perfil, listaActividades);
             return true;
         }
     }
-    private void CambiarInstructorActividad(String nombre_antiguo, String nombre){
-        Iterator <Actividad> it = arbolActividades.iterator();
-        while(it.hasNext()){
-            Actividad actividad = it.next();
-            if(actividad.getNombre_instructor().equals(nombre_antiguo)){
-                actividad.CambiarNombreInstructor(nombre);
-            }
+
+    /**Permite la modificacion de la actividad.
+     * @param actividad_anterior Actividad a modificar
+     * @param actividad_modificada Actividad modificada
+     * @return true si fue correctamente modificado.
+     * @throws NoEncontradoException si no se encontro la actividad a modificar
+     * en la base de datos.
+     * @throws ExistenteException si la actividad modificada que se desea ingresar coincide con otra preexistente en
+     * la base de datos.*/
+    public boolean modificarActividad(Actividad actividad_anterior, Actividad actividad_modificada) throws NoEncontradoException, ExistenteException {
+        boolean rta = true;
+        boolean agregado;
+        Actividad actividad_encontrada = buscarActividad(actividad_anterior);
+        arbolActividades.remove(actividad_encontrada);
+        agregado = arbolActividades.add(actividad_modificada);
+        if(!agregado){
+            agregar(actividad_encontrada);
+            rta = false;
         }
+        return rta;
     }
-   /* public boolean modificarActividad(Actividad actividad, EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor,
-                                      int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual) {
-        Iterator<Actividad> it = arbolActividades.iterator();
-        while (it.hasNext()) {
-            Actividad actividad1 = it.next();
-            if (actividad1.equals(actividad)) {
-                Actividad actividad2 = new Actividad(nombre, horario, listaDias1, nombre_instructor,
-                        cupo, inscriptos, disponible, comentario, precio_mensual);
-                if (arbolActividades.contains(actividad2)) {
-                    return false;
-                } else {
-                    actividad.modificar(nombre, horario, listaDias1, nombre_instructor,
-                            cupo, inscriptos, disponible, comentario, precio_mensual);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
-   public boolean modificarActividad(Actividad actividad_anterior, Actividad actividad_modificada) throws NoEncontradoException, ExistenteException {
-       boolean rta = true;
-       boolean agregado;
-       Actividad actividad_encontrada = buscarActividad(actividad_anterior);
-       arbolActividades.remove(actividad_encontrada);
-       agregado = arbolActividades.add(actividad_modificada);
-       if(!agregado){
-           agregar(actividad_encontrada);
-           rta = false;
-       }
-       return rta;
-   }
 
-
-    /**DAR DE BAJA/ALTA  ==================================================================================*/
+    /**Permite cambiar el estado del cliente Activo a Inactivo y viceversa
+     * @param dni Dni necesario para busqueda de cliente a cambiar estado.
+     * @return true si la operacion fue exitosa.
+     * @throws NoEncontradoException Si no encuentra
+     * el cliente en la base de datos*/
 
     public boolean cambiarEstado(String dni) throws NoEncontradoException { ///Esto es activar/inactivar
         if(mapaCliente.containsKey(dni)){
@@ -399,17 +372,27 @@ public class Gimnasio {
         }
     }
 
-    public boolean banear(String dni) throws NoEncontradoException { ///Esto es banear/Desbanear
-        if(mapaCliente.containsKey(dni)){
+    /**Permite cambiar banear (inhabilitar) un cliente.
+     * @param dni Dni necesario para busqueda de cliente a banear.
+     * @return true si la operacion fue exitosa.
+     * @throws NoEncontradoException Si no encuentra
+     * el cliente en la base de datos*/
+    public boolean banear(String dni) throws NoEncontradoException {
+        if(!mapaCliente.containsKey(dni)){
+            throw new NoEncontradoException(Cliente.class);
+            }
+
             mapaCliente.get(dni).setEstado(Eestado.BANEADO);
             return true;
-        }else{
-            throw new NoEncontradoException(Cliente.class);
-        }
     }
 
-    /**AGREGAR APERCIBIMIENTO  ==================================================================================*/
 
+    /**Permite agregar un apercibimiento a un cliente o a un instructor.
+     * @param DNI Dni del cliente o del instructor a apercibir
+     * @param descripcion Comentario/Motivo del apercimiento
+     * @param fecha Fecha del momento en que se apercibe.
+     * @return true si la operacion fue exitosa
+     * @throws NoEncontradoException Si no encuentra ningun cliente ni instructor con ese DNI.*/
     public boolean agregarApercibimiento(String DNI, String descripcion, LocalDate fecha) throws NoEncontradoException {
         if(mapaCliente.containsKey(DNI)){
 
@@ -425,23 +408,11 @@ public class Gimnasio {
         }
     }
 
-    public boolean agregarComentario(String DNI, String descripcion, LocalDate fecha) throws NoEncontradoException {
-        String texto ="";
-        if(mapaCliente.containsKey(DNI)){
-
-           texto =  mapaCliente.get(DNI).getComentario();
-           mapaCliente.get(DNI).setComentario(texto.concat("\n" + descripcion + "\n" + fecha.toString()));
-            return true;
-
-        } else if (mapaInstructor.containsKey(DNI)) {
-
-            mapaInstructor.get(DNI).setComentario(descripcion);
-            return true;
-        }else{
-            throw new NoEncontradoException(Persona.class);
-        }
-    }
-    /**BORRAR ACTIVIDAD ======================================================================================*/
+    /**Permite borrar una actividad tanto de la lista total de actividades como la presente en la coleccion de
+     * aquellos clientes que asistian a ella.
+     * @param actividad La actividad a eliminar.
+     * @return true si la operacion fue exitosa.
+     * @throws NoEncontradoException si no encontro la actividad a borrar en la base de datos.*/
     public boolean borrarActividad(Actividad actividad) throws NoEncontradoException {
         if(!arbolActividades.contains(actividad)){
             throw new NoEncontradoException(actividad.getClass());
@@ -455,8 +426,29 @@ public class Gimnasio {
         }
         return true;
     }
-    /**========================================================================================================*/
+
+    /**Suma inscriptos cuando se agrega un cliente a ellas al ingresar o al modificar.
+     * @param setActividades Actividades que realizara el cliente.
+     */
     public void sumarInscripto(TreeSet<Actividad> setActividades){
+
+            Iterator<Actividad> itExterior = setActividades.iterator();
+
+            while(itExterior.hasNext()){
+                Actividad actividad = itExterior.next();
+                Iterator<Actividad> itInterior = arbolActividades.iterator();
+                while(itInterior.hasNext()){
+                    Actividad actividadArbol = itInterior.next();
+                        if(actividad.equals(actividadArbol)){
+                               actividadArbol.sumarInscripto();
+                        }
+                    }
+                }
+            }
+
+    /**Resta inscriptos cuando se quita un cliente de ellas/
+     * @param setActividades Actividades que el cliente realizaba previamente a su modificacion.*/
+    public void restarInscripto(TreeSet<Actividad> setActividades){
 
         Iterator<Actividad> itExterior = setActividades.iterator();
 
@@ -466,39 +458,30 @@ public class Gimnasio {
             while(itInterior.hasNext()){
                 Actividad actividadArbol = itInterior.next();
                 if(actividad.equals(actividadArbol)){
-                    actividadArbol.sumarInscripto();
+                    actividadArbol.restarInscripto();
                 }
             }
         }
     }
-    /**========================================================================================================*/
-    public void listarTodo() {
-        System.out.println("Clientes\n\n\n");
-        System.out.println(mapaCliente);
-        System.out.println("INSTRUCTORES\n\n\n");
-        System.out.println(mapaInstructor);
-        System.out.println("Facturas\n\n\n");
-        System.out.println(listaFacturas);
-        System.out.println("ACTIVIDADES\n\n\n");
-        System.out.println(arbolActividades);
 
-        System.out.println("USUARIOS\n\n\n");
-        System.out.println(mapaUsuarios);
-
-
-    }
-
-    //Sergio - Martes 13 de Junio
+    /**Agrega cliente a el mapa de clientes.
+     * @param usuario El usuario que desea registrar.
+     * @return true si fue agregado exitosamente
+     * @throws ExistenteException Si ya se
+     * encontraba el usuario en la base de datos*/
     public boolean agregar(Usuario usuario) throws ExistenteException {
-        //metodo que agrega un usuario a la lista de usuarios. La excepcion es atrapada por la UI
         if (mapaUsuarios.containsKey(usuario.getUsuario())) {
             throw new ExistenteException(usuario.getClass());
         }
-        mapaUsuarios.put(usuario.getUsuario(), usuario); //no es necesario el else ya que el throw rompe ejecucion
+        mapaUsuarios.put(usuario.getUsuario(), usuario);
         return true;
     }
 
-    //Sergio - Miercoles 14 de Junio
+    /**Metodo del que se sirve la interfaz para reconocer quien es el usuario que esta ingresando
+    @param usuario_ingresado
+    @param contrasenia_ingresada
+    @return Usuario que puede ser uno de los administrativos o el encargado
+    @throws CredencialesInvalidasException cuando el ingreso el usuario o contrasenia no coinciden con la base de datos*/
     public Usuario IngresarAlSistema(String usuario_ingresado, String contrasenia_ingresada) throws CredencialesInvalidasException {
         //metodo del que se sirve la interfaz para reconocer quien es el usuario que esta ingresando
         //este usuario puede ser uno de los administrativos, o bien el encargado (unico)
@@ -521,6 +504,11 @@ public class Gimnasio {
         }
         return usuario_encontrado;
     }
+
+    /**Metodo que retorna el tipo de usuario (adm o encargado) segun el usuario recibido.
+    @param usuario Usuario a consultar.
+    @return El tipo usuario en formato String.
+     */
     public String getTipoDeUsuario(Usuario usuario){
         //metodo que devuelve el tipo de usuario (adm o encargado) segun el usuario recibido
         //Utilidad: es llamado por UI para saber el tipo de Usuario
@@ -533,7 +521,15 @@ public class Gimnasio {
         }
         return rta;
     }
-    //Mateo - Viernes 31 de Febrero
+
+    /**Carga a partir de un objeto tipo json las 5 listas principales de la clase Gimnasio
+     * @param jsonObject El jsonobject con la informacion.
+     * @param arbolActividades Inicializado.
+     * @param mapaCliente Inicializado.
+     * @param mapaUsuarios Inicializado.
+     * @param mapaInstructor Iicializado.
+     * @param listaFacturas Inicializada.
+     */
     public void desgrabarJson(JSONObject jsonObject, HashMap<String, Cliente> mapaCliente, HashMap<String, Instructor> mapaInstructor,LinkedHashSet<Factura> listaFacturas, TreeSet<Actividad> arbolActividades, HashMap<String, Usuario> mapaUsuarios ) throws JSONException {
 
         JSONArray jsonArray;
@@ -578,67 +574,58 @@ public class Gimnasio {
         }
     }
 
-    /** Agrega Sergio 18/6
-
-     Permite obtener informacion adicional del cliente
+    /** Permite obtener informacion adicional del cliente
      @param dni del cliente a localizar
      @return una cadena de texto que contiene informacion adicional del cliente*/
-    public String InformacionAdicionalCliente(String dni) throws NoEncontradoException {
+    private String InformacionAdicionalCliente(String dni){
         return LocalizarCliente(dni).MostrarInformacionAdicional();
-
     }
     /**
      Permite localizar un cliente a partir de su dni
      @param dni
      @return El cliente localizado a partir de su Dni*/
-    public Cliente LocalizarCliente (String dni) throws NoEncontradoException {
-        if (!mapaCliente.containsKey(dni))
-        {
-            throw new NoEncontradoException(Cliente.class);
-        }
-        return mapaCliente.get(dni);
-    }
-    /**
-     Permite localizar un instructor a partir de su dni
-     @param dni
-     @return El instructor localizado a partir de su Dni*/
-    public Instructor LocalizarInstructor (String dni) throws NoEncontradoException {
-        if (!mapaInstructor.containsKey(dni))
-        {
-            throw new NoEncontradoException(Cliente.class);
-        }
-        return mapaInstructor.get(dni);
-    }
-
+    public Cliente LocalizarCliente (String dni){
+        return mapaCliente.get(dni);}
     /**
      Permite reconocer una actividad presente en el sistema(el metodo es llamado desde la interfaz para ubicar una actividad)
      @param actividad buscada
      @return actividad encontrada
      @throws ExistenteException, si no fue encontrada la actividad.
      */
+
+    /**Busca actividad en arbol de actividades
+     * @param actividad La actividad a buscar.
+     * @return La actividad encontrada.
+     * @throws NoEncontradoException si no la encuentra.*/
+
     public Actividad buscarActividad(Actividad actividad) throws NoEncontradoException {
         Actividad actividad_encontrada = null;
-        Iterator iterator = arbolActividades.iterator();
-        while(iterator.hasNext()){
-            Actividad actividad_en_arbol = (Actividad) iterator.next();
+        Iterator it = arbolActividades.iterator();
+        while(it.hasNext()){
+            Actividad actividad_en_arbol = (Actividad) it.next();
             if(actividad_en_arbol.equals(actividad)){
-                actividad_encontrada = actividad_en_arbol;
-            }
-
+                actividad_encontrada = actividad_en_arbol;}
         }
         if(actividad_encontrada==null){
             throw new NoEncontradoException(Actividad.class);
         }
         return actividad_encontrada;
     }
+
+    /**Calcula precio de las actividades de un cliente a partir de un precio base por ser socio.
+     * @param actividades_a_calcular Actividades que realizara un cliente.
+     * @return Monto que debiera de abonar.*/
     public double CalcularPrecio(ArrayList<Actividad> actividades_a_calcular){
-        double precio_base = 2000; /*suponiendo que el precio base del gym es este. ver luego si esto sera un atributo del gym*/
+        double precio_base = 2000;
         double precio_actividades=0;
         for(Actividad actividad : actividades_a_calcular){
             precio_actividades += actividad.getPrecio_mensual();
         }
         return precio_base + precio_actividades;//el precio que el cliente abonara en total
     }
+
+    /**Metodo que permite cambiar el estado a deudor de aquellos clientes cuyo ultimo pago ha sido hace mas de un mes
+     */
     public void verificarPagos() {
         LocalDate fechaActual = LocalDate.now();
 
@@ -653,32 +640,21 @@ public class Gimnasio {
             cliente.setDebe(debePagar);
         }
     }
-    public void cobrar(Cliente cliente){
+
+    /**Permite cobrar al cliente
+     *@see Cliente#pagar()
+     *@param cliente a cobrar.
+     *@throws ExistenteException si al generar la factura ya existe otra del mismo cliente abonada por el mismo mes.*/
+    public void cobrar(Cliente cliente) throws ExistenteException {
         Factura factura = cliente.pagar();
-        listaFacturas.add(factura);
-    }
-
-    public boolean cobrar(String dni) throws ClienteDeudorException, NoEncontradoException{
-        Cliente cliente = LocalizarCliente(dni);
-        if(cliente!=null){ //si es nulo, se arroja excepcion
-            if(!cliente.isDebe()){
-                throw new ClienteDeudorException("El cliente no posee deuda");
-            }
-            else{
-                //efectuar cobro
-                Factura factura = cliente.pagar();
-                listaFacturas.add(factura);
-            }
-        }
-
-            return true;
+        agregar(factura);
     }
 
 
-
-    /**Apartado estadisticas (Diego's playroom)*/
-
-    /**Devuelve estadisticas por edad y genero*/
+    /**Permite obtener estadisticas sobre los clientes que asisten al gimnasio divido en Hombres y Mujeres,
+     * y dentro de ellos, entre edades tales como: edad<30, 30<edad<45, 45<edad<60, edad>60
+     * @return La estadistica es formato String.
+     * */
     public String estadisticas(){
         String string = "";
         int cantidadMujeresmenora30 = 0;
@@ -730,7 +706,10 @@ public class Gimnasio {
 
         return string;
     }
-    /**Se envia un mes y devuelve ganancia del mismo. Se puede ampliar y hacer un prorrateo.*/
+
+    /**Permite saber la recaudacion total que tuvo el gimnasio en el mes.
+     * @param mes Mes sobre el que se desea calcular la recaudacion.
+     * */
     public double GananciaMensual(String mes){
         double ganancia = 0;
         Iterator<Factura> it = listaFacturas.iterator();
@@ -742,148 +721,6 @@ public class Gimnasio {
         }
         return ganancia;
     }
-
-    public boolean agregarRutina(String dniCliente, String nombreInstructor, String descripcion) throws NoEncontradoException, ClienteDeudorException {
-        Cliente cliente=LocalizarCliente(dniCliente);
-        if (cliente.isDebe())
-        {
-            throw new ClienteDeudorException();
-        }
-            LocalDate fecha = LocalDate.now();
-            String mes = fecha.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-            mes = mes.substring(0, 1).toUpperCase() + mes.substring(1);
-
-            Rutina rutina=new Rutina(nombreInstructor,mes,descripcion);
-            cliente.cambiarEstadoRutina();
-            cliente.agregarRutina(rutina);
-
-        return true;
-    }
-
-    public boolean pedidoDeRutina(String dni) throws RutinaYaPedida, NoEncontradoException {
-        Cliente cliente=LocalizarCliente(dni);
-
-        if (cliente.isSolicito_rutina())
-        {
-            throw new RutinaYaPedida();
-        }
-        else
-        {
-            cliente.pedidoRutina();
-        }
-        return true;
-    }
-
-    public boolean ConsultarClienteActivo(String dni) throws NoEncontradoException {
-        boolean rta = false;
-        Cliente cliente = LocalizarCliente(dni);
-        if(cliente.getEstado()==Eestado.ACTIVO){
-            rta = true;
-        }
-        return rta;
-    }
-    public String VerActividadesInstructor(String dni_instructor){
-        Instructor instructor = mapaInstructor.get(dni_instructor);
-        String nombre_instructor = instructor.getNombre();
-        String rta = "Actividades a Cargo\n";
-        String json_actividades = CompartirDatosActividades();
-        try{
-            JSONArray jsonArray_actividades = new JSONArray(json_actividades);
-            for(int i=0; i<jsonArray_actividades.length();i++){
-                Actividad actividad = new Actividad();
-                actividad = actividad.fromJson(jsonArray_actividades.getJSONObject(i));
-                if(actividad.getNombre_instructor().equals(nombre_instructor)){
-                    rta += actividad.getNombre().name() +  " " + actividad.getListaDias() + " " + actividad.getHorario() + "\n";
-                }
-            }
-                if(instructor.getCantidadApercibimientos()>0) {
-                    rta += "\nApercibimientos:\n: " + instructor.DescripcionApercibimientos();
-                }
-        }catch(JSONException e){
-            rta = e.getMessage();
-        }
-        return rta;
-    }
-
-    public boolean borrarInstructor(String dni) throws NoEncontradoException {
-        if(mapaInstructor.containsKey(dni)){
-           mapaInstructor.remove(dni);
-            return true;
-        }else{
-            throw new NoEncontradoException(Cliente.class);
-        }
-    }
-
-    public void restarInscripto(TreeSet<Actividad> setActividades){
-
-        Iterator<Actividad> itExterior = setActividades.iterator();
-
-        while(itExterior.hasNext()){
-            Actividad actividad = itExterior.next();
-            Iterator<Actividad> itInterior = arbolActividades.iterator();
-            while(itInterior.hasNext()){
-                Actividad actividadArbol = itInterior.next();
-                if(actividad.equals(actividadArbol)){
-                    actividadArbol.restarInscripto();
-                }
-            }
-        }
-    }
-
-    /**
-     * Permite validar el ingreso de un cliente al establecimiento.
-     * @param dni
-     * @return
-     * @throws NoEncontradoException
-     * @throws ClienteDeudorException
-     */
-    public boolean ValidarIngresoCliente(String dni) throws NoEncontradoException, ClienteDeudorException {
-        Cliente cliente = LocalizarCliente(dni);
-        if(cliente.isDebe()){
-            throw new ClienteDeudorException("El cliente con Dni " + cliente.getDni() + " posee deuda.");
-        }
-        return true;
-    }
-
-    public String GetNombreCliente(String dni) throws NoEncontradoException {
-        return LocalizarCliente(dni).getNombre();
-    }
-
-
-    public boolean ModifcarContrasenia(String nombre_de_usuario, String nueva_contrasenia) throws NoEncontradoException {
-        if(mapaUsuarios.containsKey(nombre_de_usuario)){
-                mapaUsuarios.get(nombre_de_usuario).cambiarContrasenia(nueva_contrasenia);
-        }else{
-            throw new NoEncontradoException(Usuario.class);
-        }
-        return true;
-    }
-
-    public boolean ReestablecerContrasenia (String nombre_de_usuario) throws NoEncontradoException {
-        if(mapaUsuarios.containsKey(nombre_de_usuario)){
-            mapaUsuarios.get(nombre_de_usuario).cambiarContrasenia("12345678");
-        }else{
-            throw new NoEncontradoException(Usuario.class);
-        }
-        return true;
-    }
-
-    public boolean borrarUsuario(String nombre_usuario) throws NoEncontradoException {
-        if(mapaUsuarios.containsKey(nombre_usuario)){
-                mapaUsuarios.remove(nombre_usuario);
-            }else{
-            throw new NoEncontradoException(Cliente.class);
-        }
-        return true;
-    }
-
-
-
-
-
-
-
-
 
 
 

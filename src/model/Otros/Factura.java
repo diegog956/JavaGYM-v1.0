@@ -8,7 +8,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-
+/**Clase que crea y realiza metodos sobre el objeto Factura. Contiene la informacion del pago mensual.
+ * @see I_toJson para mas detalle sobre los metodos que debe implementar.
+ * @see Serializable para mas detalle sobre la persistencia de archivos.*/
 public class Factura implements I_toJson, Serializable {
     private String mes;
     private String anio;
@@ -17,6 +19,7 @@ public class Factura implements I_toJson, Serializable {
     private LocalDate fecha_de_emision;
     private double monto;
 
+/**Constructor con todos los datos que debe tener una factura*/
     public Factura(String mes, String anio, String dni_cliente, String nomobre_cliente, LocalDate fecha_de_emision, double monto) {
 
         this.anio=anio;
@@ -26,7 +29,7 @@ public class Factura implements I_toJson, Serializable {
         this.fecha_de_emision = fecha_de_emision;
         this.monto = monto;
     }
-
+/**Constructor vacio del objeto Factura*/
     public Factura ()
     {
         anio="";
@@ -36,7 +39,7 @@ public class Factura implements I_toJson, Serializable {
         fecha_de_emision=null; ///DUDA ACA.
         monto=0;
     }
-/**Bloque get ------------------------------------------------------------------------------------------*/
+
     public String getMes() {
         return mes;
     }
@@ -61,7 +64,6 @@ public class Factura implements I_toJson, Serializable {
         return monto;
     }
 
-    /**Bloque set privados ---------------------------------------------------------------------------------*/
 
     private void setMes(String mes) {
         this.mes = mes;
@@ -86,9 +88,10 @@ public class Factura implements I_toJson, Serializable {
     private void setMonto(double monto) {
         this.monto = monto;
     }
-    /**----------------------------------------------------------------------------------------------------*/
 
 
+    /**Retorna informacion de la factura para mostrarla en el front.
+     * @return Atributos de factura en formato String.*/
     @Override
     public String toString() {
         return "\n======================\nFactura " + getMes() + " " + getAnio() + "\n======================\n" +
@@ -98,9 +101,9 @@ public class Factura implements I_toJson, Serializable {
                 "\n-------------------\nMonto: " + getMonto() + "\n-------------------\n";
     }
 
-    /**
-     * NO SE PUEDE COBRARLE DOS VECES EL MISMO MES A UN CLIENTE. EL EQUALS SE ENCARGA DE COMPRONARLO.
-     */
+    /**Compara Facturas segun el mes, el anio y el dni del cliente.
+     * @param o Recibe cualquier objeto que herede de Object.
+     * @return true si la factura a comparar es igual a la comparada. False si no lo es.*/
     @Override
     public boolean equals(Object o) {
        boolean rta = false;
@@ -120,6 +123,11 @@ public class Factura implements I_toJson, Serializable {
         return 1;
     }
 
+
+    /**Permite a partir de un jsonObject retornar una factura con los datos que el primero poseia.
+     * @param jo JSONObject con los datos de la factura
+     * @return La factura creada.
+     * @throws JSONException si el value no coincide con el tipo de dato asociado al metodo get.*/
     @Override
     public Factura fromJson(JSONObject jo) throws JSONException {
         Factura factura = new Factura();
@@ -139,6 +147,10 @@ public class Factura implements I_toJson, Serializable {
         return factura;
     }
 
+
+    /**Permite crear un objeto que contenga la informacion de la factura invocada.
+     * @return El JSONObject creado a partir de la informacion.
+     * @throws JSONException si la claves es nula al invocar al metodo put.*/
     @Override
     public JSONObject toJsonObj() throws JSONException {
        JSONObject jsonObject = new JSONObject();

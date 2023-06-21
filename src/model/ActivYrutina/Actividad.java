@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**Clase que hace referencia las distintas actividades que se pueden realizar en el gimnasio.*/
 public class Actividad implements Serializable,Comparable, I_toJson {
     private EtipoActividad nombre;
     private ArrayList<EdiaSemana>listaDias;
@@ -21,7 +21,7 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     private boolean disponible;
     private String comentario;
     private double precio_mensual;
-
+/**Constructor de la clase con todos sus atributos enviados por parametro*/
     public Actividad(EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor, int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual) {
         this.nombre = nombre;
         listaDias = new ArrayList<>(listaDias1);
@@ -33,7 +33,7 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         this.precio_mensual = precio_mensual;
         this.horario=horario;
     }
-
+/**Constructor vacio*/
     public Actividad ()
     {
         listaDias=new ArrayList<EdiaSemana>();
@@ -46,7 +46,6 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         horario=" ";
     }
 
-    /**Bloque de get -------------------------------------------------------------------------------------*/
     public String getHorario() {
         return horario;
     }
@@ -74,6 +73,7 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     public double getPrecio_mensual() {
         return precio_mensual;
     }
+
     /**Permite informar si una actividad esta disponible, en una cadena de texto Si/No.
     @return si la actividad se encuentra disponible, en formato de una cadena legible para el usuario.*/
     public String EstaDisponible(){
@@ -82,7 +82,6 @@ public class Actividad implements Serializable,Comparable, I_toJson {
             rta = "Si";}
         return rta;}
 
-    /**Bloque de set -------------------------------------------------------------------------------------*/
     private void setNombre(EtipoActividad nombre) {
         this.nombre = nombre;
     }
@@ -92,9 +91,6 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     }
 
     private void setNombre_instructor(String nombre_instructor) {
-        this.nombre_instructor = nombre_instructor;
-    }
-    public void CambiarNombreInstructor(String nombre_instructor) {
         this.nombre_instructor = nombre_instructor;
     }
 
@@ -121,10 +117,12 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     private void setListaDias(ArrayList<EdiaSemana> listaDias) {
         this.listaDias = listaDias;
     }
-    /**---------------------------------------------------------------------------------------------------*/
 
-    /**Compara por nombre, luego por horario, luego por si coincide en al menos un dia.*/
-    /** Esto esta pensado en base a que el gym tiene un solo espacio para cada actividad.*/
+
+    /**Compara Actvidades por nombre, luego por horario, luego por si coincide en al menos un dia.*/
+    /** Pensado en base a que el GYM tiene un solo espacio para cada actividad.
+     * @param o Cualquier objecto que herede de Object.
+     * @return true si encontro superposicion de actividades del mismo nombre en al menos un dia y horario.*/
     @Override
     public boolean equals(Object o) {
     boolean rta = false;
@@ -141,7 +139,11 @@ public class Actividad implements Serializable,Comparable, I_toJson {
     return rta;
     }
 
-    /**Compara la lista de dias entrante con la lista de dias, esto aplicable en el caso que coincidan actividad y horario.*/
+    /**Metodo auxiliar que recorre y compara la lista de dias entrante con la lista de dias, esto aplicable
+     * en el caso que coincidan actividad y horario.
+     * @see Actividad#equals(Object) para observar su aplicacion.
+     * @return true si encuenta coincidencia entre la lista de dias de una actividad con la que se desea agregar.*/
+
     private boolean compararDias(ArrayList<EdiaSemana> lista){
         boolean rta = false;
         for(int i=0;i<lista.size();i++){
@@ -151,29 +153,34 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         }
         return rta;
     }
-    public String toString() {
-        return "\n======================\n " + getNombre() + listaDias + " " + getHorario() + "\n======================\n" +
-                "\nInstructor: " + getNombre_instructor() +
-                "\nCupo: " + getCupo() +
-                "\nInscriptos: "+ getInscriptos() +
-                "\nComentario: "+ getComentario() +
-                "\nPrecio: " + getPrecio_mensual() +
-                "\n=========================================\n";
-    }
 
-    /**
-     *
-     * @return resenia de la actividad, en forma resumida, para listarla desde los clientes que la realizan.
-     */
-    public String MostrarActividadBasica(){
-        return "\n======================\n " + getNombre() + "\n======================\n" + listaDias + "\n " + getHorario() +
-                "\nInstructor: " + getNombre_instructor() ;
+    /**Metodo que muestra la informacion de la actividad.
+     * @return informacion en formato String.
+     * */
+    @Override
+    public String toString() {
+        return "\nActividad{" +
+                ", nombre='" + nombre + '\'' +
+                ", listaDias=" + listaDias +
+                ", horario='" + horario + '\'' +
+                ", nombre_instructor='" + nombre_instructor + '\'' +
+                ", cupo=" + cupo +
+                ", inscriptos=" + inscriptos +
+                ", disponible=" + disponible +
+                ", comentario='" + comentario + '\'' +
+                ", precio_mensual=" + precio_mensual +
+                '}';
     }
 
     @Override
     public int hashCode() {
         return 1;
     }
+
+    /**Metodo que permite ordenar el set de actividades con el criterio del enum EtipodeActividad. En caso de ser
+     * el mismo tipo, por horario.
+     * @see Comparable para mas detalle.
+     * @return resta que indica si el resultado de la comparacion entre actividad en sistema y la actividad a agregar.*/
     @Override
     public int compareTo(Object o) {
         int resta = getNombre().ordinal() - ((Actividad)o).getNombre().ordinal();
@@ -182,6 +189,11 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         }
         return resta;
     }
+
+    /**Metodo que permite crear una actividad a partir de un JSONObject
+     * @param jo JSONObject que contiene la informacion de la actividad.
+     * @return Un objeto de la clase actividad con los respectivos datos en el.
+     * @throws JSONException si el tipo de dato obtenido no coincide con el solicitado por el metodo get.*/
     @Override
     public Actividad fromJson(JSONObject jo) throws JSONException {
        Actividad actividad = new Actividad();
@@ -207,6 +219,9 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         }
         return actividad;
     }
+
+    /**Metodo que permite crear un JSONObject a partir de los datos de una actividad.
+     * @return Objecto del tipo JSON con los datos de la actividad.*/
     @Override
     public JSONObject toJsonObj() throws JSONException {
             JSONObject jsonObject = new JSONObject();
@@ -227,6 +242,8 @@ public class Actividad implements Serializable,Comparable, I_toJson {
             jsonObject.put("Dias", jsonArray);
             return jsonObject;
     }
+
+    /**Metodo modificar que establece los nuevos datos de una actividad.*/
     public void modificar(EtipoActividad nombre, String horario, ArrayList<EdiaSemana> listaDias1, String nombre_instructor,
                           int cupo, int inscriptos, boolean disponible, String comentario, double precio_mensual){
         setNombre(nombre);
@@ -240,9 +257,11 @@ public class Actividad implements Serializable,Comparable, I_toJson {
         setPrecio_mensual(precio_mensual);
 
     }
+    /**Suma inscripto a una clase*/
     public void sumarInscripto(){
         inscriptos++;
     }
+    /**Resta inscripto a una clase*/
     public void restarInscripto(){
         inscriptos--;
     }

@@ -1,5 +1,5 @@
 package model.Enum;
-
+/**Grupos sanguineos de una persona*/
 public enum EGrupoSanguineo {
     A_POSITIVO,
     A_NEGATIVO,
@@ -9,5 +9,4 @@ public enum EGrupoSanguineo {
     AB_NEGATIVO,
     O_POSITIVO,
     O_NEGATIVO,
-    NINGUNO;
 }

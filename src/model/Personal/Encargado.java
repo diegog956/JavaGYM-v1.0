@@ -6,17 +6,14 @@ import model.Enum.Eestado;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
+/**Clase que referencia al gerente o persona a cargo del Gimnasio. Funciona como credencial para validar metodos
+ * que solo tendra acceso el mismo.*/
 public class Encargado extends Usuario implements Serializable
 {
+    /**Constructor de la clase Encargado.*/
     public Encargado(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email, String comentario, String CUIL) {
         super(nombre, dni,genero, telefono, domicilio,email,null,"","",null,"","", "encargado2023","encargado2023");
     }
-
-    /**Pensar el rol del encargado a nivel metodos.*/
-    /**Podemos agregar atributos que se pueden tomar de la factura.
-     Tomar a encargado como gimnasio. EJ: El domicilio del encargado es el domicilio del gym.
-     Lo mismo que el CUIL del mismo, el mail, etc.*/
 
 
 }

@@ -1,5 +1,5 @@
 package excepciones;
-
+/**Excepcion que es lanzada cuando se encuentra determinado objecto en una determinada clase*/
 public class ExistenteException extends Exception{
     private Class clase;
 

@@ -2,9 +2,12 @@ package AccesoDatos;
 
 import java.io.*;
 import java.util.Map;
-
+/**Clase generica que permite el guardado y lectura de cualquier coleccion que implemente la interfaz Map*/
 public class ArchivoMapaUtiles <T extends Map> implements Serializable {
-
+    /**Metodo que permite guardar un mapa en un archivo.
+     *@param coleccion Mapa a guardar.
+     *@param nombre_archivo Nombre del archivo donde se guarda el mapa.
+     **/
     public void guardarMapa(T coleccion, String nombre_archivo){
     FileOutputStream fos = null;
         try {
@@ -41,6 +44,9 @@ public class ArchivoMapaUtiles <T extends Map> implements Serializable {
     }
 }
 
+    /**Metodo que permite leer un mapa de un archivo.
+     * @param nombre_archivo nombre del archivo donde se encuentra el mapa a leer.
+     * @return Mapa leido de archivo.*/
     public T leerMapa(String nombre_archivo) {
         T mapa = null;
         FileInputStream fis = null;

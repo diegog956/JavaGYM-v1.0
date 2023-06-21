@@ -12,13 +12,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**Clase abstracta padre que engloba a Cliente y Personal. */
+
 public abstract class Persona implements Serializable, I_toJson {
     private String nombre;
     private String dni;
-    private EGenero genero;/**ESTO-----------------------------------*/
+    private EGenero genero;
     private String telefono;
     private String domicilio;
-    private String email;/**ESTO-----------------------------------*/
+    private String email;
 
     private ArrayList<Apercibimiento> listaApercibimientos;
     private Eestado estado;
@@ -28,6 +30,7 @@ public abstract class Persona implements Serializable, I_toJson {
     private LocalDate fecha_nacimiento;
     private String comentario;
 
+    /**Constructor que contiene todos los atributos de una persona.*/
     public Persona(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
@@ -43,6 +46,7 @@ public abstract class Persona implements Serializable, I_toJson {
         this.fecha_nacimiento = fecha_nacimiento;
         this.comentario=comentario;
     }
+    /**Constructor vacio de la clase.*/
     public Persona ()
     {
         nombre=" ";
@@ -60,7 +64,10 @@ public abstract class Persona implements Serializable, I_toJson {
         comentario=" ";
     }
 
-    /**Constructor para fromJson*/
+    /**Constructor para utilizar en el metodo fromJson
+     * @see Cliente#fromJson(JSONObject) para mas detalle de su implementacion.
+     * @param jo JSONObject con la informacion de la persona.
+     * @throws JSONException si el tipo de dato obtenido en el metodo get no coincide con el solicitado.*/
     public Persona(JSONObject jo) throws JSONException {
         nombre = jo.getString("Nombre");
         dni = jo.getString("DNI");
@@ -95,56 +102,40 @@ public abstract class Persona implements Serializable, I_toJson {
     public String getComentario() {
         return comentario;
     }
-
     public String getNombre() {
         return nombre;
     }
-
     public String getDni() {
         return dni;
     }
-
     public String getTelefono() {
         return telefono;
     }
-
-    /**Verificar muestra de los apercibimientos. Formato.*/
-    public String mostarApercibimietos(){
-        return listaApercibimientos.toString();
-    }
-
     public Eestado getEstado() {
         return estado;
     }
-
     public EGrupoSanguineo getGrupo_sanguineo() {
         return grupo_sanguineo;
     }
-
     public String getContacto_emergencia() {
         return contacto_emergencia;
     }
-
     public String getObra_social() {
         return obra_social;
     }
-
     public LocalDate getFecha_nacimiento() {
         return fecha_nacimiento;
     }
-
     public String getDomicilio() {
         return domicilio;
     }
-
     public EGenero getGenero() {/**ESTO-----------------------------------*/
         return genero;
     }
-
     public String getEmail() {/**ESTO-----------------------------------*/
         return email;
     }
-/**Bloque set =====================================================================================================*/
+
     private void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -178,11 +169,11 @@ public abstract class Persona implements Serializable, I_toJson {
     private void setFecha_nacimiento(LocalDate fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
-    public void setComentario(String comentario) {
+    private void setComentario(String comentario) {
         this.comentario = comentario;
     }
-    /**=========================================================================================================*/
-    /**MODIFICAR*/
+
+    /**Permite la modificacion de los datos de la clase persona.*/
     public void modificar(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email,
     Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,
     LocalDate fecha_nacimiento,String comentario){
@@ -202,14 +193,16 @@ public abstract class Persona implements Serializable, I_toJson {
 
     }
 
-    /**=========================================================================================================*/
+
+    /**Devuelve la informacion de los datos en formato String.
+     * @return Informacion del objecto en formato String.*/
     @Override
     public String toString() {
         return "Persona{" +
                 "nombre='" + nombre + '\'' +
                 ", dni='" + dni + '\'' +
-                ", genero='" + genero + /**ESTO-----------------------------------*/
-                ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio + ", email='" + email + /**ESTO-----------------------------------*/
+                ", genero='" + genero +
+                ", telefono='" + telefono + '\'' + ", domicilio='" + domicilio + ", email='" + email +
                 ", listaApercibimientos=" + listaApercibimientos.toString() +
                 ", estado=" + estado +
                 ", grupo_sanguineo=" + grupo_sanguineo +
@@ -220,6 +213,9 @@ public abstract class Persona implements Serializable, I_toJson {
                 '}';
     }
 
+
+    /**Compara personas por su numero de DNI.
+     * @return True si coinciden. False si no lo hacen.*/
     @Override
     public boolean equals(Object o) {
        boolean rta= false;
@@ -238,15 +234,18 @@ public abstract class Persona implements Serializable, I_toJson {
         return 1;
     }
 
+    /**Permite crear un JSONObject a partir de los datos de una persona.
+     * @return El JSONObject con los datos de la misma.
+     * @throws JSONException si la clave ingresada en el metodo put es nula.*/
     @Override
     public JSONObject toJsonObj() throws JSONException {
         JSONObject jsonObject = new JSONObject();
 
             jsonObject.put("Nombre", getNombre());
             jsonObject.put("DNI", getDni());
-            jsonObject.put("Genero", getGenero().name());/**ESTO-----------------------------------*/
+            jsonObject.put("Genero", getGenero().name());
             jsonObject.put("Telefono", getTelefono());
-            jsonObject.put("Email", getEmail());/**ESTO-----------------------------------*/
+            jsonObject.put("Email", getEmail());
             jsonObject.put("Estado", getEstado().name()); //name agregado a prosopito
             jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo().name());//name agregado a prosopito
             jsonObject.put("Contacto de Emergencia", getContacto_emergencia());
@@ -265,12 +264,15 @@ public abstract class Persona implements Serializable, I_toJson {
         return jsonObject;
     }
 
+    /**Devuelve la cantidad de de apercibimientos en la lista de una persona.
+     * @return Entero que indica cuantos apercibimientos tiene una persona en su lista de apercibimientos.*/
     public int getCantidadApercibimientos(){
         return listaApercibimientos.size();
     }
-    /**
-     Permite mostrar en una cadena de texto la totalidad de apercibimientos de una persona.
+
+    /** Permite mostrar en una cadena de texto la totalidad de apercibimientos de una persona.
      @return Una cadena de texto que describe los apercibimientos.*/
+
     public String DescripcionApercibimientos(){
         String rta = "";
         for(Apercibimiento apercibimiento: listaApercibimientos){
@@ -278,7 +280,9 @@ public abstract class Persona implements Serializable, I_toJson {
         return rta;}
 
 
-
+    /**Agrega un apercibimiento a la lista de apercibimientos de la persona invocada.
+     * @param descripcion Descripcion del apercibimiento.
+     * @param fecha Fecha del dia en que se realiza el apercibimiento.*/
     public void agregarApercibimiento(String descripcion, LocalDate fecha){
         Apercibimiento apercibimiento = new Apercibimiento(descripcion, fecha);
         listaApercibimientos.add(apercibimiento);
