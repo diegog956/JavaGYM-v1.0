@@ -57,7 +57,7 @@ public abstract class Persona implements Serializable, I_toJson {
         email = "";/**ESTO-----------------------------------*/
         listaApercibimientos=new ArrayList<>();
         estado=Eestado.ACTIVO;
-        grupo_sanguineo=EGrupoSanguineo.NINGUNO;
+        grupo_sanguineo=EGrupoSanguineo.O_NEGATIVO;
         contacto_emergencia=" ";
         obra_social=" ";
         fecha_nacimiento=null;
