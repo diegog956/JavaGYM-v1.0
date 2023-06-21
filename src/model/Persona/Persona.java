@@ -34,10 +34,10 @@ public abstract class Persona implements Serializable, I_toJson {
     public Persona(String nombre, String dni, EGenero genero, String telefono, String domicilio,String email, Eestado estado, EGrupoSanguineo grupo_sanguineo, String contacto_emergencia, String obra_social,LocalDate fecha_nacimiento,String comentario) {
         this.nombre = nombre;
         this.dni = dni;
-        this.genero = genero;/**ESTO-----------------------------------*/
+        this.genero = genero;
         this.telefono = telefono;
         this.domicilio = domicilio;
-        this.email = email;/**ESTO-----------------------------------*/
+        this.email = email;
         listaApercibimientos = new ArrayList<>();
         this.estado = estado;
         this.grupo_sanguineo = grupo_sanguineo;
@@ -51,10 +51,10 @@ public abstract class Persona implements Serializable, I_toJson {
     {
         nombre=" ";
         dni=" ";
-        genero = EGenero.MASCULINO;/**ESTO-----------------------------------*/
+        genero = EGenero.MASCULINO;/
         telefono=" ";
         domicilio = "";
-        email = "";/**ESTO-----------------------------------*/
+        email = "";/
         listaApercibimientos=new ArrayList<>();
         estado=Eestado.ACTIVO;
         grupo_sanguineo=EGrupoSanguineo.O_NEGATIVO;
@@ -73,8 +73,8 @@ public abstract class Persona implements Serializable, I_toJson {
         dni = jo.getString("DNI");
         telefono = jo.getString("Telefono");
         domicilio = jo.getString("Domicilio");
-        genero = EGenero.valueOf(jo.getString("Genero"));/**ESTO-----------------------------------*/
-        email = jo.getString("Email");/**ESTO-----------------------------------*/
+        genero = EGenero.valueOf(jo.getString("Genero"));
+        email = jo.getString("Email");
        // estado = (Eestado) jo.get("Estado");
         estado = Eestado.valueOf(jo.getString("Estado")) ;
         //grupo_sanguineo = (EGrupoSanguineo)
@@ -129,10 +129,10 @@ public abstract class Persona implements Serializable, I_toJson {
     public String getDomicilio() {
         return domicilio;
     }
-    public EGenero getGenero() {/**ESTO-----------------------------------*/
+    public EGenero getGenero() {
         return genero;
     }
-    public String getEmail() {/**ESTO-----------------------------------*/
+    public String getEmail() {
         return email;
     }
 
@@ -246,8 +246,8 @@ public abstract class Persona implements Serializable, I_toJson {
             jsonObject.put("Genero", getGenero().name());
             jsonObject.put("Telefono", getTelefono());
             jsonObject.put("Email", getEmail());
-            jsonObject.put("Estado", getEstado().name()); //name agregado a prosopito
-            jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo().name());//name agregado a prosopito
+            jsonObject.put("Estado", getEstado().name()); 
+            jsonObject.put("Grupo Sanguineo", getGrupo_sanguineo().name());
             jsonObject.put("Contacto de Emergencia", getContacto_emergencia());
             jsonObject.put("Obra Social", getObra_social());
             jsonObject.put("Fecha de Nacimiento", getFecha_nacimiento().toString());
